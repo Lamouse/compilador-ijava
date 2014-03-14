@@ -1,5 +1,5 @@
 int				[0-9]+|0x[a-f0-9]+
-id				[a-zA-Z_][a-zA-Z_0-9]*
+id				[a-zA-Z_$][a-zA-Z_$0-9]*
 bool			"true"|"false"
 reserved		"null"|"volatile"|"try"|"transient"|"throw""s"?|"this"|"synchronized"|"switch"|"super"|"short"|"protected"|"private"|"package"|"long"|"interface"|"instanceof"|"import"|"goto"|"for"|"float"|"finally"|"final"|"extends"|"double"|"do"|"char"|"catch"|"case"|"byte"|"break"|"assert"|"abstract"
 op1				"&&"|"||"
@@ -63,7 +63,7 @@ op4				"*"|"/"|"%"
 <INITIAL>{id} 					{printf("ID(%s)\n", yytext); linha += yyleng;}
 <INITIAL>[ \t]					{linha++;}
 <INITIAL>\n 					{coluna++; linha=0;}
-<INITIAL>.						{printf("Line %d, col %d: illegal character ('%s')\n", linha, coluna, yytext);}
+<INITIAL>.						{printf("Line %d, col %d: illegal character ('%s')\n", linha, coluna, yytext); linha++;}
 
 %%
 int main() {
