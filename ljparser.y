@@ -52,7 +52,7 @@ Declaration: FieldDecl | MethodDecl												{printf("Declaration\n");}
 
 FieldDecl: STATIC VarDecl														{printf("FieldDecl\n");}
 VarDecl: VarType Ids SEMIC 														{printf("VarDecl\n");}
-Ids: ID COMMA Ids | Ids 														{printf("Ids\n");}
+Ids: ID COMMA Ids | ID 															{printf("Ids\n");}
 
 Params: Param COMMA Params | Param 												{printf("Params\n");}
 Param: VarType ID 																{printf("Param\n");}

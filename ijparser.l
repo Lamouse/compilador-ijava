@@ -11,6 +11,7 @@ op4				"*"|"/"|"%"
 %{
 	#include "y.tab.h"
 	#include "ljparser.h"
+	#include "string.h"
 
 	int coluna = 1;
 	int linha = 1;
@@ -61,18 +62,14 @@ op4				"*"|"/"|"%"
 <INITIAL>{op3}					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP3;}
 <INITIAL>{op4}					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP4;}
 
-<INITIAL>{int}					{yyval.number = atoi(yytext); coluna += yyleng; return INTLIT;}
-<INITIAL>{bool}					{yyval.number = strcomp(yytext, "true") ? 0 : 1; coluna += yyleng; return BOOLIT;}
+<INITIAL>{int}					{yylval.number = atoi(yytext); coluna += yyleng; return INTLIT;}
+<INITIAL>{bool}					{yylval.number = strcmp(yytext, "true") ? 0 : 1; coluna += yyleng; return BOOLIT;}
 <INITIAL>{id} 					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return ID;}
 <INITIAL>[ \t]					{coluna++;}
 <INITIAL>\n 					{linha++; coluna=1;}
 <INITIAL>.						{printf("Line %d, col %d: illegal character ('%s')\n", linha, coluna, yytext); coluna++;}
 
 %%
-int main() {
-	yylex();
-}
-
 int yywrap() {
 	return 1;
 }
