@@ -65,6 +65,19 @@ Statement: IfState ELSE Statements
 
 IfState: IF OCURV Expr CCURV Statements											{};
 
+Expr: Expr Opers Expr
+	| Expr OSQUARE Expr CSQUARE
+	| ID | INTLIT | BOOLIT
+	| NEW NumType OSQUARE Expr CSQUARE
+	| OCURV Expr CCURV
+	| Expr DOTLENGTH
+	| OP3 Expr
+	| NOT Expr
+	| PARSEINT OCURV ID OSQUARE Expr CSQUARE CCURV
+	| ID OCURV Args CCURV														{};
+	
+Args: Expr COMMA Expr | Expr													{};
+
 Type: VOID | VarType															{};
 VarType: STRING | NumType														{};
 NumType: INT | BOOL 															{};
