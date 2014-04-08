@@ -49,15 +49,14 @@ Program: CLASS ID OBRACE Declarations CBRACE									{};
 Declarations: Declaration Declarations | Declaration 							{};
 Declaration: FieldDecl | MethodDecl												{};
 
-MethodDecl: PUBLIC STATIC Type ID OCURV Params CCURV Statements 				{};
-
 FieldDecl: STATIC VarDecl														{};
-VarDecl: Type Ids SEMIC 														{};
+VarDecl: VarType Ids SEMIC 														{};
 Ids: ID COMMA Ids | Ids 														{};
 
 Params: Param COMMA Params | Param 												{};
-Param: TYPE ID 																	{};
+Param: VarType ID 																{};
 
+MethodDecl: PUBLIC STATIC Type ID OCURV Params CCURV Statements 				{};
 Statements: OBRACE StateList CBRACE 											{};
 StateList: Statement StateList | Statement 										{};
 Statement: IfState ELSE Statements
@@ -66,7 +65,9 @@ Statement: IfState ELSE Statements
 
 IfState: IF OCURV Expr CCURV Statements											{};
 
-Type: VOID | INT | BOOL | STRING												{};
+Type: VOID | VarType															{};
+VarType: STRING | NumType														{};
+NumType: INT | BOOL 															{};
 Opers: OP1 | OP2 | OP3 | OP4													{};
 
 Program → CLASS ID OBRACE { FieldDecl | MethodDecl } CBRACE
