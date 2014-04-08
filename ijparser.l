@@ -9,8 +9,8 @@ op4				"*"|"/"|"%"
 
 %X COMMENT
 %{
-	#include "ljparser.h"
 	#include "y.tab.h"
+	#include "ljparser.h"
 
 	int coluna = 1;
 	int linha = 1;
@@ -62,7 +62,7 @@ op4				"*"|"/"|"%"
 <INITIAL>{op4}					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP4;}
 
 <INITIAL>{int}					{yyval.number = atoi(yytext); coluna += yyleng; return INTLIT;}
-<INITIAL>{bool}					{yyval.number = strcomp(yytext, "true") ? 0 : 1; coluna += yyleng; return BOOLLIT;}
+<INITIAL>{bool}					{yyval.number = strcomp(yytext, "true") ? 0 : 1; coluna += yyleng; return BOOLIT;}
 <INITIAL>{id} 					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return ID;}
 <INITIAL>[ \t]					{coluna++;}
 <INITIAL>\n 					{linha++; coluna=1;}

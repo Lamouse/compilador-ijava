@@ -1,3 +1,4 @@
-lex ijscanner.l
-gcc -o ijscanner lex.yy.c -ll
-./ijscanner < echo.java
+lex ijparser.l
+yacc -d ljparser.y
+cc -o ljparser y.tab.c lex.yy.c -ll -ly
+./ljparser < echo.java
