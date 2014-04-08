@@ -70,6 +70,19 @@ IfState: IF OCURV Expr CCURV Statements											{};
 IdState: ID OSQUARE Expr CSQUARE | ID
 ReturnState: RETURN Expr | RETURN 												{};
 
+Expr: Expr Opers Expr
+	| Expr OSQUARE Expr CSQUARE
+	| ID | INTLIT | BOOLIT
+	| NEW NumType OSQUARE Expr CSQUARE
+	| OCURV Expr CCURV
+	| Expr DOTLENGTH
+	| OP3 Expr
+	| NOT Expr
+	| PARSEINT OCURV ID OSQUARE Expr CSQUARE CCURV
+	| ID OCURV Args CCURV														{};
+	
+Args: Expr COMMA Expr | Expr													{};
+
 Type: VOID | VarType															{};
 VarType: STRING | NumType														{};
 NumType: INT | BOOL 															{};
