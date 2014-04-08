@@ -9,11 +9,15 @@ op4				"*"|"/"|"%"
 
 %X COMMENT
 %{
+	#include "ljparser.h"
+	#include "y.tab.h"
+
 	int coluna = 1;
 	int linha = 1;
 	int colunaAux = 0;
 	int linhaAux = 0;
 %}
+
 %%
 "//".*
 "/*"							{BEGIN COMMENT; colunaAux=coluna; linhaAux = linha;}
@@ -57,8 +61,8 @@ op4				"*"|"/"|"%"
 <INITIAL>{op3}					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP3;}
 <INITIAL>{op4}					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP4;}
 
-<INITIAL>{int}					{yyval.value = atoi(yytext); coluna += yyleng; return INTLIT;}
-<INITIAL>{bool}					{yyval.value = strcomp(yytext, "true") ? 0 : 1; coluna += yyleng; return BOOLLIT;}
+<INITIAL>{int}					{yyval.number = atoi(yytext); coluna += yyleng; return INTLIT;}
+<INITIAL>{bool}					{yyval.number = strcomp(yytext, "true") ? 0 : 1; coluna += yyleng; return BOOLLIT;}
 <INITIAL>{id} 					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return ID;}
 <INITIAL>[ \t]					{coluna++;}
 <INITIAL>\n 					{linha++; coluna=1;}
