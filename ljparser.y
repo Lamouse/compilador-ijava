@@ -88,30 +88,6 @@ VarType: STRING | NumType														{};
 NumType: INT | BOOL 															{};
 Opers: OP1 | OP2 | OP3 | OP4													{};
 
-Program → CLASS ID OBRACE { FieldDecl | MethodDecl } CBRACE
-FieldDecl → STATIC VarDecl
-MethodDecl → PUBLIC STATIC ( Type | VOID ) ID OCURV
- [ FormalParams ] CCURV OBRACE { VarDecl } { Statement } CBRACE
-FormalParams → Type ID { COMMA Type ID }
-FormalParams → STRING OSQUARE CSQUARE ID
-VarDecl → Type ID { COMMA ID } SEMIC
-Type → ( INT | BOOL ) [ OSQUARE CSQUARE ]
-Statement → OBRACE { Statement } CBRACE
-Statement → IF OCURV Expr CCURV Statement [ ELSE Statement ]
-Statement → WHILE OCURV Expr CCURV Statement
-Statement → PRINT OCURV Expr CCURV SEMIC
-Statement → ID [ OSQUARE Expr CSQUARE ] ASSIGN Expr SEMIC
-Statement → RETURN [ Expr ] SEMIC
-Expr → Expr ( OP1 | OP2 | OP3 | OP4 ) Expr
-Expr → Expr OSQUARE Expr CSQUARE
-Expr → ID | INTLIT | BOOLLIT
-Expr → NEW ( INT | BOOL ) OSQUARE Expr CSQUARE
-Expr → OCURV Expr CCURV
-Expr → Expr DOTLENGTH | ( OP3 | NOT ) Expr
-Expr → PARSEINT OCURV ID OSQUARE Expr CSQUARE CCURV
-Expr → ID OCURV [ Args ] CCURV
-Args → Expr { COMMA Expr }
-
 %%
 int main() {
 	yyparse();
