@@ -2129,10 +2129,6 @@ void yyfree (void * ptr )
 #line 72 "ijparser.l"
 
 
-int main() {
-	yylex();
-}
-
 int yywrap() {
 	return 1;
 }
