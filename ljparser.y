@@ -59,11 +59,16 @@ Param: VarType ID 																{};
 MethodDecl: PUBLIC STATIC Type ID OCURV Params CCURV Statements 				{};
 Statements: OBRACE StateList CBRACE 											{};
 StateList: Statement StateList | Statement 										{};
-Statement: IfState ELSE Statements
-	| IfState
-	| ...
+Statement: IfState ELSE Statements												{};
+	| IfState																	{};
+	| WHILE OCURV Expr CCURV Statements											{};
+	| PRINT OCURV Expr CCURV SEMIC												{};
+	| IdState ASSIGN Expr SEMIC													{};
+	| ReturnStare SEMIC															{};
 
 IfState: IF OCURV Expr CCURV Statements											{};
+IdState: ID OSQUARE Expr CSQUARE | ID
+ReturnState: RETURN Expr | RETURN 												{};
 
 Type: VOID | VarType															{};
 VarType: STRING | NumType														{};
