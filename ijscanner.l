@@ -1,7 +1,7 @@
 int				[0-9]+|0x[a-fA-F0-9]+
 id				[a-zA-Z_$][a-zA-Z_$0-9]*
 bool			"true"|"false"
-reserved		"null"|"volatile"|"try"|"transient"|"throw""s"?|"this"|"synchronized"|"switch"|"super"|"short"|"protected"|"private"|"package"|"long"|"interface"|"instanceof"|"import"|"goto"|"for"|"float"|"finally"|"final"|"extends"|"double"|"do"|"char"|"catch"|"case"|"byte"|"break"|"assert"|"abstract"|"const"|"continue"|"default"|"enum"|"implements"|"native"|"strictfp"
+reserved		"null"|"volatile"|"try"|"transient"|"throw""s"?|"this"|"synchronized"|"switch"|"super"|"short"|"protected"|"private"|"package"|"long"|"interface"|"instanceof"|"import"|"goto"|"for"|"float"|"finally"|"final"|"extends"|"double"|"do"|"char"|"catch"|"case"|"byte"|"break"|"assert"|"abstract"|"const"|"continue"|"default"|"enum"|"implements"|"native"|"strictfp"|"++"|"--"
 op1				"&&"|"||"
 op2				"<"|">"|"=="|"!="|"<="|">="
 op3				"+"|"-"
@@ -22,44 +22,44 @@ op4				"*"|"/"|"%"
 <COMMENT>.						{colunaAux++;}
 <COMMENT>\n 					{linhaAux++; colunaAux=1;}
 
-<INITIAL>"System.out.println" 	{printf("PRINT\n"); coluna += yyleng;}
-<INITIAL>"Integer.parseInt"		{printf("PARSEINT\n"); coluna += yyleng;}
-<INITIAL>".length" 				{printf("DOTLENGTH\n"); coluna += yyleng;}
+<INITIAL>"System.out.println" 	{coluna += yyleng; return PRINT;}
+<INITIAL>"Integer.parseInt"		{coluna += yyleng; return PARSEINT;}
+<INITIAL>".length" 				{coluna += yyleng; return DOTLENGTH;}
 
-<INITIAL>int					{printf("INT\n"); coluna += yyleng;}
-<INITIAL>boolean				{printf("BOOL\n"); coluna += yyleng;}
-<INITIAL>void					{printf("VOID\n"); coluna += yyleng;}
-<INITIAL>String 				{printf("STRING\n"); coluna += yyleng;}
+<INITIAL>int					{coluna += yyleng; return INT;}
+<INITIAL>boolean				{coluna += yyleng; return BOOL;}
+<INITIAL>void					{coluna += yyleng; return VOID;}
+<INITIAL>String 				{coluna += yyleng; return STRING;}
 
-<INITIAL>new					{printf("NEW\n"); coluna += yyleng;}
-<INITIAL>if						{printf("IF\n"); coluna += yyleng;}
-<INITIAL>else 					{printf("ELSE\n"); coluna += yyleng;}
-<INITIAL>while 					{printf("WHILE\n"); coluna += yyleng;}
-<INITIAL>class 					{printf("CLASS\n"); coluna += yyleng;}
-<INITIAL>public 				{printf("PUBLIC\n"); coluna += yyleng;}
-<INITIAL>static 				{printf("STATIC\n"); coluna += yyleng;}
-<INITIAL>return 				{printf("RETURN\n"); coluna += yyleng;}
+<INITIAL>new					{coluna += yyleng; return NEW;}
+<INITIAL>if						{coluna += yyleng; return IF;}
+<INITIAL>else 					{coluna += yyleng; return ELSE;}
+<INITIAL>while 					{coluna += yyleng; return WHILE;}
+<INITIAL>class 					{coluna += yyleng; return CLASS;}
+<INITIAL>public 				{coluna += yyleng; return PUBLIC;}
+<INITIAL>static 				{coluna += yyleng; return STATIC;}
+<INITIAL>return 				{coluna += yyleng; return RETURN;}
 
-<INITIAL>"(" 					{printf("OCURV\n"); coluna += yyleng;}
-<INITIAL>")" 					{printf("CCURV\n"); coluna += yyleng;}
-<INITIAL>"{" 					{printf("OBRACE\n"); coluna += yyleng;}
-<INITIAL>"}" 					{printf("CBRACE\n"); coluna += yyleng;}
-<INITIAL>"[" 					{printf("OSQUARE\n"); coluna += yyleng;}
-<INITIAL>"]" 					{printf("CSQUARE\n"); coluna += yyleng;}
-<INITIAL>"!"					{printf("NOT\n"); coluna += yyleng;}
-<INITIAL>"="					{printf("ASSIGN\n"); coluna += yyleng;}
-<INITIAL>";"					{printf("SEMIC\n"); coluna += yyleng;}
-<INITIAL>","					{printf("COMMA\n"); coluna += yyleng;}
+<INITIAL>"(" 					{coluna += yyleng; return OCURV;}
+<INITIAL>")" 					{coluna += yyleng; return CCURV;}
+<INITIAL>"{" 					{coluna += yyleng; return OBRACE;}
+<INITIAL>"}" 					{coluna += yyleng; return CBRACE;}
+<INITIAL>"[" 					{coluna += yyleng; return OSQUARE;}
+<INITIAL>"]" 					{coluna += yyleng; return CSQUARE;}
+<INITIAL>"!"					{coluna += yyleng; return NOT;}
+<INITIAL>"="					{coluna += yyleng; return ASSIGN;}
+<INITIAL>";"					{coluna += yyleng; return SEMIC;}
+<INITIAL>","					{coluna += yyleng; return COMMA;}
 
-<INITIAL>{reserved}				{printf("RESERVED(%s)\n", yytext); coluna += yyleng;}
-<INITIAL>{op1}					{printf("OP1(%s)\n", yytext); coluna += yyleng;}
-<INITIAL>{op2}					{printf("OP2(%s)\n", yytext); coluna += yyleng;}
-<INITIAL>{op3}					{printf("OP3(%s)\n", yytext); coluna += yyleng;}
-<INITIAL>{op4}					{printf("OP4(%s)\n", yytext); coluna += yyleng;}
+<INITIAL>{reserved}				{yylval.string=(char*)strdup(yytext); coluna += yyleng; return RESERVED;}
+<INITIAL>{op1}					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP1;}
+<INITIAL>{op2}					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP2;}
+<INITIAL>{op3}					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP3;}
+<INITIAL>{op4}					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP4;}
 
-<INITIAL>{int}					{printf("INTLIT(%s)\n", yytext); coluna += yyleng;}
-<INITIAL>{bool}					{printf("BOOLLIT(%s)\n", yytext); coluna += yyleng;}
-<INITIAL>{id} 					{printf("ID(%s)\n", yytext); coluna += yyleng;}
+<INITIAL>{int}					{yyval.value = atoi(yytext); coluna += yyleng; return INTLIT;}
+<INITIAL>{bool}					{yyval.value = strcomp(yytext, "true") ? 0 : 1; coluna += yyleng; return BOOLLIT;}
+<INITIAL>{id} 					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return ID;}
 <INITIAL>[ \t]					{coluna++;}
 <INITIAL>\n 					{linha++; coluna=1;}
 <INITIAL>.						{printf("Line %d, col %d: illegal character ('%s')\n", linha, coluna, yytext); coluna++;}
