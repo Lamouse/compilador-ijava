@@ -86,8 +86,8 @@ Expr: Expr Opers Expr
 	
 Args: Expr COMMA Expr | Expr													{printf("Args\n");}
 
-Type: VOID | VarType															{printf("Type\n");}
-VarType: STRING | NumType														{printf("VarType\n");}
+Type: VOID | STRING| INT | BOOL													{printf("Type\n");}
+VarType: STRING | INT | BOOL | INT OSQUARE CSQUARE | BOOL OSQUARE CSQUARE		{printf("VarType\n");}
 NumType: INT | BOOL 															{printf("NumType\n");}
 Opers: OP1 | OP2 | OP3 | OP4													{printf("Opers\n");}
 
