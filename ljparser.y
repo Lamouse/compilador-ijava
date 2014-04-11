@@ -1,10 +1,13 @@
 %{
 #include<stdio.h>
+<<<<<<< HEAD
 #include "ljparser.h"
 
 extern int coluna;
 extern int linha;
 extern char* yytext;
+=======
+>>>>>>> c108f0df4ede68c9eea2fdaac832004690a35489
 %}
 
 %token PRINT
@@ -71,6 +74,7 @@ Declarations: FieldDecl MethodDecl												{printf("Declarations\n");}
 
 FieldDecl: STATIC VarDecl FieldDecl	| STATIC VarDecl							{printf("FieldDecl\n");}	
 
+<<<<<<< HEAD
 MethodDecl: PUBLIC STATIC MethodType ID OCURV FormalParams CCURV Statements MethodDecl
 																				{printf("MethodDecl\n");}
 	| PUBLIC STATIC MethodType ID OCURV FormalParams CCURV Statements 			{printf("MethodDecl\n");}
@@ -84,6 +88,21 @@ NumType: INT | BOOL 															{printf("NumType\n");}
 FormalParams: Params | STRING OSQUARE CSQUARE ID | 								{printf("FormalParams\n");}
 Params: Param COMMA Params | Param 												{printf("Params\n");}
 Param: Type Ids 																{printf("Param\n");}
+=======
+MethodDecl: PUBLIC STATIC MethodType ID OCURV Params CCURV Statements MethodDecl
+																				{printf("MethodDecl\n");}
+	| PUBLIC STATIC MethodType ID OCURV Params CCURV Statements 				{printf("MethodDecl\n");}
+
+VarDecl: Type Ids																{printf("VarDecl\n");}
+Ids: ID COMMA Ids | ID SEMIC													{printf("Ids\n");}
+MethodType: VOID | Type 														{printf("MethodType\n");}
+Type: SingletonType | SingletonType OSQUARE CSQUARE								{printf("Type\n");}
+SingletonType: NumType | STRING                                                 {printf("SingletonType\n");}
+NumType: INT | BOOL 															{printf("NumType\n");}
+
+Params: | Param COMMA Params | Param 											{printf("Params\n");}
+Param: Type ID																	{printf("Param\n");}
+>>>>>>> c108f0df4ede68c9eea2fdaac832004690a35489
 
 Statements: OBRACE VarDecl1 ListStatement CBRACE								{printf("Statements\n");}
 	| OBRACE VarDecl1 CBRACE													{printf("Statements\n");}
