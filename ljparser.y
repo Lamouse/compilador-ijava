@@ -1,6 +1,10 @@
 %{
 #include<stdio.h>
 #include "ljparser.h"
+
+extern int coluna;
+extern int linha;
+extern char* yytext;
 %}
 
 %token PRINT
@@ -40,6 +44,18 @@
 %token <number> BOOLLIT
 %token <string> ID
 
+%nonassoc IFX  
+%nonassoc ELSE
+%nonassoc OPERSX
+
+%right DOTLENGTH ASSIGN
+%left OSQUARE
+%left OP1
+%left OP2
+%left OP3
+%left OP4
+%left NOT
+
 %union {
 	char* string;
 	int number;
@@ -47,48 +63,64 @@
 
 %%
 Program: CLASS ID OBRACE Declarations CBRACE									{printf("Program\n");}
-Declarations: Declaration Declarations | Declaration 							{printf("Declarations\n");}
-Declaration: FieldDecl | MethodDecl												{printf("Declaration\n");}
+	| CLASS ID OBRACE CBRACE													{printf("Program\n");}
 
-FieldDecl: STATIC VarDecl														{printf("FieldDecl\n");}
-MethodDecl: PUBLIC STATIC Type ID OCURV Params CCURV Statements 				{printf("MethodDecl\n");}
+Declarations: FieldDecl MethodDecl												{printf("Declarations\n");}
+	| FieldDecl																	{printf("Declarations\n");}
+	| MethodDecl																{printf("Declarations\n");}
 
+FieldDecl: STATIC VarDecl FieldDecl	| STATIC VarDecl							{printf("FieldDecl\n");}	
+
+MethodDecl: PUBLIC STATIC MethodType ID OCURV FormalParams CCURV Statements MethodDecl
+																				{printf("MethodDecl\n");}
+	| PUBLIC STATIC MethodType ID OCURV FormalParams CCURV Statements 			{printf("MethodDecl\n");}
+
+VarDecl: Type Ids																{printf("VarDecl\n");}
+Ids: ID SEMIC | ID COMMA														{printf("Ids\n");}
+MethodType: VOID | Type 														{printf("MethodType\n");}
+Type: INT | BOOL | INT OSQUARE CSQUARE | BOOL OSQUARE CSQUARE					{printf("Type\n");}
+NumType: INT | BOOL 															{printf("NumType\n");}
+
+FormalParams: Params | STRING OSQUARE CSQUARE ID | 								{printf("FormalParams\n");}
 Params: Param COMMA Params | Param 												{printf("Params\n");}
-Param: VarType ID 																{printf("Param\n");}
+Param: Type Ids 																{printf("Param\n");}
 
-Statements: OBRACE StateList CBRACE 											{printf("Statements\n");}
-StateList: Statement StateList | Statement 										{printf("StateList\n");}
-Statement: IfState ELSE Statements												
-	| IfState																	
-	| WHILE OCURV Expr CCURV Statements											
-	| PRINT OCURV Expr CCURV SEMIC												
-	| IdState ASSIGN Expr SEMIC													
-	| ReturnState SEMIC
-	| VarDecl																	{printf("Statement\n");}
+Statements: OBRACE VarDecl1 ListStatement CBRACE								{printf("Statements\n");}
+	| OBRACE VarDecl1 CBRACE													{printf("Statements\n");}
+	| OBRACE ListStatement CBRACE												{printf("Statements\n");}
+	| OBRACE CBRACE																{printf("Statements\n");}
 
-IfState: IF OCURV Expr CCURV Statements											{printf("IfState\n");}
+VarDecl1: VarDecl VarDecl1 | VarDecl 											{printf("VarDecl1\n");}
+
+ListStatement: Statement ListStatement | Statement								{printf("ListStatement\n");}
+
+Statement: IfState ELSE Statement												{printf("Statement\n");}
+	| IfState %prec IFX															{printf("Statement\n");} 
+	| OBRACE Statement CBRACE													{printf("Statement\n");}
+	| OBRACE CBRACE																{printf("Statement\n");}
+	| WHILE OCURV Expr CCURV Statement											{printf("Statement\n");}
+	| PRINT OCURV Expr CCURV SEMIC												{printf("Statement\n");}
+	| IdState ASSIGN Expr SEMIC													{printf("Statement\n");}
+	| ReturnState SEMIC															{printf("Statement\n");}
+
+IfState: IF OCURV Expr CCURV Statement											{printf("IfState\n");}
 IdState: ID OSQUARE Expr CSQUARE | ID 											{printf("IdState\n");}
 ReturnState: RETURN Expr | RETURN 												{printf("ReturnState\n");}
 
-VarDecl: VarType Ids SEMIC 														{printf("VarDecl\n");}
-Ids: ID COMMA Ids | ID 															{printf("Ids\n");}
-
-Expr: Expr Opers Expr
-	| Expr OSQUARE Expr CSQUARE
-	| ID | INTLIT | BOOLIT
-	| NEW NumType OSQUARE Expr CSQUARE
-	| OCURV Expr CCURV
-	| Expr DOTLENGTH
-	| OP3 Expr
-	| NOT Expr
-	| PARSEINT OCURV ID OSQUARE Expr CSQUARE CCURV
+Expr: Expr Opers Expr %prec OPERSX												{printf("Expr\n");}
+	| Expr OSQUARE Expr CSQUARE 												{printf("Expr\n");}
+	| ID | INTLIT | BOOLIT 														{printf("Expr\n");}
+	| NEW NumType OSQUARE Expr CSQUARE											{printf("Expr\n");}
+	| OCURV Expr CCURV															{printf("Expr\n");}
+	| Expr DOTLENGTH															{printf("Expr\n");}
+	| OP3 Expr																	{printf("Expr\n");}
+	| NOT Expr																	{printf("Expr\n");}
+	| PARSEINT OCURV ID OSQUARE Expr CSQUARE CCURV								{printf("Expr\n");}
+	| ID OCURV CCURV															{printf("Expr\n");}
 	| ID OCURV Args CCURV														{printf("Expr\n");}
 	
 Args: Expr COMMA Expr | Expr													{printf("Args\n");}
 
-Type: VOID | STRING| INT | BOOL													{printf("Type\n");}
-VarType: STRING | INT | BOOL | INT OSQUARE CSQUARE | BOOL OSQUARE CSQUARE		{printf("VarType\n");}
-NumType: INT | BOOL 															{printf("NumType\n");}
 Opers: OP1 | OP2 | OP3 | OP4													{printf("Opers\n");}
 
 %%
@@ -96,6 +128,7 @@ int main() {
 	yyparse();
 }
 
-int yyerror(char* s) {
-	printf("%s\n", s);
+int yyerror (char *s) { 
+	printf ("Line %d, col %d: %s: %s\n", linha, coluna, s, yytext); 
 }
+
