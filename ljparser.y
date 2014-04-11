@@ -66,19 +66,19 @@ Declarations: FieldDecl MethodDecl												{printf("Declarations\n");}
 
 FieldDecl: STATIC VarDecl FieldDecl	| STATIC VarDecl							{printf("FieldDecl\n");}	
 
-MethodDecl: PUBLIC STATIC MethodType ID OCURV FormalParams CCURV Statements MethodDecl
+MethodDecl: PUBLIC STATIC MethodType ID OCURV Params CCURV Statements MethodDecl
 																				{printf("MethodDecl\n");}
-	| PUBLIC STATIC MethodType ID OCURV FormalParams CCURV Statements 			{printf("MethodDecl\n");}
+	| PUBLIC STATIC MethodType ID OCURV Params CCURV Statements 				{printf("MethodDecl\n");}
 
 VarDecl: Type Ids																{printf("VarDecl\n");}
-Ids: ID SEMIC | ID COMMA														{printf("Ids\n");}
+Ids: ID COMMA Ids | ID SEMIC													{printf("Ids\n");}
 MethodType: VOID | Type 														{printf("MethodType\n");}
-Type: INT | BOOL | INT OSQUARE CSQUARE | BOOL OSQUARE CSQUARE					{printf("Type\n");}
+Type: SingletonType | SingletonType OSQUARE CSQUARE								{printf("Type\n");}
+SingletonType: NumType | STRING                                                 {printf("SingletonType\n");}
 NumType: INT | BOOL 															{printf("NumType\n");}
 
-FormalParams: Params | STRING OSQUARE CSQUARE ID | 								{printf("FormalParams\n");}
-Params: Param COMMA Params | Param 												{printf("Params\n");}
-Param: Type Ids 																{printf("Param\n");}
+Params: | Param COMMA Params | Param 											{printf("Params\n");}
+Param: Type ID																	{printf("Param\n");}
 
 Statements: OBRACE VarDecl1 ListStatement CBRACE								{printf("Statements\n");}
 	| OBRACE VarDecl1 CBRACE													{printf("Statements\n");}

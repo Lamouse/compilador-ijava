@@ -10,7 +10,6 @@ op4				"*"|"/"|"%"
 %X COMMENT
 %{
 	#include "y.tab.h"
-	#include "ljparser.h"
 	#include "string.h"
 
 	int coluna = 1;

@@ -72,7 +72,9 @@
      OP4 = 288,
      INTLIT = 289,
      BOOLLIT = 290,
-     ID = 291
+     ID = 291,
+     IFX = 292,
+     OPERSX = 293
    };
 #endif
 /* Tokens.  */
@@ -110,19 +112,21 @@
 #define INTLIT 289
 #define BOOLLIT 290
 #define ID 291
+#define IFX 292
+#define OPERSX 293
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 43 "ljparser.y"
+#line 54 "ljparser.y"
 {
 	char* string;
 	int number;
 }
 /* Line 1529 of yacc.c.  */
-#line 126 "y.tab.h"
+#line 130 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
