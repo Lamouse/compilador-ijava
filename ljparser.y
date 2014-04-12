@@ -1,5 +1,6 @@
 %{
 #include<stdio.h>
+#include "ljparser.h"
 
 extern int coluna;
 extern int linha;

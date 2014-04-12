@@ -5,7 +5,6 @@ typedef enum {OperKind, CallKind, LoadKind, IntLit, BoolLit, Id} ExpType;
 typedef struct _Statement Statement;
 typedef struct _Exp Exp;
 
-
 // Expressions
 typedef struct {
 	Exp* a;
@@ -102,7 +101,7 @@ typedef struct _MethodDecl {
 	char* id;
 } MethodDecl;
 
-struct _Program {
+typedef struct _Program {
 	char* id;
 
 	VarDecl* vars;
