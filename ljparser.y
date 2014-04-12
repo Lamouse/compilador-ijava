@@ -57,52 +57,52 @@ extern char* yytext;
 }
 
 %%
-Program: CLASS ID OBRACE Declarations CBRACE									{printf("Program\n");}
-Declarations: Declaration Declarations | Declaration 							{printf("Declarations\n");}
-Declaration: FieldDecl | MethodDecl												{printf("Declaration\n");}
+program: CLASS ID OBRACE declarations CBRACE									{printf("program\n");}
+declarations: declaration declarations | declaration | 							{printf("declarations\n");}
+declaration: fieldDecl | methodDecl												{printf("declaration\n");}
 
-FieldDecl: STATIC VarDecl														{printf("FieldDecl\n");}
-MethodDecl: PUBLIC STATIC Type ID OCURV Params CCURV OBRACE Statements CBRACE	{printf("MethodDecl\n");}
+fieldDecl: STATIC varDecl														{printf("fieldDecl\n");}
+methodDecl: PUBLIC STATIC type ID OCURV params CCURV OBRACE statements CBRACE	{printf("methodDecl\n");}
 
-Params: STRING OSQUARE CSQUARE ID | ParamList | 								{printf("Params\n");}
-ParamList: Param COMMA Params | Param 											{printf("ParamList\n");}
-Param: VarType ID 																{printf("Param\n");}
+params: STRING OSQUARE CSQUARE ID | paramList | 								{printf("params\n");}
+paramList: param COMMA params | param 											{printf("paramList\n");}
+param: varType ID 																{printf("param\n");}
 
-Statements: VarList StateList | VarList | StateList |								{printf("Statements\n");}
-VarList: VarDecl VarList | VarDecl												{printf("VarList\n");}
+statements: varList stateList | varList | stateList |							{printf("statements\n");}
+varList: varDecl varList | varDecl												{printf("varList\n");}
 
-StateList: Statement StateList | Statement 										{printf("StateList\n");}
-Statement: IfState ELSE OBRACE Statement CBRACE										
-	| IfState																	
-	| WHILE OCURV Expr CCURV OBRACE Statement CBRACE											
-	| PRINT OCURV Expr CCURV SEMIC												
-	| IdState ASSIGN Expr SEMIC													
-	| ReturnState SEMIC															{printf("Statement\n");}
+stateList: statement stateList | statement 										{printf("stateList\n");}
+statement: ifState ELSE OBRACE statement CBRACE										
+	| ifState																	
+	| WHILE OCURV expr CCURV OBRACE statement CBRACE											
+	| PRINT OCURV expr CCURV SEMIC												
+	| idState ASSIGN expr SEMIC													
+	| returnState SEMIC															{printf("statement\n");}
 
-IfState: IF OCURV Expr CCURV OBRACE Statement CBRACE							{printf("IfState\n");}
-IdState: ID OSQUARE Expr CSQUARE | ID 											{printf("IdState\n");}
-ReturnState: RETURN Expr | RETURN 												{printf("ReturnState\n");}
+ifState: IF OCURV expr CCURV OBRACE statement CBRACE							{printf("ifState\n");}
+idState: ID OSQUARE expr CSQUARE | ID 											{printf("idState\n");}
+returnState: RETURN expr | RETURN 												{printf("returnState\n");}
 
-VarDecl: VarType Ids SEMIC 														{printf("VarDecl\n");}
-Ids: ID COMMA Ids | ID 															{printf("Ids\n");}
+varDecl: varType ids SEMIC 														{printf("varDecl\n");}
+ids: ID COMMA ids | ID 															{printf("ids\n");}
 
-Expr: Expr Opers Expr
-	| Expr OSQUARE Expr CSQUARE
+expr: expr opers expr
+	| expr OSQUARE expr CSQUARE
 	| ID | INTLIT | BOOLIT
-	| NEW NumType OSQUARE Expr CSQUARE
-	| OCURV Expr CCURV
-	| Expr DOTLENGTH
-	| OP3 Expr
-	| NOT Expr
-	| PARSEINT OCURV ID OSQUARE Expr CSQUARE CCURV
-	| ID OCURV Args CCURV														{printf("Expr\n");}
+	| NEW numType OSQUARE expr CSQUARE
+	| OCURV expr CCURV
+	| expr DOTLENGTH
+	| OP3 expr
+	| NOT expr
+	| PARSEINT OCURV ID OSQUARE expr CSQUARE CCURV
+	| ID OCURV args CCURV														{printf("expr\n");}
 	
-Args: Expr COMMA Expr | Expr													{printf("Args\n");}
+args: expr COMMA expr | expr													{printf("args\n");}
 
-Type: VOID | STRING| INT | BOOL													{printf("Type\n");}
-VarType: STRING | INT | BOOL | INT OSQUARE CSQUARE | BOOL OSQUARE CSQUARE		{printf("VarType\n");}
-NumType: INT | BOOL 															{printf("NumType\n");}
-Opers: OP1 | OP2 | OP3 | OP4													{printf("Opers\n");}
+type: VOID | STRING| INT | BOOL													{printf("Type\n");}
+varType: STRING | INT | BOOL | INT OSQUARE CSQUARE | BOOL OSQUARE CSQUARE		{printf("varType\n");}
+numType: INT | BOOL 															{printf("numType\n");}
+opers: OP1 | OP2 | OP3 | OP4													{printf("opers\n");}
 
 %%
 int main() {
