@@ -5,10 +5,12 @@
 /* É mesmo importante */
 
 class echo { 
-	public static void main(int[] args) {
+	public static void main(String[] args) {
 		int x;
 		String aux;
 		x = Integer.parseInt(args[0]);
 		System.out.println(x);
 	}
+
+	public static void hello(int a, int[] b) {}
 } 
