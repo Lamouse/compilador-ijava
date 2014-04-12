@@ -1,4 +1,8 @@
 int identation = 0;
+int isParams = 0;
+
+
+// Statics
 
 void ident() {
 	int i;
@@ -7,6 +11,8 @@ void ident() {
 }
 
 void printType(Type type) {
+	ident();
+
 	if (type == String)
 		printf("String\n");
 	else if (type == Bool)
@@ -23,31 +29,72 @@ void printType(Type type) {
 		printf("Void");
 }
 
+void printId(char* id) {
+	ident(); printf("Id(%s)\n", id);
+}
+
+void printIds(Ids* ids) {
+	if (ids != NULL) {
+		printId(ids->name);
+		printIds(ids->next);
+	}
+
+}
+
+
+// Statements
+void printStatement(Statement* state) {
+
+}
+
+
+// Declarations
+
+void printVar(VarDecl* var) {
+	if (var == NULL)
+		return;
+
+	ident();
+	if (isParams)
+		printf("ParamDeclaration\n");
+	else
+		printf("VarDecl\n");
+
+	identation++;
+	printType(var->type);
+	printIds(&var->ids);
+	identation--;
+
+	printVar(var->next);
+}
+
 void printMethod(MethodDecl* method) {
 	if (method == NULL)
 		return;
 
 	ident(); printf("MethodDecl\n"); identation++;
-	ident(); printType(method->type);
-	ident(); printf("ID(%s)\n", method->id);
+	printType(method->type);
+	printId(method->id);
 
-	ident(); printf("MethodParams\n"); identation++;
-	//display(method->params);
-	identation--;
+	ident(); printf("MethodParams\n");
+	identation++; isParams = 1;
+	printVar(method->params);
+	identation--; isParams = 0;
 
 	ident(); printf("MethodBody\n"); identation++;
-	//display(method->vars);
-	//display(method->statements);
+	printVar(method->vars);
+	printStatement(method->statements);
 	identation-=2;
 
 	printMethod(method->next);
 }
 
 void printProgram(Program* program) {
-	ident(); printf("Program\n"); identation++;
-	ident(); printf("ID(%s)\n", program->id);
+	ident(); printf("Program\n");
 
+	identation++;
+	printId(program->id);
 	printMethod(program->methods);
-	//display(program->vars);
+	printVar(program->vars);
 	identation--;
 }
