@@ -147,6 +147,7 @@
 #line 1 "ljparser.y"
 
 #include<stdio.h>
+#include "ljparser.h"
 
 extern int coluna;
 extern int linha;
@@ -179,7 +180,7 @@ typedef union YYSTYPE
 	int number;
 }
 /* Line 193 of yacc.c.  */
-#line 183 "y.tab.c"
+#line 184 "y.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -192,7 +193,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 196 "y.tab.c"
+#line 197 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -1624,7 +1625,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 1628 "y.tab.c"
+#line 1629 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
