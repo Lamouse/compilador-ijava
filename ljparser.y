@@ -43,6 +43,8 @@ extern char* yytext;
 %token <number> BOOLLIT
 %token <string> ID
 
+%nonassoc OPERSX
+
 %right DOTLENGTH ASSIGN
 %left OSQUARE
 %left OP1
@@ -58,7 +60,8 @@ extern char* yytext;
 
 %%
 program: CLASS ID OBRACE declarations CBRACE									{printf("program\n");}
-declarations: declaration declarations | declaration | 							{printf("declarations\n");}
+declarations: declarationList |													{printf("declarations\n");}
+declarationList: declaration declarationList | declaration 						{printf("declarationList\n");}
 declaration: fieldDecl | methodDecl												{printf("declaration\n");}
 
 fieldDecl: STATIC varDecl														{printf("fieldDecl\n");}
@@ -86,7 +89,7 @@ returnState: RETURN expr | RETURN 												{printf("returnState\n");}
 varDecl: varType ids SEMIC 														{printf("varDecl\n");}
 ids: ID COMMA ids | ID 															{printf("ids\n");}
 
-expr: expr opers expr
+expr: expr opers expr %prec OPERSX
 	| expr OSQUARE expr CSQUARE
 	| ID | INTLIT | BOOLIT
 	| NEW numType OSQUARE expr CSQUARE
