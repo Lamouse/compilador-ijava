@@ -43,6 +43,8 @@ extern char* yytext;
 %token <number> BOOLLIT
 %token <string> ID
 
+%nonassoc IFX  
+%nonassoc ELSE
 %nonassoc OPERSX
 %right DOTLENGTH ASSIGN
 %left OSQUARE
@@ -74,14 +76,16 @@ statements: varList stateList | varList | stateList |							{printf("statements\
 varList: varDecl varList | varDecl												{printf("varList\n");}
 
 stateList: statement stateList | statement 										{printf("stateList\n");}
-statement: ifState ELSE OBRACE statement CBRACE										
-	| ifState																	
-	| WHILE OCURV expr CCURV OBRACE statement CBRACE											
-	| PRINT OCURV expr CCURV SEMIC												
-	| idState ASSIGN expr SEMIC													
+statement: ifState ELSE statement
+	| ifState %prec IFX 
+	| OBRACE statement CBRACE
+	| OBRACE CBRACE																
+	| WHILE OCURV expr CCURV statement
+	| PRINT OCURV expr CCURV SEMIC
+	| idState ASSIGN expr SEMIC
 	| returnState SEMIC															{printf("statement\n");}
 
-ifState: IF OCURV expr CCURV OBRACE statement CBRACE							{printf("ifState\n");}
+ifState: IF OCURV expr CCURV statement											{printf("ifState\n");}
 idState: ID OSQUARE expr CSQUARE | ID 											{printf("idState\n");}
 returnState: RETURN expr | RETURN 												{printf("returnState\n");}
 
