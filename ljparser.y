@@ -44,7 +44,6 @@ extern char* yytext;
 %token <string> ID
 
 %nonassoc OPERSX
-
 %right DOTLENGTH ASSIGN
 %left OSQUARE
 %left OP1

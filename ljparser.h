@@ -7,7 +7,7 @@ struct _VarDecl {
 	Type type;
 
 	struct _VarDecl* next;
-	char*[50];
+	char*[50] ids;
 } VarDecl;
 
 union _Statement {
@@ -25,6 +25,7 @@ struct _MethodDecl {
 	Type type;
 	ParamDecl* params;
 	Statement* statements;
+	VarDecl* vars;
 
 	struct _MethodDecl* next;
 	char* id;
