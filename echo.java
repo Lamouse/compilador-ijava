@@ -7,7 +7,7 @@
 class echo { 
 	public static void main(String[] args) {
 		int x;
-		String aux;
+		boolean y;
 		x = Integer.parseInt(args[0]);
 		System.out.println(x);
 	}

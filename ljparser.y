@@ -98,11 +98,11 @@ expr: expr opers expr
 	| ID OCURV args CCURV														{printf("expr\n");}
 	
 args: expr COMMA expr | expr													{printf("args\n");}
-
-type: VOID | STRING| INT | BOOL													{printf("Type\n");}
-varType: STRING | INT | BOOL | INT OSQUARE CSQUARE | BOOL OSQUARE CSQUARE		{printf("varType\n");}
-numType: INT | BOOL 															{printf("numType\n");}
 opers: OP1 | OP2 | OP3 | OP4													{printf("opers\n");}
+
+type: VOID | varType															{printf("Type\n");}
+varType: numType | numType OSQUARE CSQUARE										{printf("varType\n");}
+numType: INT | BOOL 															{printf("numType\n");}
 
 %%
 int main() {
