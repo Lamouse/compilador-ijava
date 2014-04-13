@@ -22,17 +22,16 @@ typedef struct {
 	char* id;
 } Load;
 
-typedef union {
-	Oper oper;
-	Call call;
-	Load load;
-
-	int literal;
-	char* id;
-} ExpContent;
-
 struct _Exp {
-	ExpContent content;
+	union {
+		Oper oper;
+		Call call;
+		Load load;
+
+		int literal;
+		char* id;
+	} content;
+	
 	ExpType type;
 	Exp* next;
 };
@@ -63,16 +62,15 @@ typedef struct {
 	Exp* value;
 } Return;
 
-typedef union {
-	IfElse ifelse;
-	Return _return;
-	While _while;
-	Store store;
-	Print print;
-} StatementContent;
-
 struct _Statement {
-	StatementContent content;
+	union {
+		IfElse ifelse;
+		Return _return;
+		While _while;
+		Store store;
+		Print print;
+	} content;
+
 	StatementType type;
 	Statement* next;
 };

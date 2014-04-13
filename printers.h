@@ -1,9 +1,11 @@
+void printStatement(Statement*);
+void printExp(Exp*);
+
 int identation = 0;
 int isParams = 0;
 
 
 // Statics
-
 void ident() {
 	int i;
 	for (i = 0; i < identation; ++i)
@@ -43,13 +45,30 @@ void printIds(Ids* ids) {
 
 
 // Statements
-void printStatement(Statement* state) {
+void printIf(IfElse* ifelse) {
+	ident(); printf("IfElse\n");
 
+	identation++;
+	//printExp(ifelse->condition);
+	printStatement(ifelse->first);
+	printStatement(ifelse->second);
+	identation--;
+}
+
+void printStatement(Statement* state) {
+	if (state == NULL)
+		return;
+	else if (state->type == IfType) {
+		printIf(&state->content.ifelse);
+	} else if (state->type == ReturnType) {
+
+	}
+
+	printStatement(state->next);
 }
 
 
 // Declarations
-
 void printVar(VarDecl* var) {
 	if (var == NULL)
 		return;
