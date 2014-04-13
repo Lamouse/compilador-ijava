@@ -48,13 +48,13 @@ typedef struct {
 } Store;
 
 typedef struct {
-	Exp condition;
+	Exp* condition;
 	Statement* first;
 	Statement* second;
 } IfElse;
 
 typedef struct {
-	Exp condition;
+	Exp* condition;
 	Statement* statement;
 } While;
 
