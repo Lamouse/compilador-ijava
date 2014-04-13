@@ -102,3 +102,44 @@ Statement* newPrint(Exp value) {
 
 
 // Declarations
+Ids* newIds(char* name, struct _Ids* last) {
+	Ids* ids = (Ids*) malloc(sizeof(Ids));
+	ids->name = name;
+	ids->next = NULL;
+
+	if(last != NULL)
+		last->next = ids;
+
+	return ids;
+}
+
+VarDecl* newVarDecl(Type type, Ids ids) {
+	VarDecl* vard = (VarDecl*) malloc(sizeof(VarDecl));
+	vard->type = type;
+	vard->ids = ids;
+
+	return vard;
+}
+
+MethodDecl* newMethodDecl(Type type, VarDecl* vars, VarDecl* params, Statement* statements, char* id) {
+	MethodDecl* meth = (MethodDecl*) malloc(sizeof(MethodDecl));
+	meth->type = type;
+	meth->vars = vars;
+	meth->params = params;
+	meth->statements = statements;
+	meth->id = id;
+
+	return meth;
+}
+
+Program* newProgram(char* id, VarDecl* vars, MethodDecl* methods) {
+	Program* prog = (Program*) malloc(sizeof(Program));
+	prog->id = id;
+	prog->vars = vars;
+	prog->methods = methods;
+
+	return prog;
+}
+
+
+//ver depois o next
