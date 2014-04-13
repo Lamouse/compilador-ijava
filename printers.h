@@ -44,14 +44,54 @@ void printIds(Ids* ids) {
 }
 
 
+// Expressions
+void printExp(Exp* exp) {
+
+}
+
+
 // Statements
+void printStore(Store* store) {
+	ident(); printf("Store\n");
+
+	identation++;
+	printId(store->target);
+	printExp(&store->value);
+	identation--;
+}
+
+void printPrint(Print* print) {
+	ident(); printf("Print\n");
+
+	identation++;
+	printExp(&print->value);
+	identation--;
+}
+
 void printIf(IfElse* ifelse) {
 	ident(); printf("IfElse\n");
 
 	identation++;
-	//printExp(ifelse->condition);
+	printExp(ifelse->condition);
 	printStatement(ifelse->first);
 	printStatement(ifelse->second);
+	identation--;
+}
+
+void printWhile(While* _while) {
+	ident(); printf("While\n");
+
+	identation++;
+	printExp(_while->condition);
+	printStatement(_while->statement);
+	identation--;
+}
+
+void printReturn(Return* _return) {
+	ident(); printf("Return\n");
+
+	identation++;
+	printExp(_return->value);
 	identation--;
 }
 
@@ -60,8 +100,14 @@ void printStatement(Statement* state) {
 		return;
 	else if (state->type == IfType) {
 		printIf(&state->content.ifelse);
+	} else if (state->type == WhileType) {
+		printWhile(&state->content._while);
 	} else if (state->type == ReturnType) {
-
+		printReturn(&state->content._return);
+	} else if (state->type == StoreType) {
+		printStore(&state->content.store);
+	} else if (state->type == PrintType) {
+		printPrint(&state->content.print);
 	}
 
 	printStatement(state->next);

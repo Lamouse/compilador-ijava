@@ -100,9 +100,9 @@ Statement* newWhile(Exp* condition, Statement* statement) {
 	return state;
 }
 
-Statement* newStore(char* targe, Exp value) {
+Statement* newStore(char* target, Exp value) {
 	Statement* state = (Statement*) malloc(sizeof(Statement));
-	state->content.store.targe = targe;
+	state->content.store.target = target;
 	state->content.store.value = value;
 	state->type = StoreType;
 	state->next = NULL;
