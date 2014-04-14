@@ -945,183 +945,183 @@ YY_RULE_SETUP
 case 6:
 YY_RULE_SETUP
 #line 29 "ijparser.l"
-{coluna += yyleng; return PRINT;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return PRINT;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 30 "ijparser.l"
-{coluna += yyleng; return PARSEINT;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return PARSEINT;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 31 "ijparser.l"
-{coluna += yyleng; return DOTLENGTH;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return DOTLENGTH;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 33 "ijparser.l"
-{coluna += yyleng; return INT;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return INT;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 34 "ijparser.l"
-{coluna += yyleng; return BOOL;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return BOOL;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 35 "ijparser.l"
-{coluna += yyleng; return VOID;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return VOID;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 36 "ijparser.l"
-{coluna += yyleng; return STRING;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return STRING;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 38 "ijparser.l"
-{coluna += yyleng; return NEW;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return NEW;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 39 "ijparser.l"
-{coluna += yyleng; return IF;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return IF;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 40 "ijparser.l"
-{coluna += yyleng; return ELSE;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return ELSE;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 41 "ijparser.l"
-{coluna += yyleng; return WHILE;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return WHILE;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 42 "ijparser.l"
-{coluna += yyleng; return CLASS;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return CLASS;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 43 "ijparser.l"
-{coluna += yyleng; return PUBLIC;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return PUBLIC;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 44 "ijparser.l"
-{coluna += yyleng; return STATIC;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return STATIC;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 45 "ijparser.l"
-{coluna += yyleng; return RETURN;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return RETURN;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 47 "ijparser.l"
-{coluna += yyleng; return OCURV;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OCURV;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 48 "ijparser.l"
-{coluna += yyleng; return CCURV;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return CCURV;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 49 "ijparser.l"
-{coluna += yyleng; return OBRACE;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OBRACE;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 50 "ijparser.l"
-{coluna += yyleng; return CBRACE;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return CBRACE;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 51 "ijparser.l"
-{coluna += yyleng; return OSQUARE;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OSQUARE;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 52 "ijparser.l"
-{coluna += yyleng; return CSQUARE;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return CSQUARE;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 53 "ijparser.l"
-{coluna += yyleng; return NOT;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return NOT;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 54 "ijparser.l"
-{coluna += yyleng; return ASSIGN;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return ASSIGN;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 55 "ijparser.l"
-{coluna += yyleng; return SEMIC;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return SEMIC;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 56 "ijparser.l"
-{coluna += yyleng; return COMMA;}
+{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return COMMA;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 58 "ijparser.l"
-{yylval.string=(char*)strdup(yytext); coluna += yyleng; return RESERVED;}
+{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return RESERVED;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 59 "ijparser.l"
-{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP1;}
+{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP1;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 60 "ijparser.l"
-{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP2;}
+{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP2;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 61 "ijparser.l"
-{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP3;}
+{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP3;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 62 "ijparser.l"
-{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP4;}
+{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP4;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 64 "ijparser.l"
-{yylval.number = atoi(yytext); coluna += yyleng; return INTLIT;}
+{yylval.number = atoi(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return INTLIT;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 65 "ijparser.l"
-{yylval.number = strcmp(yytext, "true") ? 0 : 1; coluna += yyleng; return BOOLIT;}
+{yylval.number = strcmp(yytext, "true") ? 0 : 1; colunaAux = coluna; linhaAux = linha; coluna += yyleng; return BOOLIT;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 66 "ijparser.l"
-{yylval.string=(char*)strdup(yytext); coluna += yyleng; return ID;}
+{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return ID;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 67 "ijparser.l"
-{coluna++;}
+{colunaAux = coluna; linhaAux = linha; coluna++;}
 	YY_BREAK
 case 40:
 /* rule 40 can match eol */
 YY_RULE_SETUP
 #line 68 "ijparser.l"
-{linha++; coluna=1;}
+{colunaAux = coluna; linhaAux = linha; linha++; coluna=1;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
 #line 69 "ijparser.l"
-{printf("Line %d, col %d: illegal character ('%s')\n", linha, coluna, yytext); coluna++;}
+{printf("Line %d, col %d: illegal character ('%s')\n", linha, coluna, yytext); colunaAux = coluna; linhaAux = linha; coluna++;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP

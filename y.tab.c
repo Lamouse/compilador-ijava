@@ -151,8 +151,8 @@
 #include<stdio.h>
 #include "ljparser.h"
 
-extern int coluna;
-extern int linha;
+extern int colunaAux;
+extern int linhaAux;
 extern char* yytext;
 
 
@@ -1856,6 +1856,6 @@ int main() {
 }
 
 int yyerror (char *s) { 
-	printf ("Line %d, col %d: %s: %s\n", linha, coluna, s, yytext); 
+	printf ("Line %d, col %d: %s: %s\n", linhaAux, colunaAux, s, yytext); 
 }
 

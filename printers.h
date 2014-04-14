@@ -40,13 +40,94 @@ void printIds(Ids* ids) {
 		printId(ids->name);
 		printIds(ids->next);
 	}
-
 }
 
 
 // Expressions
-void printExp(Exp* exp) {
+void printOper(Oper* oper) {
+	ident();
 
+	if (oper->type == Or)
+		printf("Or\n");
+	else if (oper->type == And)
+		printf("And\n");
+	else if (oper->type == Eq)
+		printf("Eq\n");
+	else if (oper->type == Neq)
+		printf("Neq\n");
+	else if (oper->type == Lt)
+		printf("Lt\n");
+	else if (oper->type == Gt)
+		printf("Gt\n");
+	else if (oper->type == Leq)
+		printf("Leq\n");
+	else if (oper->type == Add)
+		printf("Add\n");
+	else if (oper->type == Sub)
+		printf("Sub\n");
+	else if (oper->type == Mul)
+		printf("Mul\n");
+	else if (oper->type == Div)
+		printf("Div\n");
+	else if (oper->type == Mod)
+		printf("Mod\n");
+	else if (oper->type == Not)
+		printf("Not\n");
+	else if (oper->type == Minus)
+		printf("Minus\n");
+	else if (oper->type == Plus)
+		printf("Plus\n");
+	else if (oper->type == Length)
+		printf("Length\n");
+	else if (oper->type == NewInt)
+		printf("NewInt\n");
+	else if (oper->type == NewBool)
+		printf("NewBool\n");
+	else if (oper->type == Parse)
+		printf("Parse\n");
+
+	identation++;
+	printExp(oper->a);
+	printExp(oper->b);
+	identation--;
+}
+
+void printLoad(Load* load) {
+	ident(); printf("Load\n");
+
+	identation++;
+	printId(load->id);
+	printExp(load->index);
+	identation--;
+}
+
+void printCall(Call* call) { // não é especificado o formato!?
+	ident(); printf("Call\n");
+
+	identation++;
+	printId(call->method);
+	printExp(call->params);
+	identation--;
+}
+
+void printExp(Exp* exp) {
+	if (exp == NULL)
+		return;
+	else if (exp->type == OperKind)
+		printOper(&exp->content.oper);
+	else if (exp->type == CallKind)
+		printCall(&exp->content.call);
+	else if (exp->type == LoadKind)
+		printLoad(&exp->content.load);
+	else if (exp->type == Id)
+		printId(exp->content.id);
+	else if (exp->type == IntLit) {
+		ident(); printf("IntLit(%d)\n", exp->content.literal);
+	} else if (exp->type == BoolLit) {
+		ident(); printf("BoolLit(%s)\n", exp->content.literal ? "true" : "false");
+	}
+
+	printExp(exp->next);
 }
 
 
@@ -98,17 +179,16 @@ void printReturn(Return* _return) {
 void printStatement(Statement* state) {
 	if (state == NULL)
 		return;
-	else if (state->type == IfType) {
+	else if (state->type == IfType)
 		printIf(&state->content.ifelse);
-	} else if (state->type == WhileType) {
+	else if (state->type == WhileType)
 		printWhile(&state->content._while);
-	} else if (state->type == ReturnType) {
+	else if (state->type == ReturnType)
 		printReturn(&state->content._return);
-	} else if (state->type == StoreType) {
+	else if (state->type == StoreType)
 		printStore(&state->content.store);
-	} else if (state->type == PrintType) {
+	else if (state->type == PrintType)
 		printPrint(&state->content.print);
-	}
 
 	printStatement(state->next);
 }
