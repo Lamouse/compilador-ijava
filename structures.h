@@ -1,33 +1,18 @@
 typedef enum {String, Bool, Int, StringArray, BoolArray, IntArray, Void} Type;
-typedef enum {Or, And, Eq, Neq, Lt, Gt, Leq, Geq, Add, Sub, Mul, Div, Mod, Not, Minus, Plus, Length, NewInt, NewBool, Parse} OperType;
 typedef enum {IfType, ReturnType, WhileType, StoreType, PrintType} StatementType;
-typedef enum {OperKind, CallKind, LoadKind, IntLit, BoolLit, Id} ExpType;
+typedef enum {Or, And, Eq, Neq, Lt, Gt, Leq, Geq, Add, Sub, Mul, Div, Mod, Not, Minus, Plus, Length, NewInt, NewBool, Parse, Call, LoadArray, IntLit, BoolLit, Id} ExpType;
 typedef struct _Statement Statement;
 typedef struct _Exp Exp;
 
 // Expressions
 typedef struct {
-	Exp* a;
-	Exp* b;
-	OperType type;
-} Oper;
-
-typedef struct {
 	Exp* params;
-	char* method;
-} Call;
-
-typedef struct {
-	Exp* index;
 	char* id;
-} Load;
+} Oper;
 
 struct _Exp {
 	union {
 		Oper oper;
-		Call call;
-		Load load;
-
 		int literal;
 		char* id;
 	} content;

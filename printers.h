@@ -32,7 +32,9 @@ void printType(Type type) {
 }
 
 void printId(char* id) {
-	ident(); printf("Id(%s)\n", id);
+	if (id != NULL) {
+		ident(); printf("Id(%s)\n", id);
+	}
 }
 
 void printIds(Ids* ids) {
@@ -44,88 +46,69 @@ void printIds(Ids* ids) {
 
 
 // Expressions
-void printOper(Oper* oper) {
+void printOper(ExpType type, Oper* oper) {
 	ident();
 
-	if (oper->type == Or)
+	if (type == Or)
 		printf("Or\n");
-	else if (oper->type == And)
+	else if (type == And)
 		printf("And\n");
-	else if (oper->type == Eq)
+	else if (type == Eq)
 		printf("Eq\n");
-	else if (oper->type == Neq)
+	else if (type == Neq)
 		printf("Neq\n");
-	else if (oper->type == Lt)
+	else if (type == Lt)
 		printf("Lt\n");
-	else if (oper->type == Gt)
+	else if (type == Gt)
 		printf("Gt\n");
-	else if (oper->type == Leq)
+	else if (type == Leq)
 		printf("Leq\n");
-	else if (oper->type == Add)
+	else if (type == Add)
 		printf("Add\n");
-	else if (oper->type == Sub)
+	else if (type == Sub)
 		printf("Sub\n");
-	else if (oper->type == Mul)
+	else if (type == Mul)
 		printf("Mul\n");
-	else if (oper->type == Div)
+	else if (type == Div)
 		printf("Div\n");
-	else if (oper->type == Mod)
+	else if (type == Mod)
 		printf("Mod\n");
-	else if (oper->type == Not)
+	else if (type == Not)
 		printf("Not\n");
-	else if (oper->type == Minus)
+	else if (type == Minus)
 		printf("Minus\n");
-	else if (oper->type == Plus)
+	else if (type == Plus)
 		printf("Plus\n");
-	else if (oper->type == Length)
+	else if (type == Length)
 		printf("Length\n");
-	else if (oper->type == NewInt)
+	else if (type == NewInt)
 		printf("NewInt\n");
-	else if (oper->type == NewBool)
+	else if (type == NewBool)
 		printf("NewBool\n");
-	else if (oper->type == Parse)
+	else if (type == Parse)
 		printf("Parse\n");
+	else if (type == Call)
+		printf("Call\n");
+	else if (type == LoadArray)
+		printf("LoadArray\n");
 
 	identation++;
-	printExp(oper->a);
-	printExp(oper->b);
-	identation--;
-}
-
-void printLoad(Load* load) {
-	ident(); printf("Load\n");
-
-	identation++;
-	printId(load->id);
-	printExp(load->index);
-	identation--;
-}
-
-void printCall(Call* call) { // não é especificado o formato!?
-	ident(); printf("Call\n");
-
-	identation++;
-	printId(call->method);
-	printExp(call->params);
+	printId(oper->id);
+	printExp(oper->params);
 	identation--;
 }
 
 void printExp(Exp* exp) {
-	if (exp == NULL)
+	if (exp == NULL) {
 		return;
-	else if (exp->type == OperKind)
-		printOper(&exp->content.oper);
-	else if (exp->type == CallKind)
-		printCall(&exp->content.call);
-	else if (exp->type == LoadKind)
-		printLoad(&exp->content.load);
-	else if (exp->type == Id)
+	} else if (exp->type == Id) {
 		printId(exp->content.id);
-	else if (exp->type == IntLit) {
+	} else if (exp->type == IntLit) {
 		ident(); printf("IntLit(%d)\n", exp->content.literal);
 	} else if (exp->type == BoolLit) {
 		ident(); printf("BoolLit(%s)\n", exp->content.literal ? "true" : "false");
-	}
+	} else
+		printOper(exp->type, &exp->content.oper);
 
 	printExp(exp->next);
 }

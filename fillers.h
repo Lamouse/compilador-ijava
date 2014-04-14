@@ -3,35 +3,19 @@
 
 
 // Expressions
-Exp* newOper(Exp* a, Exp* b, OperType type) {
+Exp* newOper(char* id, Exp* params, ExpType type) {
 	Exp* expr = (Exp*) malloc(sizeof(Exp));
-	expr->content.oper.a = a;
-	expr->content.oper.b = b;
-	expr->content.oper.type = type;									//ver depois o type
-	expr->type = OperKind;
+	expr->content.oper.id = id;
+	expr->content.oper.params = params;
+	expr->type = type;
 	expr->next = NULL;
 
 	return expr;
 }
 
-Exp* newCall(Exp* params, char* method) {
-	Exp* expr = (Exp*) malloc(sizeof(Exp));
-	expr->content.call.params = params;
-	expr->content.call.method = method;
-	expr->type = CallKind;
-	expr->next = NULL;
-
-	return expr;
-}
-
-Exp* newLoad(Exp* index, char* id) {
-	Exp* expr = (Exp*) malloc(sizeof(Exp));
-	expr->content.load.index = index;
-	expr->content.load.id = id;
-	expr->type = LoadKind;
-	expr->next = NULL;
-
-	return expr;
+Exp* newAnonymousOper(Exp* a, Exp* b, ExpType type) {
+	a->next = b;
+	return newOper(NULL, a, type);
 }
 
 Exp* newIntLit(int literal) {
