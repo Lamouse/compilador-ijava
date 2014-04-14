@@ -26,47 +26,47 @@ op4				"*"|"/"|"%"
 <COMMENT>.						{colunaAux++;}
 <COMMENT>\n 					{linhaAux++; colunaAux=1;}
 
-<INITIAL>"System.out.println" 	{coluna += yyleng; return PRINT;}
-<INITIAL>"Integer.parseInt"		{coluna += yyleng; return PARSEINT;}
-<INITIAL>".length" 				{coluna += yyleng; return DOTLENGTH;}
+<INITIAL>"System.out.println" 	{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return PRINT;}
+<INITIAL>"Integer.parseInt"		{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return PARSEINT;}
+<INITIAL>".length" 				{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return DOTLENGTH;}
 
-<INITIAL>int					{coluna += yyleng; return INT;}
-<INITIAL>boolean				{coluna += yyleng; return BOOL;}
-<INITIAL>void					{coluna += yyleng; return VOID;}
-<INITIAL>String 				{coluna += yyleng; return STRING;}
+<INITIAL>int					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return INT;}
+<INITIAL>boolean				{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return BOOL;}
+<INITIAL>void					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return VOID;}
+<INITIAL>String 				{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return STRING;}
 
-<INITIAL>new					{coluna += yyleng; return NEW;}
-<INITIAL>if						{coluna += yyleng; return IF;}
-<INITIAL>else 					{coluna += yyleng; return ELSE;}
-<INITIAL>while 					{coluna += yyleng; return WHILE;}
-<INITIAL>class 					{coluna += yyleng; return CLASS;}
-<INITIAL>public 				{coluna += yyleng; return PUBLIC;}
-<INITIAL>static 				{coluna += yyleng; return STATIC;}
-<INITIAL>return 				{coluna += yyleng; return RETURN;}
+<INITIAL>new					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return NEW;}
+<INITIAL>if						{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return IF;}
+<INITIAL>else 					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return ELSE;}
+<INITIAL>while 					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return WHILE;}
+<INITIAL>class 					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return CLASS;}
+<INITIAL>public 				{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return PUBLIC;}
+<INITIAL>static 				{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return STATIC;}
+<INITIAL>return 				{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return RETURN;}
 
-<INITIAL>"(" 					{coluna += yyleng; return OCURV;}
-<INITIAL>")" 					{coluna += yyleng; return CCURV;}
-<INITIAL>"{" 					{coluna += yyleng; return OBRACE;}
-<INITIAL>"}" 					{coluna += yyleng; return CBRACE;}
-<INITIAL>"[" 					{coluna += yyleng; return OSQUARE;}
-<INITIAL>"]" 					{coluna += yyleng; return CSQUARE;}
-<INITIAL>"!"					{coluna += yyleng; return NOT;}
-<INITIAL>"="					{coluna += yyleng; return ASSIGN;}
-<INITIAL>";"					{coluna += yyleng; return SEMIC;}
-<INITIAL>","					{coluna += yyleng; return COMMA;}
+<INITIAL>"(" 					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OCURV;}
+<INITIAL>")" 					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return CCURV;}
+<INITIAL>"{" 					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OBRACE;}
+<INITIAL>"}" 					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return CBRACE;}
+<INITIAL>"[" 					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OSQUARE;}
+<INITIAL>"]" 					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return CSQUARE;}
+<INITIAL>"!"					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return NOT;}
+<INITIAL>"="					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return ASSIGN;}
+<INITIAL>";"					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return SEMIC;}
+<INITIAL>","					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return COMMA;}
 
-<INITIAL>{reserved}				{yylval.string=(char*)strdup(yytext); coluna += yyleng; return RESERVED;}
-<INITIAL>{op1}					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP1;}
-<INITIAL>{op2}					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP2;}
-<INITIAL>{op3}					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP3;}
-<INITIAL>{op4}					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return OP4;}
+<INITIAL>{reserved}				{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return RESERVED;}
+<INITIAL>{op1}					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP1;}
+<INITIAL>{op2}					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP2;}
+<INITIAL>{op3}					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP3;}
+<INITIAL>{op4}					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP4;}
 
-<INITIAL>{int}					{yylval.number = atoi(yytext); coluna += yyleng; return INTLIT;}
-<INITIAL>{bool}					{yylval.number = strcmp(yytext, "true") ? 0 : 1; coluna += yyleng; return BOOLIT;}
-<INITIAL>{id} 					{yylval.string=(char*)strdup(yytext); coluna += yyleng; return ID;}
-<INITIAL>[ \t]					{coluna++;}
-<INITIAL>\n 					{linha++; coluna=1;}
-<INITIAL>.						{printf("Line %d, col %d: illegal character ('%s')\n", linha, coluna, yytext); coluna++;}
+<INITIAL>{int}					{yylval.number = atoi(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return INTLIT;}
+<INITIAL>{bool}					{yylval.number = strcmp(yytext, "true") ? 0 : 1; colunaAux = coluna; linhaAux = linha; coluna += yyleng; return BOOLIT;}
+<INITIAL>{id} 					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return ID;}
+<INITIAL>[ \t]					{colunaAux = coluna; linhaAux = linha; coluna++;}
+<INITIAL>\n 					{colunaAux = coluna; linhaAux = linha; linha++; coluna=1;}
+<INITIAL>.						{printf("Line %d, col %d: illegal character ('%s')\n", linha, coluna, yytext); colunaAux = coluna; linhaAux = linha; coluna++;}
 
 %%
 int yywrap() {
