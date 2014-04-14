@@ -79,7 +79,7 @@ varList: varDecl varList | varDecl												{printf("varList\n");}
 stateList: statement stateList | statement 										{printf("stateList\n");}
 statement: ifState ELSE statement
 	| ifState %prec IFX 
-	| OBRACE statement CBRACE
+	| OBRACE stateList CBRACE
 	| OBRACE CBRACE																
 	| WHILE OCURV expr CCURV statement
 	| PRINT OCURV expr CCURV SEMIC
@@ -102,9 +102,10 @@ expr: expr opers expr %prec OPERSX
 	| OP3 expr
 	| NOT expr
 	| PARSEINT OCURV ID OSQUARE expr CSQUARE CCURV
+	| ID OCURV CCURV
 	| ID OCURV args CCURV														{printf("expr\n");}
 	
-args: expr COMMA expr | expr													{printf("args\n");}
+args: expr COMMA args | expr													{printf("args\n");}
 opers: OP1 | OP2 | OP3 | OP4													{printf("opers\n");}
 
 type: VOID | varType															{printf("Type\n");}
