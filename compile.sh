@@ -1,5 +1,5 @@
 lex ijparser.l
-yacc -d ljparser.y
-gcc -o ljparser y.tab.c lex.yy.c -ll -ly
-./ljparser < demo.java
-./ljparser < demo2.java
+yacc -d ijparser.y
+gcc -o ijparser y.tab.c lex.yy.c -ll -ly
+./ijparser < demo.java
+./ijparser < demo2.java

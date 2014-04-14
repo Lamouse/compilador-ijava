@@ -1,6 +1,6 @@
 %{
 #include<stdio.h>
-#include "ljparser.h"
+#include "ijparser.h"
 
 extern int colunaAux;
 extern int linhaAux;
@@ -114,6 +114,7 @@ numType: INT | BOOL 															{printf("numType\n");}
 %%
 int main() {
 	yyparse();
+	return 0;
 }
 
 int yyerror (char *s) { 
