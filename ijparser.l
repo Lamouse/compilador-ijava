@@ -14,8 +14,8 @@ op4				"*"|"/"|"%"
 
 	int coluna = 1;
 	int linha = 1;
-	int colunaAux = 0;
-	int linhaAux = 0;
+	int colunaAux = 1;
+	int linhaAux = 1;
 %}
 
 %%
