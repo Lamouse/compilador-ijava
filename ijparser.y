@@ -70,7 +70,7 @@ fieldDecl: STATIC varDecl														{printf("fieldDecl\n");}
 methodDecl: PUBLIC STATIC type ID OCURV params CCURV OBRACE statements CBRACE	{printf("methodDecl\n");}
 
 params: STRING OSQUARE CSQUARE ID | paramList | 								{printf("params\n");}
-paramList: param COMMA params | param 											{printf("paramList\n");}
+paramList: param COMMA paramList | param 										{printf("paramList\n");}
 param: varType ID 																{printf("param\n");}
 
 statements: varList stateList | varList | stateList |							{printf("statements\n");}
