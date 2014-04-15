@@ -4,3 +4,4 @@ gcc -o ijparser y.tab.c lex.yy.c -ll -ly
 ./ijparser < demo.java
 ./ijparser < demo2.java
 ./ijparser < demo3.java
+./ijparser < demo4.java
