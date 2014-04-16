@@ -22,7 +22,7 @@ op4				"*"|"/"|"%"
 "//".*
 "/*"							{BEGIN COMMENT; colunaAux=coluna; linhaAux = linha;}
 <COMMENT>"*/"					{BEGIN 0; linha = linhaAux; coluna = colunaAux + 2;}
-<COMMENT><<EOF>>				{BEGIN 0; printf("Line %d, col %d: unterminated comment\n", linha, coluna);}
+<COMMENT><<EOF>>				{BEGIN 0; printf("Line %d, col %d: unterminated comment\n", linha, coluna); return 0;}
 <COMMENT>.						{colunaAux++;}
 <COMMENT>\n 					{linhaAux++; colunaAux=1;}
 
@@ -66,6 +66,7 @@ op4				"*"|"/"|"%"
 <INITIAL>{id} 					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return ID;}
 <INITIAL>[ \t]					{colunaAux = coluna; linhaAux = linha; coluna++;}
 <INITIAL>\n 					{colunaAux = coluna; linhaAux = linha; linha++; coluna=1;}
+<INITIAL><<EOF>>				{colunaAux = coluna; linhaAux = linha; return *yytext;}				//para enviar o EOF ao yacc
 <INITIAL>.						{printf("Line %d, col %d: illegal character ('%s')\n", linha, coluna, yytext); colunaAux = coluna; linhaAux = linha; coluna++;}
 
 %%
