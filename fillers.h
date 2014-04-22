@@ -48,8 +48,16 @@ Exp* newId(char* id) {
 	return expr;
 }
 
+ExpType getOperType(char* oper) {
+	if (!strcmp(oper, '||'))
+		return Or;
+	if (!strcmp(oper, '&&'))
+		return And;
+}
+
 void connectExp(Exp* a, Exp* b) {
 	a->next = b;
+	return a;
 }
 
 

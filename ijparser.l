@@ -20,9 +20,9 @@ op4				"*"|"/"|"%"
 
 %%
 "//".*
-"/*"							{BEGIN COMMENT; colunaAux=coluna; linhaAux = linha;}
+"/*"							{BEGIN COMMENT; colunaAux=coluna+2; linhaAux = linha;}
 <COMMENT>"*/"					{BEGIN 0; linha = linhaAux; coluna = colunaAux + 2;}
-<COMMENT><<EOF>>				{BEGIN 0; printf("Line %d, col %d: unterminated comment\n", linha, coluna); return 0;}
+<COMMENT><<EOF>>				{BEGIN 0; printf("Line %d, col %d: unterminated comment\n", linha, coluna); return *yytext;}
 <COMMENT>.						{colunaAux++;}
 <COMMENT>\n 					{linhaAux++; colunaAux=1;}
 
