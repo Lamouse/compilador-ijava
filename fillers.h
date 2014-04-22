@@ -131,7 +131,7 @@ void connectIds(Ids* a, Ids* b) {
 
 VarDecl* newVarDecl(Type type, Ids* ids) {
 	VarDecl* vard = (VarDecl*) malloc(sizeof(VarDecl));
-	vard->type = type;												//ver depois o type
+	vard->type = type;
 	vard->ids = ids;
 	vard->next = NULL;
 

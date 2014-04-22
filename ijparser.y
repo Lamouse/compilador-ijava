@@ -62,11 +62,17 @@ extern char* yytext;
 %type <Statement> statement
 %type <Statement> ifState
 
+%type <VarDecl> params
+%type <VarDecl> paramList
+%type <VarDecl> param
+
 %type <VarDecl> fieldDecl
 %type <VarDecl> varList
 %type <VarDecl> varDecl
 %type <Ids> ids
 
+%type <Exp> optionalExp
+%type <Exp> exp
 
 %union {
 	char* string;
