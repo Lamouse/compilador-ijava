@@ -70,7 +70,7 @@ typedef struct _Ids {
 
 typedef struct _VarDecl {
 	Type type;
-	Ids ids;
+	Ids* ids;
 
 	struct _VarDecl* next;
 } VarDecl;

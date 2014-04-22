@@ -55,6 +55,19 @@ extern char* yytext;
 %left OP4
 %left NOT
 
+%type <MethodDecl> methodDecl
+%type <MethodDecl> statements
+
+%type <Statement> stateList
+%type <Statement> statement
+%type <Statement> ifState
+
+%type <VarDecl> fieldDecl
+%type <VarDecl> varList
+%type <VarDecl> varDecl
+%type <Ids> ids
+
+
 %union {
 	char* string;
 	int number;
@@ -66,15 +79,22 @@ declarations: declarationList |													{printf("declarations\n");}
 declarationList: declaration declarationList | declaration 						{printf("declarationList\n");}
 declaration: fieldDecl | methodDecl												{printf("declaration\n");}
 
-fieldDecl: STATIC varDecl														{printf("fieldDecl\n");}
-methodDecl: PUBLIC STATIC type ID OCURV params CCURV OBRACE statements CBRACE	{printf("methodDecl\n");}
+fieldDecl: STATIC varDecl														{$$ = $2;}
+methodDecl: PUBLIC STATIC type ID OCURV params CCURV OBRACE statements CBRACE	{$$ = newMethodDecl($3, $4, $6, $9);}
+statements: varList stateList													{$$ = newMethod($1, $2);}
+	| varList																	{$$ = newMethod(NULL, $1);}
+	| stateList																	{$$ = newMethod($1, NULL);}
+	|																			{$$ = newMethod(NULL, NULL);}
 
 params: STRING OSQUARE CSQUARE ID | paramList | 								{printf("params\n");}
 paramList: param COMMA paramList | param 										{printf("paramList\n");}
 param: varType ID 																{printf("param\n");}
 
-statements: varList stateList | varList | stateList |							{printf("statements\n");}
-varList: varDecl varList | varDecl												{printf("varList\n");}
+varList: varDecl varList														{$$ = connectVarDecl($1, $2);}
+	| varDecl																	{$$ = $1;}
+
+varDecl: varType ids SEMIC 														{$$ = newVarDecl($1, $2);}
+ids: ID COMMA ids | ID 															{$$ = connectIds($1, $3);}
 
 stateList: statement stateList													{$$ = connectStatements($1, $2);}
 	| statement 																{$$ = $1;}
@@ -88,14 +108,10 @@ statement: ifState ELSE statement 												{$$ = newElse($1, $3);}
 	| ID ASSIGN expr SEMIC														{$$ = newStore($1, NULL, $3);}
 	| ID OSQUARE expr CSQUARE ASSIGN expr SEMIC									{$$ = newStore($1, $3, $7);}
 	| RETURN optionalExp SEMIC													{$$ = newReturn($2);}
-
 ifState: IF OCURV expr CCURV statement											{$$ = newIf($3, $5);}
-varDecl: varType ids SEMIC 														{printf("varDecl\n");}
-ids: ID COMMA ids | ID 															{printf("ids\n");}
 
 optionalExp: expr																{$$ = $1;}
 	|																			{$$ = NULL;}
-
 expr: expr opers expr %prec OPERSX
 	| expr OSQUARE expr CSQUARE
 	| ID | INTLIT | BOOLIT

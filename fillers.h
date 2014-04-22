@@ -126,9 +126,10 @@ Ids* newIds(char* name) {
 
 void connectIds(Ids* a, Ids* b) {
 	a->next = b;
+	return a;
 }
 
-VarDecl* newVarDecl(Type type, Ids ids) {
+VarDecl* newVarDecl(Type type, Ids* ids) {
 	VarDecl* vard = (VarDecl*) malloc(sizeof(VarDecl));
 	vard->type = type;												//ver depois o type
 	vard->ids = ids;
@@ -139,15 +140,22 @@ VarDecl* newVarDecl(Type type, Ids ids) {
 
 void connectVarDecl(VarDecl* a, VarDecl* b) {
 	a->next = b;
+	return a;
 }
 
-MethodDecl* newMethodDecl(Type type, VarDecl* vars, VarDecl* params, Statement* statements, char* id) {
-	MethodDecl* meth = (MethodDecl*) malloc(sizeof(MethodDecl));
-	meth->type = type;												//ver depois o type
-	meth->vars = vars;
+MethodDecl* newMethodDecl(Type type, char* id, VarDecl* params, MethodDecl* method) {
+	meth->type = type;
 	meth->params = params;
-	meth->statements = statements;
 	meth->id = id;
+
+	return meth;
+}
+
+
+MethodDecl* newMethod(VarDecl* vars, Statement* statements) {
+	MethodDecl* meth = (MethodDecl*) malloc(sizeof(MethodDecl));
+	meth->vars = vars;
+	meth->statements = statements;
 	meth->next = NULL;
 
 	return meth;
