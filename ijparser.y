@@ -76,22 +76,25 @@ param: varType ID 																{printf("param\n");}
 statements: varList stateList | varList | stateList |							{printf("statements\n");}
 varList: varDecl varList | varDecl												{printf("varList\n");}
 
-stateList: statement stateList | statement 										{printf("stateList\n");}
-statement: ifState ELSE statement
-	| ifState %prec IFX 
-	| OBRACE stateList CBRACE
-	| OBRACE CBRACE																
-	| WHILE OCURV expr CCURV statement
-	| PRINT OCURV expr CCURV SEMIC
-	| idState ASSIGN expr SEMIC
-	| returnState SEMIC															{printf("statement\n");}
+stateList: statement stateList													{$$ = connectStatements($1, $2);}
+	| statement 																{$$ = $1;}
 
-ifState: IF OCURV expr CCURV statement											{printf("ifState\n");}
-idState: ID OSQUARE expr CSQUARE | ID 											{printf("idState\n");}
-returnState: RETURN expr | RETURN 												{printf("returnState\n");}
+statement: ifState ELSE statement 												{$$ = newElse($1, $3);}
+	| ifState %prec IFX 														{$$ = $1;}
+	| OBRACE stateList CBRACE													{$$ = $2;}
+	| OBRACE CBRACE																{$$ = NULL;}
+	| WHILE OCURV expr CCURV statement 											{$$ = newWhile($3, $5);}
+	| PRINT OCURV expr CCURV SEMIC												{$$ = newPrint($3);}
+	| ID ASSIGN expr SEMIC														{$$ = newStore($1, NULL, $3);}
+	| ID OSQUARE expr CSQUARE ASSIGN expr SEMIC									{$$ = newStore($1, $3, $7);}
+	| RETURN optionalExp SEMIC													{$$ = newReturn($2);}
 
+ifState: IF OCURV expr CCURV statement											{$$ = newIf($3, $5);}
 varDecl: varType ids SEMIC 														{printf("varDecl\n");}
 ids: ID COMMA ids | ID 															{printf("ids\n");}
+
+optionalExp: expr																{$$ = $1;}
+	|																			{$$ = NULL;}
 
 expr: expr opers expr %prec OPERSX
 	| expr OSQUARE expr CSQUARE

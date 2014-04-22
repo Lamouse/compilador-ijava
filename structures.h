@@ -24,12 +24,13 @@ struct _Exp {
 
 // Statements
 typedef struct {
-	Exp value;
+	Exp* value;
 } Print;
 
 typedef struct {
 	char* target;
-	Exp value;
+	Exp* index;
+	Exp* value;
 } Store;
 
 typedef struct {

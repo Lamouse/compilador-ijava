@@ -54,15 +54,20 @@ void connectExp(Exp* a, Exp* b) {
 
 
 // Statements
-Statement* newIf(Exp* condition, Statement* first, Statement* second) {
+Statement* newIf(Exp* condition, Statement* first) {
 	Statement* state = (Statement*) malloc(sizeof(Statement));
 	state->content.ifelse.condition = condition;
-	state->content.ifelse.second = second;
 	state->content.ifelse.first = first;
+	state->content.ifelse.second = NULL;
 	state->type = IfType;
 	state->next = NULL;
 
 	return state;
+}
+
+Statement* newElse(Statement* _if, Statement* second) {
+	_if->content.ifelse.second = second;
+	return _if;
 }
 
 Statement* newReturn(Exp* value) {
@@ -84,17 +89,18 @@ Statement* newWhile(Exp* condition, Statement* statement) {
 	return state;
 }
 
-Statement* newStore(char* target, Exp value) {
+Statement* newStore(char* target, Exp* index, Exp* value) {
 	Statement* state = (Statement*) malloc(sizeof(Statement));
 	state->content.store.target = target;
 	state->content.store.value = value;
+	state->content.store.index = index;
 	state->type = StoreType;
 	state->next = NULL;
 
 	return state;
 }
 
-Statement* newPrint(Exp value) {
+Statement* newPrint(Exp* value) {
 	Statement* state = (Statement*) malloc(sizeof(Statement));
 	state->content.print.value = value;
 	state->type = PrintType;
@@ -105,6 +111,7 @@ Statement* newPrint(Exp value) {
 
 void connectStatement(Statement* a, Statement* b) {
 	a->next = b;
+	return a;
 }
 
 
