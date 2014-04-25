@@ -97,12 +97,17 @@ extern char* yytext;
 
 %%
 program: CLASS ID OBRACE declarations CBRACE									{$$ = nameProgram($2, $4);}
+
 declarations: declarationList |													{printf("declarations\n");}
+
 declarationList: declaration declarationList | declaration 						{printf("declarationList\n");}
+
 declaration: fieldDecl | methodDecl												{printf("declaration\n");}
 
 fieldDecl: STATIC varDecl														{$$ = $2;}
+
 methodDecl: PUBLIC STATIC type ID OCURV params CCURV OBRACE statements CBRACE	{$$ = newMethodDecl($3, $4, $6, $9);}
+
 statements: varList stateList													{$$ = newMethod($1, $2);}
 	| varList																	{$$ = newMethod(NULL, $1);}
 	| stateList																	{$$ = newMethod($1, NULL);}
@@ -111,6 +116,7 @@ statements: varList stateList													{$$ = newMethod($1, $2);}
 params: STRING OSQUARE CSQUARE ID 												{$$ = newVarDecl(StringArray, newIds($4));}
 	| paramList																	{$$ = $1;}
 	| 																			{$$ = NULL;}
+
 paramList: param COMMA paramList												{$$ = connectVarDecl($1, $3);}
 	| param 																	{$$ = $1;}
 
@@ -118,7 +124,9 @@ varList: varDecl varList														{$$ = connectVarDecl($1, $2);}
 	| varDecl																	{$$ = $1;}
 
 param: varType ID 																{$$ = newVarDecl($1, newIds($2));}
+
 varDecl: varType ids SEMIC 														{$$ = newVarDecl($1, $2);}
+
 ids: ID COMMA ids | ID 															{$$ = connectIds($1, $3);}
 
 stateList: statement stateList													{$$ = connectStatements($1, $2);}
@@ -133,12 +141,14 @@ statement: ifState ELSE statement 												{$$ = newElse($1, $3);}
 	| ID ASSIGN expr SEMIC														{$$ = newStore($1, NULL, $3);}
 	| ID OSQUARE expr CSQUARE ASSIGN expr SEMIC									{$$ = newStore($1, $3, $7);}
 	| RETURN optionalExp SEMIC													{$$ = newReturn($2);}
+
 ifState: IF OCURV expr CCURV statement											{$$ = newIf($3, $5);}
 
 optionalExp: expr																{$$ = $1;}
 	|																			{$$ = NULL;}
+
 expr: expr opers expr %prec OPERSX												{$$ = newAnonymousOper($1, $3, $2);}
-	| expr OSQUARE expr CSQUARE													{$$ = newAnonymousOper($1, $3, LoadArray);}
+	| ID OSQUARE expr CSQUARE													{$$ = newAnonymousOper($1, $3, LoadArray);}
 	| ID 																		{$$ = newId($1);}
 	| INTLIT 																	{$$ = newIntLit($1);}
 	| BOOLLIT 																	{$$ = newBoolLit($1);}
@@ -151,13 +161,17 @@ expr: expr opers expr %prec OPERSX												{$$ = newAnonymousOper($1, $3, $2)
 	| OCURV expr CCURV															{$$ = $2;}
 	
 opers: OP1 | OP2 | OP3 | OP4													{$$ = getOperType($1);}
+
 optionalArgs: args 																{$$ = $1;}
 	| 																			{$$ = NULL;}
+
 args: expr COMMA args															{$$ = connectExp($1, $3);}
 	| expr																		{$$ = $1;}											
 
 type: VOID {$$ = Void;} | varType {$$ = $1;}
+
 varType: numType {$$ = $1;} | numType OSQUARE CSQUARE {$$ = $1 == Int ? IntArray:BoolArray;}
+
 numType: INT {$$ = Int;} | BOOL {$$ = Bool;}
 
 %%
