@@ -146,38 +146,47 @@ VarDecl* newVarDecl(Type type, Ids* ids) {
 	return vard;
 }
 
-void connectVarDecl(VarDecl* a, VarDecl* b) {
+VarDecl* connectVarDecl(VarDecl* a, VarDecl* b) {
 	a->next = b;
 	return a;
 }
 
-MethodDecl* newMethodDecl(Type type, char* id, VarDecl* params, MethodDecl* method) {
-	meth->type = type;
-	meth->params = params;
-	meth->id = id;
+Declaration* newFieldDecl(VarDecl var) {
+	VarDecl* decl = (Declaration*) malloc(sizeof(Declaration));
+	decl->isMethod = 0;
+	decl->next = NULL;
+	decl->var = var;
 
-	return meth;
+	return decl;
 }
 
+Declaration* declareMethod(Type type, char* id, VarDecl* params, Declaration* decl) {
+	decl->method.type = type;
+	decl->method.params = params;
+	decl->method.id = id;
 
-MethodDecl* newMethod(VarDecl* vars, Statement* statements) {
-	MethodDecl* meth = (MethodDecl*) malloc(sizeof(MethodDecl));
-	meth->vars = vars;
-	meth->statements = statements;
-	meth->next = NULL;
-
-	return meth;
+	return decl;
 }
 
-void connectMethodDecl(MethodDecl* a, MethodDecl* b) {
+Declaration* newMethod(VarDecl* vars, Statement* statements) {
+	Declaration* decl = (Declaration*) malloc(sizeof(Declaration));
+	decl->method.vars = vars;
+	decl->method.statements = statements;
+	decl->isMethod = 1;
+	decl->next = NULL;
+
+	return decl;
+}
+
+Declarations* connectDeclaration(Declarations* a, Declarations* b) {
 	a->next = b;
+	return a;
 }
 
-Program* newProgram(char* id, VarDecl* vars, MethodDecl* methods) {
+Program* newProgram(char* id, Declaration* declarations) {
 	Program* prog = (Program*) malloc(sizeof(Program));
 	prog->id = id;
-	prog->vars = vars;
-	prog->methods = methods;
+	prog->declarations = declarations;
 
 	return prog;
 }

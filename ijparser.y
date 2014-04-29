@@ -55,8 +55,15 @@ extern char* yytext;
 %left OP4
 %left NOT
 
-%type <method> methodDecl
-%type <method> statements
+%type <program> program
+
+%type <declaration> declarations
+%type <declaration> declarationList
+%type <declaration> declaration
+%type <declaration> declaration
+%type <declaration> methodDecl
+%type <declaration> statements
+%type <declaration> fieldDecl
 
 %type <statement> stateList
 %type <statement> statement
@@ -66,7 +73,6 @@ extern char* yytext;
 %type <var> paramList
 %type <var> param
 
-%type <var> fieldDecl
 %type <var> varList
 %type <var> varDecl
 %type <ids> ids
@@ -83,7 +89,8 @@ extern char* yytext;
 %type <expType> opers;
 
 %union {
-	MethodDecl* method;
+	Program* program;
+	Declaration* declaration;
 	Statement* statement;
 	VarDecl* var;
     Ids* ids;
@@ -97,16 +104,14 @@ extern char* yytext;
 
 %%
 program: CLASS ID OBRACE declarations CBRACE									{$$ = nameProgram($2, $4);}
+declarations: declarationList {$$ = $1; } | {$$ = NULL;}
 
-declarations: declarationList |													{printf("declarations\n");}
+declarationList: declaration declarationList									{$$ = connectDeclaration($1, $2);}
+	| declaration 																{$$ = $1;}
 
-declarationList: declaration declarationList | declaration 						{printf("declarationList\n");}
-
-declaration: fieldDecl | methodDecl												{printf("declaration\n");}
-
-fieldDecl: STATIC varDecl														{$$ = $2;}
-
-methodDecl: PUBLIC STATIC type ID OCURV params CCURV OBRACE statements CBRACE	{$$ = newMethodDecl($3, $4, $6, $9);}
+declaration: fieldDecl | methodDecl												{$$ = $1;}
+fieldDecl: STATIC varDecl														{$$ = newFieldDecl($2);}
+methodDecl: PUBLIC STATIC type ID OCURV params CCURV OBRACE statements CBRACE	{$$ = declareMethod($3, $4, $6, $9);}
 
 statements: varList stateList													{$$ = newMethod($1, $2);}
 	| varList																	{$$ = newMethod(NULL, $1);}
@@ -148,7 +153,7 @@ optionalExp: expr																{$$ = $1;}
 	|																			{$$ = NULL;}
 
 expr: expr opers expr %prec OPERSX												{$$ = newAnonymousOper($1, $3, $2);}
-	| ID OSQUARE expr CSQUARE													{$$ = newAnonymousOper($1, $3, LoadArray);}
+	| expr OSQUARE expr CSQUARE													{$$ = newAnonymousOper($1, $3, LoadArray);}
 	| ID 																		{$$ = newId($1);}
 	| INTLIT 																	{$$ = newIntLit($1);}
 	| BOOLLIT 																	{$$ = newBoolLit($1);}

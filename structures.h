@@ -71,7 +71,6 @@ typedef struct _Ids {
 typedef struct _VarDecl {
 	Type type;
 	Ids* ids;
-
 	struct _VarDecl* next;
 } VarDecl;
 
@@ -80,14 +79,20 @@ typedef struct _MethodDecl {
 	VarDecl* vars;
 	VarDecl* params;
 	Statement* statements;
-
-	struct _MethodDecl* next;
 	char* id;
 } MethodDecl;
 
+typedef struct _Declaration {
+	union {
+		MethodDecl method;
+		VarDecl var;
+	};
+	
+	struct _Declaration* next;
+	bool isMethod;
+} Declaration;
+
 typedef struct _Program {
 	char* id;
-
-	VarDecl* vars;
-	MethodDecl* methods;
+	Declaration* declarations;
 } Program;
