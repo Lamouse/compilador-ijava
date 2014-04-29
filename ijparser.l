@@ -62,7 +62,7 @@ op4				"*"|"/"|"%"
 <INITIAL>{op4}					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP4;}
 
 <INITIAL>{int}					{yylval.number = atoi(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return INTLIT;}
-<INITIAL>{bool}					{yylval.number = strcmp(yytext, "true") ? 0 : 1; colunaAux = coluna; linhaAux = linha; coluna += yyleng; return BOOLIT;}
+<INITIAL>{bool}					{yylval.number = strcmp(yytext, "true") ? 0 : 1; colunaAux = coluna; linhaAux = linha; coluna += yyleng; return BOOLLIT;}
 <INITIAL>{id} 					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return ID;}
 <INITIAL>[ \t]					{colunaAux = coluna; linhaAux = linha; coluna++;}
 <INITIAL>\n 					{colunaAux = coluna; linhaAux = linha; linha++; coluna=1;}

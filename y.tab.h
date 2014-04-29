@@ -45,37 +45,36 @@
      DOTLENGTH = 261,
      INT = 262,
      BOOL = 263,
-     BOOLIT = 264,
-     VOID = 265,
-     STRING = 266,
-     NEW = 267,
-     IF = 268,
-     ELSE = 269,
-     WHILE = 270,
-     CLASS = 271,
-     PUBLIC = 272,
-     STATIC = 273,
-     OCURV = 274,
-     CCURV = 275,
-     OBRACE = 276,
-     CBRACE = 277,
-     OSQUARE = 278,
-     CSQUARE = 279,
-     NOT = 280,
-     ASSIGN = 281,
-     SEMIC = 282,
-     COMMA = 283,
-     RESERVED = 284,
-     OP1 = 285,
-     OP2 = 286,
-     OP3 = 287,
-     OP4 = 288,
-     INTLIT = 289,
-     BOOLLIT = 290,
-     ID = 291,
-     EXPR = 292,
-     IFX = 293,
-     OPERSX = 294
+     VOID = 264,
+     STRING = 265,
+     NEW = 266,
+     IF = 267,
+     ELSE = 268,
+     WHILE = 269,
+     CLASS = 270,
+     PUBLIC = 271,
+     STATIC = 272,
+     OCURV = 273,
+     CCURV = 274,
+     OBRACE = 275,
+     CBRACE = 276,
+     OSQUARE = 277,
+     CSQUARE = 278,
+     NOT = 279,
+     ASSIGN = 280,
+     SEMIC = 281,
+     COMMA = 282,
+     RESERVED = 283,
+     OP1 = 284,
+     OP2 = 285,
+     OP3 = 286,
+     OP4 = 287,
+     INTLIT = 288,
+     BOOLLIT = 289,
+     ID = 290,
+     EXPR = 291,
+     IFX = 292,
+     OPERSX = 293
    };
 #endif
 /* Tokens.  */
@@ -85,44 +84,43 @@
 #define DOTLENGTH 261
 #define INT 262
 #define BOOL 263
-#define BOOLIT 264
-#define VOID 265
-#define STRING 266
-#define NEW 267
-#define IF 268
-#define ELSE 269
-#define WHILE 270
-#define CLASS 271
-#define PUBLIC 272
-#define STATIC 273
-#define OCURV 274
-#define CCURV 275
-#define OBRACE 276
-#define CBRACE 277
-#define OSQUARE 278
-#define CSQUARE 279
-#define NOT 280
-#define ASSIGN 281
-#define SEMIC 282
-#define COMMA 283
-#define RESERVED 284
-#define OP1 285
-#define OP2 286
-#define OP3 287
-#define OP4 288
-#define INTLIT 289
-#define BOOLLIT 290
-#define ID 291
-#define EXPR 292
-#define IFX 293
-#define OPERSX 294
+#define VOID 264
+#define STRING 265
+#define NEW 266
+#define IF 267
+#define ELSE 268
+#define WHILE 269
+#define CLASS 270
+#define PUBLIC 271
+#define STATIC 272
+#define OCURV 273
+#define CCURV 274
+#define OBRACE 275
+#define CBRACE 276
+#define OSQUARE 277
+#define CSQUARE 278
+#define NOT 279
+#define ASSIGN 280
+#define SEMIC 281
+#define COMMA 282
+#define RESERVED 283
+#define OP1 284
+#define OP2 285
+#define OP3 286
+#define OP4 287
+#define INTLIT 288
+#define BOOLLIT 289
+#define ID 290
+#define EXPR 291
+#define IFX 292
+#define OPERSX 293
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 92 "ijparser.y"
+#line 91 "ijparser.y"
 {
 	Program* program;
 	Declaration* declaration;
@@ -137,7 +135,7 @@ typedef union YYSTYPE
 	int number;
 }
 /* Line 1529 of yacc.c.  */
-#line 141 "y.tab.h"
+#line 139 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

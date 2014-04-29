@@ -1100,7 +1100,7 @@ YY_RULE_SETUP
 case 37:
 YY_RULE_SETUP
 #line 65 "ijparser.l"
-{yylval.number = strcmp(yytext, "true") ? 0 : 1; colunaAux = coluna; linhaAux = linha; coluna += yyleng; return BOOLIT;}
+{yylval.number = strcmp(yytext, "true") ? 0 : 1; colunaAux = coluna; linhaAux = linha; coluna += yyleng; return BOOLLIT;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP

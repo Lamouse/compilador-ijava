@@ -13,7 +13,6 @@ extern char* yytext;
 %token DOTLENGTH
 %token INT
 %token BOOL
-%token BOOLIT
 %token VOID
 %token STRING
 %token NEW
@@ -120,8 +119,8 @@ fieldDecl: STATIC varDecl														{$$ = newFieldDecl($2);}
 methodDecl: PUBLIC STATIC type ID OCURV params CCURV OBRACE statements CBRACE	{$$ = declareMethod($3, $4, $6, $9);}
 
 statements: varList stateList													{$$ = newMethod($1, $2);}
-	| varList																	{$$ = newMethod(NULL, $1);}
-	| stateList																	{$$ = newMethod($1, NULL);}
+	| varList																	{$$ = newMethod($1, NULL);}
+	| stateList																	{$$ = newMethod(NULL, $1);}
 	|																			{$$ = newMethod(NULL, NULL);}
 
 params: STRING OSQUARE CSQUARE ID 												{$$ = newVarDecl(StringArray, newIds($4));}
@@ -138,8 +137,8 @@ param: varType ID 																{$$ = newVarDecl($1, newIds($2));}
 
 varDecl: varType ids SEMIC 														{$$ = newVarDecl($1, $2);}
 
-ids: ID COMMA ids 																{$$ = connectIds($1, $3);}
-	| ID 																		{$$ = $1;}
+ids: ID COMMA ids 																{$$ = connectIds(newIds($1), $3);}
+	| ID 																		{$$ = newIds($1);}
 
 stateList: statement stateList													{$$ = connectStatements($1, $2);}
 	| statement 																{$$ = $1;}
@@ -165,13 +164,13 @@ expr:	NEW numType OSQUARE expr CSQUARE										{$$ = newAnonymousOper($4, NULL,
 safeExpr: expr opers expr %prec OPERSX											{$$ = newAnonymousOper($1, $3, $2);}
 	| safeExpr OSQUARE expr CSQUARE												{$$ = newAnonymousOper($1, $3, LoadArray);}
 	| ID 																		{$$ = newId($1);}
-	| INTLIT 																	{$$ = newIntLit($1);}
-	| BOOLLIT 																	{$$ = newBoolLit($1);}
+	| INTLIT 																	{$$ = newLiteral($1, Int);}
+	| BOOLLIT 																	{$$ = newLiteral($1, Bool);}
 	| expr DOTLENGTH															{$$ = newAnonymousOper($1, NULL, Length);}
 	| OP3 expr																	{$$ = newAnonymousOper($2, NULL, getOperType($1));}
 	| NOT expr																	{$$ = newAnonymousOper($2, NULL, Not);}
 	| PARSEINT OCURV ID OSQUARE expr CSQUARE CCURV								{$$ = newAnonymousOper(newAnonymousOper(newId($3), $5, LoadArray), NULL, Parse);}
-	| ID OCURV optionalArgs CCURV												{$$ = new newOper($1, $3, Call);}
+	| ID OCURV optionalArgs CCURV												{$$ = newOper($1, $3, Call);}
 	| OCURV expr CCURV															{$$ = $2;}
 	
 opers: OP1 																		{$$ = getOperType($1);}

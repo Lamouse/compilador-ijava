@@ -18,22 +18,10 @@ Exp* newAnonymousOper(Exp* a, Exp* b, ExpType type) {
 	return newOper(NULL, a, type);
 }
 
-Exp* newIntLit(int literal) {
+Exp* newLiteral(int literal, ExpType type) {
 	Exp* expr = (Exp*) malloc(sizeof(Exp));
 	expr->content.literal = literal;
-	expr->type = IntLit;
-	expr->next = NULL;
-
-	return expr;
-}
-
-Exp* newBoolLit(char* value) {
-	Exp* expr = (Exp*) malloc(sizeof(Exp));
-	if(strcmp(value, "false")==0)
-		expr->content.literal = 0;
-	else
-		expr->content.literal = 1;
-	expr->type = BoolLit;
+	expr->type = type;
 	expr->next = NULL;
 
 	return expr;
