@@ -151,27 +151,27 @@ VarDecl* connectVarDecl(VarDecl* a, VarDecl* b) {
 	return a;
 }
 
-Declaration* newFieldDecl(VarDecl var) {
+Declaration* newFieldDecl(VarDecl* var) {
 	Declaration* decl = (Declaration*) malloc(sizeof(Declaration));
+	decl->content.var = *var;
 	decl->isMethod = 0;
 	decl->next = NULL;
-	decl->var = var;
 
 	return decl;
 }
 
 Declaration* declareMethod(Type type, char* id, VarDecl* params, Declaration* decl) {
-	decl->method.type = type;
-	decl->method.params = params;
-	decl->method.id = id;
+	decl->content.method.type = type;
+	decl->content.method.params = params;
+	decl->content.method.id = id;
 
 	return decl;
 }
 
 Declaration* newMethod(VarDecl* vars, Statement* statements) {
 	Declaration* decl = (Declaration*) malloc(sizeof(Declaration));
-	decl->method.vars = vars;
-	decl->method.statements = statements;
+	decl->content.method.statements = statements;
+	decl->content.method.vars = vars;
 	decl->isMethod = 1;
 	decl->next = NULL;
 
@@ -185,8 +185,8 @@ Declaration* connectDeclaration(Declaration* a, Declaration* b) {
 
 Program* newProgram(char* id, Declaration* declarations) {
 	Program* prog = (Program*) malloc(sizeof(Program));
-	prog->id = id;
 	prog->declarations = declarations;
+	prog->id = id;
 
 	return prog;
 }
