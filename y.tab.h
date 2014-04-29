@@ -1,14 +1,13 @@
-/* A Bison parser, made by GNU Bison 2.3.  */
+/* A Bison parser, made by GNU Bison 3.0.2.  */
 
-/* Skeleton interface for Bison's Yacc-like parsers in C
+/* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
-   Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
 
-   This program is free software; you can redistribute it and/or modify
+   This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
-   any later version.
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,9 +15,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor,
-   Boston, MA 02110-1301, USA.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
@@ -33,49 +30,59 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-/* Tokens.  */
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
+/* Debug traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG 0
+#endif
+#if YYDEBUG
+extern int yydebug;
+#endif
+
+/* Token type.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
-      know about them.  */
-   enum yytokentype {
-     PRINT = 258,
-     PARSEINT = 259,
-     RETURN = 260,
-     DOTLENGTH = 261,
-     INT = 262,
-     BOOL = 263,
-     BOOLIT = 264,
-     VOID = 265,
-     STRING = 266,
-     NEW = 267,
-     IF = 268,
-     ELSE = 269,
-     WHILE = 270,
-     CLASS = 271,
-     PUBLIC = 272,
-     STATIC = 273,
-     OCURV = 274,
-     CCURV = 275,
-     OBRACE = 276,
-     CBRACE = 277,
-     OSQUARE = 278,
-     CSQUARE = 279,
-     NOT = 280,
-     ASSIGN = 281,
-     SEMIC = 282,
-     COMMA = 283,
-     RESERVED = 284,
-     OP1 = 285,
-     OP2 = 286,
-     OP3 = 287,
-     OP4 = 288,
-     INTLIT = 289,
-     BOOLLIT = 290,
-     ID = 291,
-     IFX = 292,
-     OPERSX = 293
-   };
+  enum yytokentype
+  {
+    PRINT = 258,
+    PARSEINT = 259,
+    RETURN = 260,
+    DOTLENGTH = 261,
+    INT = 262,
+    BOOL = 263,
+    BOOLIT = 264,
+    VOID = 265,
+    STRING = 266,
+    NEW = 267,
+    IF = 268,
+    ELSE = 269,
+    WHILE = 270,
+    CLASS = 271,
+    PUBLIC = 272,
+    STATIC = 273,
+    OCURV = 274,
+    CCURV = 275,
+    OBRACE = 276,
+    CBRACE = 277,
+    OSQUARE = 278,
+    CSQUARE = 279,
+    NOT = 280,
+    ASSIGN = 281,
+    SEMIC = 282,
+    COMMA = 283,
+    RESERVED = 284,
+    OP1 = 285,
+    OP2 = 286,
+    OP3 = 287,
+    OP4 = 288,
+    INTLIT = 289,
+    BOOLLIT = 290,
+    ID = 291,
+    EXPR = 292,
+    IFX = 293,
+    OPERSX = 294
+  };
 #endif
 /* Tokens.  */
 #define PRINT 258
@@ -112,26 +119,38 @@
 #define INTLIT 289
 #define BOOLLIT 290
 #define ID 291
-#define IFX 292
-#define OPERSX 293
+#define EXPR 292
+#define IFX 293
+#define OPERSX 294
 
-
-
-
+/* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE
-#line 58 "ijparser.y"
+typedef union YYSTYPE YYSTYPE;
+union YYSTYPE
 {
+#line 92 "ijparser.y" /* yacc.c:1909  */
+
+	Program* program;
+	Declaration* declaration;
+	Statement* statement;
+	VarDecl* var;
+    Ids* ids;
+    Exp* exp;
+    Type type;
+    ExpType expType;
+
 	char* string;
 	int number;
-}
-/* Line 1529 of yacc.c.  */
-#line 130 "y.tab.h"
-	YYSTYPE;
-# define yystype YYSTYPE /* obsolescent; will be withdrawn */
-# define YYSTYPE_IS_DECLARED 1
+
+#line 146 "y.tab.h" /* yacc.c:1909  */
+};
 # define YYSTYPE_IS_TRIVIAL 1
+# define YYSTYPE_IS_DECLARED 1
 #endif
+
 
 extern YYSTYPE yylval;
 
+int yyparse (void);
+
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */

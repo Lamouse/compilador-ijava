@@ -151,7 +151,7 @@ statement: ifState ELSE statement 												{$$ = newElse($1, $3);}
 	| WHILE OCURV expr CCURV statement 											{$$ = newWhile($3, $5);}
 	| PRINT OCURV expr CCURV SEMIC												{$$ = newPrint($3);}
 	| ID ASSIGN expr SEMIC														{$$ = newStore($1, NULL, $3);}
-	| ID OSQUARE expr CSQUARE ASSIGN expr SEMIC									{$$ = newStore($1, $3, $7);}
+	| ID OSQUARE expr CSQUARE ASSIGN expr SEMIC									{$$ = newStore($1, $3, $6);}
 	| RETURN optionalExp SEMIC													{$$ = newReturn($2);}
 
 ifState: IF OCURV expr CCURV statement											{$$ = newIf($3, $5);}
@@ -168,7 +168,7 @@ safeExpr: expr opers expr %prec OPERSX											{$$ = newAnonymousOper($1, $3, 
 	| INTLIT 																	{$$ = newIntLit($1);}
 	| BOOLLIT 																	{$$ = newBoolLit($1);}
 	| expr DOTLENGTH															{$$ = newAnonymousOper($1, NULL, Length);}
-	| OP3 expr																	{$$ = newAnonymousOper($2, NULL, getOperType($2));}
+	| OP3 expr																	{$$ = newAnonymousOper($2, NULL, getOperType($1));}
 	| NOT expr																	{$$ = newAnonymousOper($2, NULL, Not);}
 	| PARSEINT OCURV ID OSQUARE expr CSQUARE CCURV
 	| ID OCURV optionalArgs CCURV
