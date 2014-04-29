@@ -89,7 +89,7 @@ typedef struct _Declaration {
 	};
 	
 	struct _Declaration* next;
-	bool isMethod;
+	int isMethod;
 } Declaration;
 
 typedef struct _Program {

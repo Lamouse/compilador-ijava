@@ -61,7 +61,6 @@ extern char* yytext;
 %type <declaration> declarations
 %type <declaration> declarationList
 %type <declaration> declaration
-%type <declaration> declaration
 %type <declaration> methodDecl
 %type <declaration> statements
 %type <declaration> fieldDecl
@@ -79,7 +78,8 @@ extern char* yytext;
 %type <ids> ids
 
 %type <exp> optionalExp
-%type <exp> exp
+%type <exp> expr
+%type <exp> safeExpr
 %type <exp> optionalArgs
 %type <exp> args
 
@@ -105,14 +105,18 @@ extern char* yytext;
 
 %%
 program: CLASS ID OBRACE declarations CBRACE									{$$ = nameProgram($2, $4);}
+
 declarations: declarationList													{$$ = $1; }
 	|																			{$$ = NULL;}
 
 declarationList: declaration declarationList									{$$ = connectDeclaration($1, $2);}
 	| declaration 																{$$ = $1;}
 
-declaration: fieldDecl | methodDecl												{$$ = $1;}
+declaration: fieldDecl  														{$$ = $1;}
+	| methodDecl																{$$ = $1;}
+
 fieldDecl: STATIC varDecl														{$$ = newFieldDecl($2);}
+
 methodDecl: PUBLIC STATIC type ID OCURV params CCURV OBRACE statements CBRACE	{$$ = declareMethod($3, $4, $6, $9);}
 
 statements: varList stateList													{$$ = newMethod($1, $2);}
@@ -170,7 +174,10 @@ safeExpr: expr opers expr %prec OPERSX											{$$ = newAnonymousOper($1, $3, 
 	| ID OCURV optionalArgs CCURV
 	| OCURV expr CCURV	
 	
-opers: OP1 | OP2 | OP3 | OP4													{$$ = getOperType($1);}
+opers: OP1 																		{$$ = getOperType($1);}
+	| OP2 																		{$$ = getOperType($1);}
+	| OP3 																		{$$ = getOperType($1);}
+	| OP4																		{$$ = getOperType($1);}
 
 optionalArgs: args 																{$$ = $1;}
 	| 																			{$$ = NULL;}

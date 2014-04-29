@@ -49,9 +49,9 @@ Exp* newId(char* id) {
 }
 
 ExpType getOperType(char* oper) {
-	if (!strcmp(oper, '||'))
+	if (!strcmp(oper, "||"))
 		return Or;
-	if (!strcmp(oper, '&&'))
+	if (!strcmp(oper, "&&"))
 		return And;
 }
 
@@ -152,7 +152,7 @@ VarDecl* connectVarDecl(VarDecl* a, VarDecl* b) {
 }
 
 Declaration* newFieldDecl(VarDecl var) {
-	VarDecl* decl = (Declaration*) malloc(sizeof(Declaration));
+	Declaration* decl = (Declaration*) malloc(sizeof(Declaration));
 	decl->isMethod = 0;
 	decl->next = NULL;
 	decl->var = var;
@@ -178,7 +178,7 @@ Declaration* newMethod(VarDecl* vars, Statement* statements) {
 	return decl;
 }
 
-Declarations* connectDeclaration(Declarations* a, Declarations* b) {
+Declaration* connectDeclaration(Declaration* a, Declaration* b) {
 	a->next = b;
 	return a;
 }
