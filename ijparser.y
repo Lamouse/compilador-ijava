@@ -105,7 +105,8 @@ extern char* yytext;
 
 %%
 program: CLASS ID OBRACE declarations CBRACE									{$$ = nameProgram($2, $4);}
-declarations: declarationList {$$ = $1; } | {$$ = NULL;}
+declarations: declarationList													{$$ = $1; }
+	|																			{$$ = NULL;}
 
 declarationList: declaration declarationList									{$$ = connectDeclaration($1, $2);}
 	| declaration 																{$$ = $1;}
@@ -133,7 +134,8 @@ param: varType ID 																{$$ = newVarDecl($1, newIds($2));}
 
 varDecl: varType ids SEMIC 														{$$ = newVarDecl($1, $2);}
 
-ids: ID COMMA ids | ID 															{$$ = connectIds($1, $3);}
+ids: ID COMMA ids 																{$$ = connectIds($1, $3);}
+	| ID 																		{$$ = $1;}
 
 stateList: statement stateList													{$$ = connectStatements($1, $2);}
 	| statement 																{$$ = $1;}
@@ -153,8 +155,8 @@ ifState: IF OCURV expr CCURV statement											{$$ = newIf($3, $5);}
 optionalExp: expr																{$$ = $1;}
 	|																			{$$ = NULL;}
 
-expr: NEW numType OSQUARE expr CSQUARE											{$$ = newAnonymousOper($4, NULL, $2 == Int ? NewInt:NewBool);}
-	| safeExpr %prec EXPR
+expr:	NEW numType OSQUARE expr CSQUARE										{$$ = newAnonymousOper($4, NULL, $2 == Int ? NewInt:NewBool);}
+	| safeExpr %prec EXPR 														{$$ = $1;}
 
 safeExpr: expr opers expr %prec OPERSX											{$$ = newAnonymousOper($1, $3, $2);}
 	| safeExpr OSQUARE expr CSQUARE												{$$ = newAnonymousOper($1, $3, LoadArray);}
@@ -176,11 +178,14 @@ optionalArgs: args 																{$$ = $1;}
 args: expr COMMA args															{$$ = connectExp($1, $3);}
 	| expr																		{$$ = $1;}											
 
-type: VOID {$$ = Void;} | varType {$$ = $1;}
+type: VOID 																		{$$ = Void;}
+	| varType 																	{$$ = $1;}
 
-varType: numType {$$ = $1;} | numType OSQUARE CSQUARE {$$ = $1 == Int ? IntArray:BoolArray;}
+varType: numType 																{$$ = $1;}
+	| numType OSQUARE CSQUARE 													{$$ = $1 == Int ? IntArray:BoolArray;}
 
-numType: INT {$$ = Int;} | BOOL {$$ = Bool;}
+numType: INT 																	{$$ = Int;}
+	| BOOL 																		{$$ = Bool;}
 
 %%
 int main() {
