@@ -86,10 +86,10 @@ typedef struct _Declaration {
 	union {
 		MethodDecl method;
 		VarDecl var;
-	};
+	} content;
 	
 	struct _Declaration* next;
-	bool isMethod;
+	int isMethod;
 } Declaration;
 
 typedef struct _Program {

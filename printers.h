@@ -120,7 +120,7 @@ void printStore(Store* store) {
 
 	identation++;
 	printId(store->target);
-	printExp(&store->value);
+	printExp(store->value);
 	identation--;
 }
 
@@ -128,7 +128,7 @@ void printPrint(Print* print) {
 	ident(); printf("Print\n");
 
 	identation++;
-	printExp(&print->value);
+	printExp(print->value);
 	identation--;
 }
 
@@ -190,16 +190,13 @@ void printVar(VarDecl* var) {
 
 	identation++;
 	printType(var->type);
-	printIds(&var->ids);
+	printIds(var->ids);
 	identation--;
 
 	printVar(var->next);
 }
 
 void printMethod(MethodDecl* method) {
-	if (method == NULL)
-		return;
-
 	ident(); printf("MethodDecl\n"); identation++;
 	printType(method->type);
 	printId(method->id);
@@ -217,9 +214,9 @@ void printMethod(MethodDecl* method) {
 
 void printDeclaration(Declaration* decl) {
 	if (decl->isMethod) {
-		printMethod(decl->method);
+		printMethod(&decl->content.method);
 	} else {
-		printVar(decl->var);
+		printVar(&decl->content.var);
 	}
 
 	printDeclaration(decl->next);
