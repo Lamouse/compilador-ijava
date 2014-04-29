@@ -55,7 +55,7 @@ ExpType getOperType(char* oper) {
 		return And;
 }
 
-void connectExp(Exp* a, Exp* b) {
+Exp* connectExp(Exp* a, Exp* b) {
 	a->next = b;
 	return a;
 }
@@ -117,7 +117,7 @@ Statement* newPrint(Exp* value) {
 	return state;
 }
 
-void connectStatement(Statement* a, Statement* b) {
+Statement* connectStatement(Statement* a, Statement* b) {
 	a->next = b;
 	return a;
 }
@@ -132,7 +132,7 @@ Ids* newIds(char* name) {
 	return ids;
 }
 
-void connectIds(Ids* a, Ids* b) {
+Ids* connectIds(Ids* a, Ids* b) {
 	a->next = b;
 	return a;
 }
