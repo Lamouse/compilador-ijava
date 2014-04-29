@@ -213,8 +213,16 @@ void printMethod(MethodDecl* method) {
 	printVar(method->vars);
 	printStatement(method->statements);
 	identation-=2;
+}
 
-	printMethod(method->next);
+void printDeclaration(Declaration* decl) {
+	if (decl->isMethod) {
+		printMethod(decl->method);
+	} else {
+		printVar(decl->var);
+	}
+
+	printDeclaration(decl->next);
 }
 
 void printProgram(Program* program) {
@@ -222,7 +230,6 @@ void printProgram(Program* program) {
 
 	identation++;
 	printId(program->id);
-	printMethod(program->methods);
-	printVar(program->vars);
+	printDeclaration(program->declarations);
 	identation--;
 }
