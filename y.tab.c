@@ -1643,7 +1643,7 @@ yyreduce:
 
   case 26:
 #line 143 "ijparser.y"
-    {(yyval.statement) = connectStatements((yyvsp[(1) - (2)].statement), (yyvsp[(2) - (2)].statement));}
+    {(yyval.statement) = connectStatement((yyvsp[(1) - (2)].statement), (yyvsp[(2) - (2)].statement));}
     break;
 
   case 27:

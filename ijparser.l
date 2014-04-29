@@ -9,6 +9,7 @@ op4				"*"|"/"|"%"
 
 %X COMMENT
 %{
+	#include "structures.h"
 	#include "y.tab.h"
 	#include "string.h"
 

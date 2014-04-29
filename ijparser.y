@@ -140,7 +140,7 @@ varDecl: varType ids SEMIC 														{$$ = newVarDecl($1, $2);}
 ids: ID COMMA ids 																{$$ = connectIds(newIds($1), $3);}
 	| ID 																		{$$ = newIds($1);}
 
-stateList: statement stateList													{$$ = connectStatements($1, $2);}
+stateList: statement stateList													{$$ = connectStatement($1, $2);}
 	| statement 																{$$ = $1;}
 
 statement: ifState ELSE statement 												{$$ = newElse($1, $3);}
