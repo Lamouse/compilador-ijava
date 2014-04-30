@@ -5,6 +5,9 @@
 extern int colunaAux;
 extern int linhaAux;
 extern char* yytext;
+
+Program* program;
+int hasErrors = 0;
 %}
 
 %token PRINT
@@ -55,8 +58,6 @@ extern char* yytext;
 %left OP4
 %left NOT
 
-%type <program> program
-
 %type <declaration> declarations
 %type <declaration> declarationList
 %type <declaration> declaration
@@ -103,7 +104,7 @@ extern char* yytext;
 }
 
 %%
-program: CLASS ID OBRACE declarations CBRACE									{$$ = newProgram($2, $4);}
+program: CLASS ID OBRACE declarations CBRACE									{program = newProgram($2, $4);}
 
 declarations: declarationList													{$$ = $1; }
 	|																			{$$ = NULL;}
@@ -196,9 +197,13 @@ numType: INT 																	{$$ = Int;}
 %%
 int main() {
 	yyparse();
+	if (!hasErrors)
+		printProgram(program);
+		
 	return 0;
 }
 
 int yyerror (char *s) { 
+	hasErrors = 1;
 	printf ("Line %d, col %d: %s: %s\n", linhaAux, colunaAux, s, yytext); 
 }

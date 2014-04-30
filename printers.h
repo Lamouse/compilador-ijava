@@ -18,17 +18,17 @@ void printType(Type type) {
 	if (type == String)
 		printf("String\n");
 	else if (type == Bool)
-		printf("Bool");
+		printf("Bool\n");
 	else if (type == Int)
-		printf("Bool");
+		printf("Int\n");
 	else if (type == StringArray)
-		printf("StringArray");
+		printf("StringArray\n");
 	else if (type == BoolArray)
-		printf("BoolArray");
+		printf("BoolArray\n");
 	else if (type == IntArray)
-		printf("IntArray");
+		printf("IntArray\n");
 	else if (type == Void)
-		printf("Void");
+		printf("Void\n");
 }
 
 void printId(char* id) {
@@ -213,13 +213,15 @@ void printMethod(MethodDecl* method) {
 }
 
 void printDeclaration(Declaration* decl) {
-	if (decl->isMethod) {
-		printMethod(&decl->content.method);
-	} else {
-		printVar(&decl->content.var);
-	}
+	if (decl != NULL) {
+		if (decl->isMethod) {
+			printMethod(&decl->content.method);
+		} else {
+			printVar(&decl->content.var);
+		}
 
-	printDeclaration(decl->next);
+		printDeclaration(decl->next);
+	}
 }
 
 void printProgram(Program* program) {
