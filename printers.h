@@ -12,25 +12,23 @@ void ident() {
 		printf("\t");
 }
 
-void printTypeName(Type type) {
-	if (type == String)
-		printf("String");
-	else if (type == Bool)
-		printf("Bool");
-	else if (type == Int)
-		printf("Int");
-	else if (type == StringArray)
-		printf("StringArray");
-	else if (type == BoolArray)
-		printf("BoolArray");
-	else if (type == IntArray)
-		printf("IntArray");
-	else if (type == Void)
-		printf("Void");
-}
-
 void printType(Type type) {
-	ident(); printTypeName(type); printf("\n");
+	ident();
+
+	if (type == String)
+		printf("String\n");
+	else if (type == Bool)
+		printf("Bool\n");
+	else if (type == Int)
+		printf("Int\n");
+	else if (type == StringArray)
+		printf("StringArray\n");
+	else if (type == BoolArray)
+		printf("BoolArray\n");
+	else if (type == IntArray)
+		printf("IntArray\n");
+	else if (type == Void)
+		printf("Void\n");
 }
 
 void printId(char* id) {
