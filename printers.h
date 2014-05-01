@@ -161,7 +161,7 @@ void printReturn(Return* _return) {
 
 void printStatement(Statement* state) {
 	if (state == NULL)
-		return;
+		printf("NULL\n");
 	else if (state->type == IfType)
 		printIf(&state->content.ifelse);
 	else if (state->type == WhileType)
@@ -173,7 +173,8 @@ void printStatement(Statement* state) {
 	else if (state->type == PrintType)
 		printPrint(&state->content.print);
 
-	printStatement(state->next);
+	if (state->next != NULL)
+		printStatement(state->next);
 }
 
 
@@ -208,7 +209,8 @@ void printMethod(MethodDecl* method) {
 
 	ident(); printf("MethodBody\n"); identation++;
 	printVar(method->vars);
-	printStatement(method->statements);
+	if (method->statements != NULL)
+		printStatement(method->statements);
 	identation-=2;
 }
 
