@@ -1,4 +1,4 @@
-char* TypeSymbols[] = {"void", "String", "boolean", "int", "String[]", "int[]", "boolean[]"};
+char* TypeSymbols[] = {"void", "String", "boolean", "int", "String[]", "boolean[]", "int[]"};
 
 char* getTypeSymbol(Type type) {
 	return TypeSymbols[(int) type];

@@ -1,4 +1,5 @@
 class fields {
 	static int a;
-	public static void yolo(boolean b) {int c;}
+	static int[] b;
+	public static void yolo(boolean c) {int d;}
 }

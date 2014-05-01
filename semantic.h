@@ -112,8 +112,23 @@ void checkDuplicateDeclaration() {
 
 
 // Expressions
-Type getExpType(Exp* exp) {
+Type getExpType(Exp* exp);
+
+Type getOperResultType(ExpType type, Oper* oper) {
 	return Void;
+}
+
+Type getExpType(Exp* exp) {
+	if (exp == NULL)
+		return Void;
+	else if (exp->type == Id)
+		return getVarType(exp->content.id);
+	else if (exp->type == IntLit)
+		return Int;
+	else if (exp->type == BoolLit)
+		return Bool;
+	else
+		return getOperResultType(exp->type, &exp->content.oper);
 }
 
 
@@ -139,7 +154,9 @@ void checkStore(Store* store) {
 }
 
 void checkPrint(Print* print) {
-	getExpType(print->value);
+	Exp* val;
+	for (val = print->value; val != NULL; val = val->next)
+		getExpType(val);
 }
 
 void checkIf(IfElse* ifelse) {
@@ -176,7 +193,7 @@ void checkStatement(Statement* state) {
 		checkPrint(&state->content.print);
 }
 
-void checkCompatibilityIssues() {
+void checkTypeIssues() {
 	Declaration* decl;
 	Statement* state;
 
