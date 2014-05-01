@@ -6,9 +6,6 @@
 extern int colunaAux;
 extern int linhaAux;
 extern char* yytext;
-
-Program* program;
-int hasErrors = 0;
 %}
 
 %token PRINT
