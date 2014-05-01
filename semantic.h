@@ -3,10 +3,6 @@ int hasErrors = 0;
 
 
 // Utillity
-Type getFieldType(char* name) {
-	return Void;
-}
-
 Type findVarType(VarDecl* var, char* name) {
 	Ids* id;
 
@@ -18,6 +14,21 @@ Type findVarType(VarDecl* var, char* name) {
 
 		var = var->next;
 	}
+
+	return Void;
+}
+
+
+Type getFieldType(char* name) {
+	Declaration* decl;
+	Type type;
+	
+	for (decl = program->declarations; decl != NULL; decl = decl->next)
+		if (!decl->isMethod) {
+			type = findVarType(&decl->content.var, name);
+			if (type != Void)
+				return type;
+		}
 
 	return Void;
 }
