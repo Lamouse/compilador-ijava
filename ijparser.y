@@ -209,8 +209,7 @@ int main(int argc, char **argv) {
 
 		*argv++;
 	}
-	printf("%d %d\n", tree, table);
-
+	
 	yyparse();
 	
 	if (!hasErrors){
