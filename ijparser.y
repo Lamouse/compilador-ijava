@@ -208,6 +208,8 @@ int main(int argc, char **argv) {
 	}
 	
 	yyparse();
+
+	checkDuplicateDeclaration();
 	
 	if (!hasErrors){
 		if(tree){

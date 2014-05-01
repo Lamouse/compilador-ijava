@@ -5,6 +5,8 @@
 /* É mesmo importante */
 
 class echo { 
+	static int x;
+
 	public static void main(String[] args) {
 		int x;
 		boolean y;
