@@ -1754,7 +1754,7 @@ yyreduce:
 
   case 48:
 #line 169 "ijparser.y"
-    {(yyval.exp) = newAnonymousOper((yyvsp[(2) - (2)].exp), NULL, getOperType((yyvsp[(1) - (2)].string)));}
+    {(yyval.exp) = newAnonymousOper((yyvsp[(2) - (2)].exp), NULL, !strcmp((yyvsp[(1) - (2)].string), "+") ? Plus : Minus);}
     break;
 
   case 49:

@@ -10,10 +10,10 @@ typedef enum {
 	Or, And,
 	Eq, Neq, Lt, Gt, Leq, Geq,
 	Add, Sub, Mul, Div, Mod,
+	Minus, Plus,
 	NewInt, NewBool,
 	Length, Parse, LoadArray, Call,
-	IntLit, BoolLit, Id,
-	Minus, Plus} ExpType;
+	IntLit, BoolLit, Id} ExpType;
 
 // Expressions
 typedef struct {

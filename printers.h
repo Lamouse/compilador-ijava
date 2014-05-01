@@ -1,6 +1,7 @@
 void printStatement(Statement*);
 void printExp(Exp*);
 
+char* OperSymbols[] = {"Not", "Or", "And", "Eq", "Neq", "Lt", "Gt", "Leq", "Geq", "Add", "Sub", "Mul", "Div", "Mod", "Minus", "Plus", "NewInt", "NewBool", "Length", "ParseArgs", "LoadArray", "Call"};
 int identation = 0;
 int isParams = 0;
 
@@ -47,50 +48,7 @@ void printIds(Ids* ids) {
 
 // Expressions
 void printOper(ExpType type, Oper* oper) {
-	ident();
-
-	if (type == Or)
-		printf("Or\n");
-	else if (type == And)
-		printf("And\n");
-	else if (type == Eq)
-		printf("Eq\n");
-	else if (type == Neq)
-		printf("Neq\n");
-	else if (type == Lt)
-		printf("Lt\n");
-	else if (type == Gt)
-		printf("Gt\n");
-	else if (type == Leq)
-		printf("Leq\n");
-	else if (type == Add)
-		printf("Add\n");
-	else if (type == Sub)
-		printf("Sub\n");
-	else if (type == Mul)
-		printf("Mul\n");
-	else if (type == Div)
-		printf("Div\n");
-	else if (type == Mod)
-		printf("Mod\n");
-	else if (type == Not)
-		printf("Not\n");
-	else if (type == Minus)
-		printf("Minus\n");
-	else if (type == Plus)
-		printf("Plus\n");
-	else if (type == Length)
-		printf("Length\n");
-	else if (type == NewInt)
-		printf("NewInt\n");
-	else if (type == NewBool)
-		printf("NewBool\n");
-	else if (type == Parse)
-		printf("ParseArgs\n");
-	else if (type == Call)
-		printf("Call\n");
-	else if (type == LoadArray)
-		printf("LoadArray\n");
+	ident(); printf("%s\n", OperSymbols[(int) type]);
 
 	identation++;
 	printId(oper->id);
