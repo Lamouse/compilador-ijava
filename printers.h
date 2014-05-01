@@ -86,7 +86,7 @@ void printOper(ExpType type, Oper* oper) {
 	else if (type == NewBool)
 		printf("NewBool\n");
 	else if (type == Parse)
-		printf("Parse\n");
+		printf("ParseArgs\n");
 	else if (type == Call)
 		printf("Call\n");
 	else if (type == LoadArray)
@@ -116,10 +116,15 @@ void printExp(Exp* exp) {
 
 // Statements
 void printStore(Store* store) {
-	printf("Store\n");
+	if(store->index == NULL)
+		printf("Store\n");
+	else
+		printf("StoreArray\n");
 
 	identation++;
 	printId(store->target);
+	if(store->index != NULL)
+		printExp(store->index);
 	printExp(store->value);
 	identation--;
 }
