@@ -123,8 +123,7 @@ void printStore(Store* store) {
 
 	identation++;
 	printId(store->target);
-	if(store->index != NULL)
-		printExp(store->index);
+	printExp(store->index);
 	printExp(store->value);
 	identation--;
 }

@@ -1,4 +1,5 @@
 Program* program;
+MethodDecl* method;
 int hasErrors = 0;
 
 // Reports
@@ -47,7 +48,7 @@ Type getFieldType(char* name) {
 	return type;
 }
 
-Type getVarType(MethodDecl* method, char* name) {
+Type getVarType(char* name) {
 	Type type = findVarType(method->params, name);
 
 	if (type == Void) {
@@ -83,7 +84,7 @@ int checkOldDeclaration(Declaration* decl) {
 				varTempDecl = &tempDecl->content.var;
 				for(id1 = varDecl->ids; id1 != NULL; id1 = id1->next){
 					for(id2 = varTempDecl->ids; id2 != NULL && id1 != id2; id2 = id2->next){
-						if(!strcmp(id1->name, id2->name)){
+						if(!strcmp(id1->name, id2->name)) {
 							printf("Symbol %s already defined\n", id1->name);
 							return 1;
 						}
@@ -110,6 +111,84 @@ void checkDuplicateDeclaration() {
 }
 
 
-// Compatiblity Errors
+// Expressions
+Type getExpType(Exp* exp) {
+	return Void;
+}
 
-i code ici
+
+// Statements
+void checkStatement(Statement* state);
+void checkStore(Store* store) {
+	Type type = getVarType(store->target);
+	Type gotten = getExpType(store->value);
+
+	if (type >= StringArray) {
+		Type index = getExpType(store->index);
+		Type stored = type - 3;
+
+		if (index != Int)
+			printf("INDEX ERROR, got type %s\n", getTypeSymbol(index));
+		else if (stored != gotten)
+			printf("Incompatible type in assignment to %s[] (got %s, required %s)\n", store->target,
+				getTypeSymbol(gotten), getTypeSymbol(stored));
+	} else if (type != Void && type != gotten) {
+		printf("Incompatible type in assignment to %s (got %s, required %s)\n", store->target,
+			getTypeSymbol(gotten), getTypeSymbol(type));
+	}
+}
+
+void checkPrint(Print* print) {
+	getExpType(print->value);
+}
+
+void checkIf(IfElse* ifelse) {
+	getExpType(ifelse->condition);
+	checkStatement(ifelse->first);
+	checkStatement(ifelse->second);
+}
+
+void checkWhile(While* _while) {
+	getExpType(_while->condition);
+	printStatement(_while->statement);
+}
+
+void checkReturn(Return* _return) {
+	Type returned = getExpType(_return->value);
+	if (returned != method->type)
+		printf("Incompatible type in return statement (got %s, required %s)\n",
+			getTypeSymbol(returned), getTypeSymbol(method->type));
+}
+
+
+void checkStatement(Statement* state) {
+	if (state == NULL)
+		return;
+	else if (state->type == IfType)
+		checkIf(&state->content.ifelse);
+	else if (state->type == WhileType)
+		checkWhile(&state->content._while);
+	else if (state->type == ReturnType)
+		checkReturn(&state->content._return);
+	else if (state->type == StoreType)
+		checkStore(&state->content.store);
+	else if (state->type == PrintType)
+		checkPrint(&state->content.print);
+}
+
+void checkCompatibilityIssues() {
+	Declaration* decl;
+	Statement* state;
+
+	for (decl = program->declarations; decl != NULL; decl = decl->next) {
+		if (decl->isMethod) {
+			method = &decl->content.method;
+
+			for (state = decl->content.method.statements; state != NULL; state = state->next) {
+				checkStatement(state);
+				if (hasErrors)
+					return;
+			}
+		}
+	}
+}

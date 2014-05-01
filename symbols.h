@@ -1,25 +1,14 @@
-void printTypeSymbol(Type type) {
-	if (type == String)
-		printf("String");
-	else if (type == Bool)
-		printf("boolean");
-	else if (type == Int)
-		printf("int");
-	else if (type == StringArray)
-		printf("String[]");
-	else if (type == BoolArray)
-		printf("boolean[]");
-	else if (type == IntArray)
-		printf("int[]");
-	else if (type == Void)
-		printf("void");
+char* TypeSymbols[] = {"void", "String", "boolean", "int", "String[]", "int[]", "boolean[]"};
+
+char* getTypeSymbol(Type type) {
+	return TypeSymbols[(int) type];
 }
 
 void printSymbol(VarDecl* var, int isParam) {
 	Ids* id;
 
 	for (id = var->ids; id != NULL; id = id->next) {
-		printf("%s\t", id->name); printTypeSymbol(var->type);
+		printf("%s\t%s", id->name, getTypeSymbol(var->type));
 		printf(isParam ? "\tparam\n" : "\n");
 	}
 }
@@ -33,7 +22,7 @@ void printSymbols(VarDecl* var, int areParams) {
 
 void printMethodSymbols(MethodDecl* method) {
 	printf("\n===== Method %s Symbol Table =====\n", method->id);
-	printf("return\t"); printTypeSymbol(method->type); printf("\n");
+	printf("return\t%s\n", getTypeSymbol(method->type));
 	printSymbols(method->params, 1);
 	printSymbols(method->vars, 0);
 }
