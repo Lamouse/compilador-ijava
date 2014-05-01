@@ -4,9 +4,25 @@ int hasErrors = 0;
 
 // Reports
 void reportMissingSymbol(char* name) {
-	hasErrors = 1;
-	printf("Cannot find symbol %s\n", name);
-} 
+	if (!hasErrors) {
+		hasErrors = 1;
+		printf("Cannot find symbol %s\n", name);
+	}
+}
+
+void reportOperatorType(ExpType oper, Type type) {
+	if (!hasErrors) {
+		hasErrors = 1;
+		printf("Operator OPER cannot be applied to type %s\n", getTypeSymbol(type));
+	}
+}
+
+void reportOperatorTypes(ExpType oper, Type a, Type b) {
+	if (!hasErrors) {
+		hasErrors = 1;
+		printf("Operator OPER cannot be applied to types %s, %s\n", getTypeSymbol(a), getTypeSymbol(b));
+	}
+}
 
 
 // Utillity
@@ -38,14 +54,6 @@ Type findFieldType(char* name) {
 		}
 
 	return Void;
-}
-
-Type getFieldType(char* name) {
-	Type type = findFieldType(name);
-	if (type == Void)
-		reportMissingSymbol(name);
-
-	return type;
 }
 
 Type getVarType(char* name) {
@@ -115,6 +123,47 @@ void checkDuplicateDeclaration() {
 Type getExpType(Exp* exp);
 
 Type getOperResultType(ExpType type, Oper* oper) {
+	Type a = getExpType(oper->params);
+	Type b = a != Void ? getExpType(oper->params->next) : Void;
+
+	if (type == Not) {
+		if (a != Bool)
+			reportOperatorType(type, a);
+
+		return Bool;
+
+	} else if (type >= Or && type <= And) {
+		if (a != Bool || b != Bool)
+			reportOperatorTypes(type, a, b);
+
+		return Bool;
+
+	} else if (type >= Add && type <= Mod) {
+		if (a != Int || b != Int)
+			reportOperatorTypes(type, a, b);
+
+		return Int;
+
+	} else if (type == Length) {
+		if (a < StringArray)
+			reportOperatorType(type, a);
+
+		return Int;
+
+	} else if (type == Parse) {
+		if (a != StringArray)
+			reportOperatorType(type, a);
+
+		return Int;
+
+	} else if (type == LoadArray) {
+		Type arrayType = getVarType(oper->id);
+		if (arrayType < StringArray || a != Int)
+			printf("WE FOUND LoadArray error!\n");
+
+		return arrayType - 3;
+	}
+
 	return Void;
 }
 
@@ -142,12 +191,14 @@ void checkStore(Store* store) {
 		Type index = getExpType(store->index);
 		Type stored = type - 3;
 
-		if (index != Int)
-			printf("INDEX ERROR, got type %s\n", getTypeSymbol(index));
-		else if (stored != gotten)
-			printf("Incompatible type in assignment to %s[] (got %s, required %s)\n", store->target,
-				getTypeSymbol(gotten), getTypeSymbol(stored));
-	} else if (type != Void && type != gotten) {
+		if (!hasErrors) {
+			if (index != Int)
+				printf("INDEX ERROR, got type %s\n", getTypeSymbol(index));
+			else if (stored != gotten)
+				printf("Incompatible type in assignment to %s[] (got %s, required %s)\n", store->target,
+					getTypeSymbol(gotten), getTypeSymbol(stored));
+		}
+	} else if (!hasErrors && type != gotten) {
 		printf("Incompatible type in assignment to %s (got %s, required %s)\n", store->target,
 			getTypeSymbol(gotten), getTypeSymbol(type));
 	}
