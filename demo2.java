@@ -1,2 +1,2 @@
-class demo2 { 
+class demo2 {
 } 

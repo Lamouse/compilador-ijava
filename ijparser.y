@@ -217,7 +217,7 @@ int main(int argc, char **argv) {
 			printProgram(program);
 		}
 		if(table){
-			//do something
+			printProgramSymbols(program);
 		}
 	}
 		
