@@ -198,10 +198,10 @@ numType: INT 																	{$$ = Int;}
 %%
 int main(int argc, char **argv) {
 	int tree = 0, table = 0; 
-	//para nao aparecer o nome
 	argc--;
 	argv++;
-	while(argc--){
+
+	while(argc--) {
 		if(!strcmp(*argv, "-t"))
 			tree = 1;
 		else if(!strcmp(*argv, "-s"))

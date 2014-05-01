@@ -12,7 +12,7 @@ class echo {
 		System.out.println(x);
 
 		if (x == 1) {
-
+			
 		} else {
 			x = 0;
 		}
