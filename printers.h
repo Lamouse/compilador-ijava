@@ -116,7 +116,7 @@ void printExp(Exp* exp) {
 
 // Statements
 void printStore(Store* store) {
-	ident(); printf("Store\n");
+	printf("Store\n");
 
 	identation++;
 	printId(store->target);
@@ -125,7 +125,7 @@ void printStore(Store* store) {
 }
 
 void printPrint(Print* print) {
-	ident(); printf("Print\n");
+	printf("Print\n");
 
 	identation++;
 	printExp(print->value);
@@ -133,7 +133,7 @@ void printPrint(Print* print) {
 }
 
 void printIf(IfElse* ifelse) {
-	ident(); printf("IfElse\n");
+	printf("IfElse\n");
 
 	identation++;
 	printExp(ifelse->condition);
@@ -143,7 +143,7 @@ void printIf(IfElse* ifelse) {
 }
 
 void printWhile(While* _while) {
-	ident(); printf("While\n");
+	printf("While\n");
 
 	identation++;
 	printExp(_while->condition);
@@ -152,7 +152,7 @@ void printWhile(While* _while) {
 }
 
 void printReturn(Return* _return) {
-	ident(); printf("Return\n");
+	printf("Return\n");
 
 	identation++;
 	printExp(_return->value);
@@ -160,21 +160,25 @@ void printReturn(Return* _return) {
 }
 
 void printStatement(Statement* state) {
-	if (state == NULL)
-		printf("NULL\n");
-	else if (state->type == IfType)
-		printIf(&state->content.ifelse);
-	else if (state->type == WhileType)
-		printWhile(&state->content._while);
-	else if (state->type == ReturnType)
-		printReturn(&state->content._return);
-	else if (state->type == StoreType)
-		printStore(&state->content.store);
-	else if (state->type == PrintType)
-		printPrint(&state->content.print);
+	ident();
 
-	if (state->next != NULL)
-		printStatement(state->next);
+	if (state == NULL) {
+		printf("NULL\n");
+	} else {
+		if (state->type == IfType)
+			printIf(&state->content.ifelse);
+		else if (state->type == WhileType)
+			printWhile(&state->content._while);
+		else if (state->type == ReturnType)
+			printReturn(&state->content._return);
+		else if (state->type == StoreType)
+			printStore(&state->content.store);
+		else if (state->type == PrintType)
+			printPrint(&state->content.print);
+
+		if (state->next != NULL)
+			printStatement(state->next);
+	}
 }
 
 

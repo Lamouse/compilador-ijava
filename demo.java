@@ -11,13 +11,11 @@ class echo {
 		x = Integer.parseInt(args[0]);
 		System.out.println(x);
 
-		if(x == 1){
+		if (x == 1) {
 
-		}
-		else{
+		} else {
 			x = 0;
 		}
-
 	}
 
 	public static void hello(int a, int[] b) {}
