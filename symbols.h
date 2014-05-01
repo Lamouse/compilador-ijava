@@ -2,13 +2,13 @@ void printTypeSymbol(Type type) {
 	if (type == String)
 		printf("String");
 	else if (type == Bool)
-		printf("bool");
+		printf("boolean");
 	else if (type == Int)
 		printf("int");
 	else if (type == StringArray)
 		printf("String[]");
 	else if (type == BoolArray)
-		printf("bool[]");
+		printf("boolean[]");
 	else if (type == IntArray)
 		printf("int[]");
 	else if (type == Void)
@@ -19,8 +19,8 @@ void printSymbol(VarDecl* var, int isParam) {
 	Ids* id;
 
 	for (id = var->ids; id != NULL; id = id->next) {
-		printf("%s ", id->name); printTypeSymbol(var->type);
-		printf(isParam ? " param\n" : "\n");
+		printf("%s\t", id->name); printTypeSymbol(var->type);
+		printf(isParam ? "\tparam\n" : "\n");
 	}
 }
 
@@ -33,7 +33,7 @@ void printSymbols(VarDecl* var, int areParams) {
 
 void printMethodSymbols(MethodDecl* method) {
 	printf("\n===== Method %s Symbol Table =====\n", method->id);
-	printf("return "); printTypeSymbol(method->type); printf("\n");
+	printf("return\t"); printTypeSymbol(method->type); printf("\n");
 	printSymbols(method->params, 1);
 	printSymbols(method->vars, 0);
 }
@@ -44,7 +44,7 @@ void printProgramSymbols(Program* program) {
 	
 	for (decl = program->declarations; decl != NULL; decl = decl->next) {
 		if (decl->isMethod) {
-			printf("%s method\n", decl->content.method.id);
+			printf("%s\tmethod\n", decl->content.method.id);
 		} else {
 			printSymbol(&decl->content.var, 0);
 		}

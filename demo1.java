@@ -15,4 +15,8 @@ class gcd {
 			}
 		System.out.println(x[0]);
 	}
+
+	public static void abc(){
+		/*int a;*/
+	}
 }
