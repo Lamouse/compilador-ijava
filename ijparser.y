@@ -1,5 +1,6 @@
 %{
 #include<stdio.h>
+#include<string.h>
 #include "ijparser.h"
 
 extern int colunaAux;
@@ -195,10 +196,31 @@ numType: INT 																	{$$ = Int;}
 	| BOOL 																		{$$ = Bool;}
 
 %%
-int main() {
+int main(int argc, char **argv) {
+	int tree = 0, table = 0; 
+	//para nao aparecer o nome
+	argc--;
+	argv++;
+	while(argc--){
+		if(!strcmp(*argv, "-t"))
+			tree = 1;
+		else if(!strcmp(*argv, "-s"))
+			table = 1;
+
+		*argv++;
+	}
+	printf("%d %d\n", tree, table);
+
 	yyparse();
-	if (!hasErrors)
-		printProgram(program);
+	
+	if (!hasErrors){
+		if(tree){
+			printProgram(program);
+		}
+		if(table){
+			//do something
+		}
+	}
 		
 	return 0;
 }

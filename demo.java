@@ -10,6 +10,14 @@ class echo {
 		boolean y;
 		x = Integer.parseInt(args[0]);
 		System.out.println(x);
+
+		if(x == 1){
+
+		}
+		else{
+			x = 0;
+		}
+
 	}
 
 	public static void hello(int a, int[] b) {}
