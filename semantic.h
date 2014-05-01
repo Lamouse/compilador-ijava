@@ -107,13 +107,81 @@ int checkOldDeclaration(Declaration* decl) {
 	return 0;	
 }
 
+int checkDuplicateIdsVarDecl(VarDecl* var1, VarDecl* var2){
+	Ids* id1, *id2;
+
+	for(id1 = var1->ids; id1 != NULL; id1 = id1->next){
+		for (id2 = var2->ids; id2 != NULL && id1 != id2; id2 = id2->next) {
+			if(!strcmp(id1->name, id2->name)){
+				printf("Symbol %s already defined\n", id1->name);
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+int checkDuplicateIdsVarDecls(VarDecl* var1, VarDecl* var2){
+	VarDecl* id1;
+	Ids* id2;
+
+	for(id1 = var1; id1 != NULL; id1 = id1->next){
+		for (id2 = var2->ids; id2 != NULL; id2 = id2->next) {
+			if(!strcmp(id1->ids->name, id2->name)){
+				printf("Symbol %s already defined\n", id1->ids->name);
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+int checkLocalVars(MethodDecl* decl) {
+	VarDecl* params = decl->params;
+	VarDecl* atual;
+	VarDecl* temp;
+	Ids* id1;
+
+	//check params
+	for(atual = params->next; atual != NULL; atual = atual->next){
+		if(checkDuplicateIdsVarDecls(atual, params))
+			return 1;
+	}
+
+	//check vars
+	for(atual = decl->vars; atual != NULL; atual = atual->next){
+		if(checkDuplicateIdsVarDecls(atual, params))
+			return 1;
+		for(temp = decl->vars; temp != NULL && temp != atual; temp = temp->next){
+			if(checkDuplicateIdsVarDecl(atual, temp))
+				return 1;
+		}
+		if(checkDuplicateIdsVarDecl(atual, atual))
+			return 1;
+		for(id1 = atual->ids; id1 != NULL; id1 = id1->next){
+			if(findFieldType(id1->name) != Void){
+				printf("Symbol %s already defined\n", id1->name);
+				return 1;
+			}
+		}		
+	}
+	return 0;
+}
+
 void checkDuplicateDeclaration() {
-	Declaration* decl;	
+	Declaration* decl;
 
 	for (decl = program->declarations; decl != NULL; decl = decl->next) {
 		if(checkOldDeclaration(decl) == 1){
 			hasErrors = 1;
 			return;
+		} 
+
+		if(decl->isMethod){
+			if(checkLocalVars(&decl->content.method) == 1){
+				hasErrors = 1;
+				return;
+			} 
 		} 
 	}
 }

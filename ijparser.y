@@ -85,8 +85,6 @@ extern char* yytext;
 %type <type> varType;
 %type <type> numType;
 
-%type <expType> opers;
-
 %union {
 	Program* program;
 	Declaration* declaration;
@@ -160,7 +158,10 @@ optionalExp: expr																{$$ = $1;}
 expr:	NEW numType OSQUARE expr CSQUARE										{$$ = newAnonymousOper($4, NULL, $2 == Int ? NewInt:NewBool);}
 	| safeExpr %prec EXPR 														{$$ = $1;}
 
-safeExpr: expr opers expr %prec OPERSX											{$$ = newAnonymousOper($1, $3, $2);}
+safeExpr: expr OP1 expr 														{$$ = newAnonymousOper($1, $3, getOperType($2));}
+	| expr OP2 expr																{$$ = newAnonymousOper($1, $3, getOperType($2));}
+	| expr OP3 expr																{$$ = newAnonymousOper($1, $3, getOperType($2));}
+	| expr OP4 expr																{$$ = newAnonymousOper($1, $3, getOperType($2));}
 	| safeExpr OSQUARE expr CSQUARE												{$$ = newAnonymousOper($1, $3, LoadArray);}
 	| ID 																		{$$ = newId($1);}
 	| INTLIT 																	{$$ = newLiteral($1, IntLit);}
@@ -171,11 +172,6 @@ safeExpr: expr opers expr %prec OPERSX											{$$ = newAnonymousOper($1, $3, 
 	| PARSEINT OCURV ID OSQUARE expr CSQUARE CCURV								{$$ = newAnonymousOper(newAnonymousOper(newId($3), $5, LoadArray), NULL, Parse);}
 	| ID OCURV optionalArgs CCURV												{$$ = newOper($1, $3, Call);}
 	| OCURV expr CCURV															{$$ = $2;}
-	
-opers: OP1 																		{$$ = getOperType($1);}
-	| OP2 																		{$$ = getOperType($1);}
-	| OP3 																		{$$ = getOperType($1);}
-	| OP4																		{$$ = getOperType($1);}
 
 optionalArgs: args 																{$$ = $1;}
 	| 																			{$$ = NULL;}

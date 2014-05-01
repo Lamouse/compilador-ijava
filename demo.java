@@ -8,17 +8,8 @@ class echo {
 	static int x;
 
 	public static void main(String[] args) {
-		int x;
-		boolean y;
-		x = Integer.parseInt(args[0]);
-		System.out.println(x);
-
-		if (x == 1) {
-			
-		} else {
-			x = 0;
-		}
+		int a;
+		a = 2 + 3 * 5;
+		a = 2 * 3 + 5;
 	}
-
-	public static void hello(int a, int[] b) {}
 } 

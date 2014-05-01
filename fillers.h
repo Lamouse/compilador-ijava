@@ -61,7 +61,7 @@ ExpType getOperType(char* oper) {
 		return Mul;
 	if (!strcmp(oper, "/"))
 		return Div;
-	if (!strcmp(oper, "%%"))
+	if (!strcmp(oper, "%"))
 		return Mod;
 }
 
