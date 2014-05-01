@@ -64,8 +64,7 @@ Type getVarType(MethodDecl* method, char* name) {
 }
 
 
-// Error-Checking
-
+// Duplicate Detection
 int checkOldDeclaration(Declaration* decl) {
 	Declaration* tempDecl;
 	VarDecl* varDecl, *varTempDecl;
@@ -109,3 +108,8 @@ void checkDuplicateDeclaration() {
 		} 
 	}
 }
+
+
+// Compatiblity Errors
+
+i code ici
