@@ -1,6 +1,12 @@
 Program* program;
 int hasErrors = 0;
 
+// Reports
+void reportMissingSymbol(char* name) {
+	hasErrors = 1;
+	printf("Cannot find symbol %s\n", name);
+} 
+
 
 // Utillity
 Type findVarType(VarDecl* var, char* name) {
@@ -19,7 +25,7 @@ Type findVarType(VarDecl* var, char* name) {
 }
 
 
-Type getFieldType(char* name) {
+Type findFieldType(char* name) {
 	Declaration* decl;
 	Type type;
 	
@@ -33,6 +39,14 @@ Type getFieldType(char* name) {
 	return Void;
 }
 
+Type getFieldType(char* name) {
+	Type type = findFieldType(name);
+	if (type == Void)
+		reportMissingSymbol(name);
+
+	return type;
+}
+
 Type getVarType(MethodDecl* method, char* name) {
 	Type type = findVarType(method->params, name);
 
@@ -40,7 +54,9 @@ Type getVarType(MethodDecl* method, char* name) {
 		type = findVarType(method->vars, name);
 
 		if (type == Void) {
-			type = getFieldType(name); 
+			type = findFieldType(name);
+			if (type == Void)
+				reportMissingSymbol(name); 
 		}
 	}
 
