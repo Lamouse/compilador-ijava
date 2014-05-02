@@ -10,7 +10,7 @@ int isParams = 0;
 void ident() {
 	int i;
 	for (i = 0; i < identation; ++i)
-		printf("\t");
+		printf("  ");
 }
 
 void printType(Type type) {
