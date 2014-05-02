@@ -16,7 +16,10 @@ class gcd {
 		System.out.println(x[0]);
 	}
 
-	public static void abc(){
-		/*int a;*/
+	public static void abc(int a){
+		int b;
+		a = 2 * 1 + 5;
+		a = 2 + 1 * 5;
+		b = (2 + 1) * 5;
 	}
 }

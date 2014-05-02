@@ -169,7 +169,7 @@ safeExpr: expr OP1 expr 														{$$ = newAnonymousOper($1, $3, getOperType
 	| expr DOTLENGTH															{$$ = newAnonymousOper($1, NULL, Length);}
 	| OP3 expr																	{$$ = newAnonymousOper($2, NULL, !strcmp($1, "+") ? Plus : Minus);}
 	| NOT expr																	{$$ = newAnonymousOper($2, NULL, Not);}
-	| PARSEINT OCURV ID OSQUARE expr CSQUARE CCURV								{$$ = newAnonymousOper(newAnonymousOper(newId($3), $5, LoadArray), NULL, Parse);}
+	| PARSEINT OCURV ID OSQUARE expr CSQUARE CCURV								{$$ = newAnonymousOper(newId($3), $5, Parse);}
 	| ID OCURV optionalArgs CCURV												{$$ = newOper($1, $3, Call);}
 	| OCURV expr CCURV															{$$ = $2;}
 
