@@ -120,7 +120,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 90 "ijparser.y"
+#line 88 "ijparser.y"
 {
 	Program* program;
 	Declaration* declaration;
