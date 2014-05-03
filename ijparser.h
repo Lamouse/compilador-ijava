@@ -6,5 +6,6 @@
 #include "printers.h"
 #include "symbols.h"
 #include "semantic.h"
+#include "clean.h"
 
 #endif

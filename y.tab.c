@@ -2015,7 +2015,7 @@ int main(int argc, char **argv) {
 			tree = 1;
 		else if(!strcmp(*argv, "-s"))
 			table = 1;
-
+		
 		*argv++;
 	}
 	
@@ -2031,8 +2031,13 @@ int main(int argc, char **argv) {
 		if(table){
 			printProgramSymbols(program);
 		}
-	}
 		
+
+
+		//free memory
+		cleanProgram(program);
+	}
+
 	return 0;
 }
 
