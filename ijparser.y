@@ -205,10 +205,10 @@ int main(int argc, char **argv) {
 	
 	yyparse();
 
-	checkDuplicateDeclaration();
-	//checkTypeIssues();
-	
 	if (!hasErrors){
+		//checkDuplicateDeclaration();
+		//checkTypeIssues();
+
 		if(tree){
 			printProgram(program);
 		}

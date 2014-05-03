@@ -99,8 +99,25 @@ void printIf(IfElse* ifelse) {
 
 	identation++;
 	printExp(ifelse->condition);
-	printStatement(ifelse->first);
-	printStatement(ifelse->second);
+	if(ifelse->first != NULL && ifelse->first->next != NULL){
+		ident();
+		printf("CompoundStat\n");
+		identation++;
+		printStatement(ifelse->first);
+		identation--;
+	}
+	else
+		printStatement(ifelse->first);
+
+	if(ifelse->second != NULL && ifelse->second->next != NULL){
+		ident();
+		printf("CompoundStat\n");
+		identation++;
+		printStatement(ifelse->second);
+		identation--;
+	}
+	else
+		printStatement(ifelse->second);
 	identation--;
 }
 
@@ -109,7 +126,16 @@ void printWhile(While* _while) {
 
 	identation++;
 	printExp(_while->condition);
-	printStatement(_while->statement);
+
+	if(_while->statement != NULL && _while->statement->next != NULL){
+		ident();
+		printf("CompoundStat\n");
+		identation++;
+		printStatement(_while->statement);
+		identation--;
+	}
+	else
+		printStatement(_while->statement);
 	identation--;
 }
 
