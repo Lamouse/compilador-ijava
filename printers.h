@@ -62,9 +62,9 @@ void printExp(Exp* exp) {
 	} else if (exp->type == Id) {
 		printId(exp->content.id);
 	} else if (exp->type == IntLit) {
-		ident(); printf("IntLit(%d)\n", exp->content.literal);
+		ident(); printf("IntLit(%s)\n", exp->content.literal);
 	} else if (exp->type == BoolLit) {
-		ident(); printf("BoolLit(%s)\n", exp->content.literal ? "true" : "false");
+		ident(); printf("BoolLit(%s)\n", exp->content.literal);
 	} else
 		printOper(exp->type, &exp->content.oper);
 

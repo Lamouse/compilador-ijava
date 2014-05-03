@@ -18,7 +18,7 @@ Exp* newAnonymousOper(Exp* a, Exp* b, ExpType type) {
 	return newOper(NULL, a, type);
 }
 
-Exp* newLiteral(int literal, ExpType type) {
+Exp* newLiteral(char* literal, ExpType type) {
 	Exp* expr = (Exp*) malloc(sizeof(Exp));
 	expr->content.literal = literal;
 	expr->type = type;

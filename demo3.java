@@ -2,6 +2,9 @@ class gcd {
 	static int y;
 
 	public static void main(String[] args) {
+		boolean aux;
+		aux = true;
+
 		if(x){
 
 		}

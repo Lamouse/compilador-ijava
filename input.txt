@@ -1,0 +1,28 @@
+class echo {
+       
+        public static void main()
+        {
+                a = true && true;
+                b = false || true;
+                c = (a==b);
+                d = (a!=b);
+                e = a<b;
+                f = a<=b;
+                g = a>b;
+                h = a>=b;
+                j = a[b+1];
+                k = a[b*0x1f];
+                l = a*b+1;
+                m = a%b;
+                n = a[b%2];
+                o = ! b;
+                p = -1;
+                q = a.length;
+                r = a-b;
+                s = a/b;
+                t = +b;
+                u = func(a,b,c);
+               
+        }
+ 
+}

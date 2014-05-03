@@ -24,7 +24,7 @@ typedef struct {
 struct _Exp {
 	union {
 		Oper oper;
-		int literal;
+		char* literal;
 		char* id;
 	} content;
 	

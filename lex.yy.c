@@ -1109,12 +1109,12 @@ YY_RULE_SETUP
 case 36:
 YY_RULE_SETUP
 #line 65 "ijparser.l"
-{yylval.number = atoi(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return INTLIT;}
+{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return INTLIT;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 66 "ijparser.l"
-{yylval.number = strcmp(yytext, "true") ? 0 : 1; colunaAux = coluna; linhaAux = linha; coluna += yyleng; return BOOLLIT;}
+{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return BOOLLIT;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
@@ -2148,3 +2148,4 @@ void yyfree (void * ptr )
 int yywrap() {
 	return 1;
 }
+

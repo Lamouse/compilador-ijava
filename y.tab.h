@@ -138,9 +138,8 @@ union YYSTYPE
     ExpType expType;
 
 	char* string;
-	int number;
 
-#line 144 "y.tab.h" /* yacc.c:1909  */
+#line 143 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

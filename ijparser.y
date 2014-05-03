@@ -40,8 +40,8 @@ extern char* yytext;
 %token <string> OP3
 %token <string> OP4
 
-%token <number> INTLIT
-%token <number> BOOLLIT
+%token <string> INTLIT
+%token <string> BOOLLIT
 %token <string> ID
 
 %nonassoc EXPR
@@ -96,7 +96,6 @@ extern char* yytext;
     ExpType expType;
 
 	char* string;
-	int number;
 }
 
 %%
