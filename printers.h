@@ -151,7 +151,7 @@ void printStatement(Statement* state) {
 	ident();
 
 	if (state == NULL) {
-		printf("NULL\n");
+		printf("Null\n");
 	} else {
 		if (state->type == IfType)
 			printIf(&state->content.ifelse);
