@@ -2,8 +2,10 @@ int				[0-9]+|0x[a-fA-F0-9]+
 id				[a-zA-Z_$][a-zA-Z_$0-9]*
 bool			"true"|"false"
 reserved		"null"|"volatile"|"try"|"transient"|"throw""s"?|"this"|"synchronized"|"switch"|"super"|"short"|"protected"|"private"|"package"|"long"|"interface"|"instanceof"|"import"|"goto"|"for"|"float"|"finally"|"final"|"extends"|"double"|"do"|"char"|"catch"|"case"|"byte"|"break"|"assert"|"abstract"|"const"|"continue"|"default"|"enum"|"implements"|"native"|"strictfp"|"++"|"--"
-op1				"&&"|"||"
-op2				"<"|">"|"=="|"!="|"<="|">="
+op11			"||"
+op12			"&&"
+op21 			"<"|">"|"<="|">="
+op22			"=="|"!="
 op3				"+"|"-"
 op4				"*"|"/"|"%"
 
@@ -57,8 +59,10 @@ op4				"*"|"/"|"%"
 <INITIAL>","					{colunaAux = coluna; linhaAux = linha; coluna += yyleng; return COMMA;}
 
 <INITIAL>{reserved}				{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return RESERVED;}
-<INITIAL>{op1}					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP1;}
-<INITIAL>{op2}					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP2;}
+<INITIAL>{op11}					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP11;}
+<INITIAL>{op12}					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP12;}
+<INITIAL>{op21}					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP21;}
+<INITIAL>{op22}					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP22;}
 <INITIAL>{op3}					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP3;}
 <INITIAL>{op4}					{yylval.string=(char*)strdup(yytext); colunaAux = coluna; linhaAux = linha; coluna += yyleng; return OP4;}
 

@@ -71,16 +71,18 @@ extern int yydebug;
     SEMIC = 281,
     COMMA = 282,
     RESERVED = 283,
-    OP1 = 284,
-    OP2 = 285,
-    OP3 = 286,
-    OP4 = 287,
-    INTLIT = 288,
-    BOOLLIT = 289,
-    ID = 290,
-    EXPR = 291,
-    IFX = 292,
-    OPERSX = 293
+    OP11 = 284,
+    OP12 = 285,
+    OP21 = 286,
+    OP22 = 287,
+    OP3 = 288,
+    OP4 = 289,
+    INTLIT = 290,
+    BOOLLIT = 291,
+    ID = 292,
+    EXPR = 293,
+    IFX = 294,
+    OPERSX = 295
   };
 #endif
 /* Tokens.  */
@@ -110,23 +112,25 @@ extern int yydebug;
 #define SEMIC 281
 #define COMMA 282
 #define RESERVED 283
-#define OP1 284
-#define OP2 285
-#define OP3 286
-#define OP4 287
-#define INTLIT 288
-#define BOOLLIT 289
-#define ID 290
-#define EXPR 291
-#define IFX 292
-#define OPERSX 293
+#define OP11 284
+#define OP12 285
+#define OP21 286
+#define OP22 287
+#define OP3 288
+#define OP4 289
+#define INTLIT 290
+#define BOOLLIT 291
+#define ID 292
+#define EXPR 293
+#define IFX 294
+#define OPERSX 295
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 88 "ijparser.y" /* yacc.c:1909  */
+#line 94 "ijparser.y" /* yacc.c:1909  */
 
 	Program* program;
 	Declaration* declaration;
@@ -139,7 +143,7 @@ union YYSTYPE
 
 	char* string;
 
-#line 143 "y.tab.h" /* yacc.c:1909  */
+#line 147 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

@@ -35,8 +35,10 @@ extern char* yytext;
 %token COMMA
 
 %token <string> RESERVED
-%token <string> OP1
-%token <string> OP2
+%token <string> OP11
+%token <string> OP12
+%token <string> OP21
+%token <string> OP22
 %token <string> OP3
 %token <string> OP4
 
@@ -48,13 +50,17 @@ extern char* yytext;
 %nonassoc IFX  
 %nonassoc ELSE
 %nonassoc OPERSX
-%right DOTLENGTH ASSIGN
-%left OSQUARE
-%left OP1
-%left OP2
+
+%right ASSIGN
+%left OP11
+%left OP12
+%left OP22
+%left OP21
 %left OP3
 %left OP4
-%left NOT
+%right NEW OBRACE
+%right NOT
+%left OSQUARE DOTLENGTH
 
 %type <declaration> declarations
 %type <declaration> declarationList
@@ -157,8 +163,10 @@ optionalExp: expr																{$$ = $1;}
 expr:	NEW numType OSQUARE expr CSQUARE										{$$ = newAnonymousOper($4, NULL, $2 == Int ? NewInt:NewBool);}
 	| safeExpr %prec EXPR 														{$$ = $1;}
 
-safeExpr: expr OP1 expr 														{$$ = newAnonymousOper($1, $3, getOperType($2));}
-	| expr OP2 expr																{$$ = newAnonymousOper($1, $3, getOperType($2));}
+safeExpr: expr OP11 expr 														{$$ = newAnonymousOper($1, $3, getOperType($2));}
+	| expr OP12 expr															{$$ = newAnonymousOper($1, $3, getOperType($2));}
+	| expr OP21 expr															{$$ = newAnonymousOper($1, $3, getOperType($2));}
+	| expr OP22 expr															{$$ = newAnonymousOper($1, $3, getOperType($2));}
 	| expr OP3 expr																{$$ = newAnonymousOper($1, $3, getOperType($2));}
 	| expr OP4 expr																{$$ = newAnonymousOper($1, $3, getOperType($2));}
 	| safeExpr OSQUARE expr CSQUARE												{$$ = newAnonymousOper($1, $3, LoadArray);}

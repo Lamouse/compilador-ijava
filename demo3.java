@@ -5,7 +5,7 @@ class gcd {
 		boolean aux;
 		aux = true;
 
-		if(x){
+		if(!x- -2){
 
 		}
 		else{
@@ -28,6 +28,10 @@ class gcd {
 			a = 1;
 		}
 
+		while(true){
+			{{}}{}
+		}
+
 
 		return x;
 	}
@@ -38,3 +42,4 @@ class gcd {
 
 	}
 }
+   
