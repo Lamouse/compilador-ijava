@@ -277,10 +277,9 @@ Type getOperResultType(ExpType type, Oper* oper) {
 		return Int;
 
 	} else if (type == LoadArray) {
-		Type array = getVarType(method, oper->id);
-		reportIndexTypes(array, a);
+		reportIndexTypes(a, b);
 
-		return hasErrors ? Void : array - 3;
+		return hasErrors ? Void : a - 3;
 
 	} else if (type == Call) {
 		MethodDecl* method = getMethod(oper->id);
