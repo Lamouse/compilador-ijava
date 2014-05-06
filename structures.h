@@ -7,8 +7,8 @@ typedef enum {IfType, ReturnType, WhileType, StoreType, PrintType} StatementType
 typedef enum {
 	Not,
 	Or, And,
-	Eq, Neq, Lt, Gt, Leq, Geq,
-	Add, Sub, Mul, Div, Mod,
+	Eq, Neq,
+	Lt, Gt, Leq, Geq, Add, Sub, Mul, Div, Mod,
 	Minus, Plus,
 	LoadArray, Call,
 	NewInt, NewBool,

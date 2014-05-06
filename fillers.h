@@ -113,9 +113,9 @@ Statement* newPrint(Exp* value) {
 Statement* connectStatement(Statement* a, Statement* b) {
 	if(a == NULL)
 		return b;
-
 	if(b != NULL)
 		a->next = b;
+	
 	return a;
 }
 

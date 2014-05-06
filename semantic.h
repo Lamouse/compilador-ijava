@@ -2,6 +2,7 @@ Program* program;
 MethodDecl* method;
 int hasErrors = 0;
 
+
 // Reports
 void reportMissingSymbol(char* name) {
 	if (!hasErrors) {
@@ -117,7 +118,7 @@ int checkDuplicateIdsVarDecl(VarDecl* var1, VarDecl* var2){
 
 	for(id1 = var1->ids; id1 != NULL; id1 = id1->next){
 		for (id2 = var2->ids; id2 != NULL && id1 != id2; id2 = id2->next) {
-			if(!strcmp(id1->name, id2->name)){
+			if (!strcmp(id1->name, id2->name)){
 				printf("Symbol %s already defined\n", id1->name);
 				return 1;
 			}
@@ -147,13 +148,11 @@ int checkLocalVars(MethodDecl* decl) {
 	VarDecl* temp;
 	Ids* id1;
 
-	//check params
 	for(atual = params->next; atual != NULL; atual = atual->next){
 		if(checkDuplicateIdsVarDecls(atual, params))
 			return 1;
 	}
 
-	//check vars
 	for(atual = decl->vars; atual != NULL; atual = atual->next){
 		if(checkDuplicateIdsVarDecls(atual, params))
 			return 1;
@@ -194,7 +193,6 @@ void checkDuplicateDeclaration() {
 
 // Expressions
 Type getExpType(Exp* exp);
-
 Type getOperResultType(ExpType type, Oper* oper) {
 	Type a = getExpType(oper->params);
 	Type b = a != Void ? getExpType(oper->params->next) : Void;
@@ -211,9 +209,21 @@ Type getOperResultType(ExpType type, Oper* oper) {
 
 		return Bool;
 
-	} else if (type >= Add && type <= Mod) {
+	} else if (type >= Eq && type <= Neq) {
+		if (a != b)
+			reportOperatorTypes(type, a, b);
+
+		return a;
+
+	} else if (type >= Lt && type <= Mod) {
 		if (a != Int || b != Int)
 			reportOperatorTypes(type, a, b);
+
+		return Int;
+
+	} else if (type >= Minus && type <= Plus) {
+		if (a != Int)
+			reportOperatorType(type, a);
 
 		return Int;
 
