@@ -294,8 +294,8 @@ Type getOperResultType(ExpType type, Oper* oper) {
 
 				if (given != expected) {
 					hasErrors = 1;
-					printf("Incompatible type of argument %d in call to method %s (got %s, required %s)", i, method->id,
-						getTypeSymbol(given), getTypeSymbol(expected));
+					printf("Incompatible type of argument %d in call to method %s (got %s, required %s)",
+						i, method->id, getTypeSymbol(given), getTypeSymbol(expected));
 					break;
 				}
 
@@ -307,6 +307,19 @@ Type getOperResultType(ExpType type, Oper* oper) {
 			return method->type;
 		}
 
+	} else if (type == Length) {
+		if (a < StringArray)
+			reportOperatorType(type, a);
+
+		return Int;
+
+	}  else if (type == Parse) {
+		if (a != String) {
+			hasErrors = 1;
+			printf("Incompatible type of argument 1 in call to method Integer.parseInt (got %s, required String)\n", getTypeSymbol(a));
+		}
+
+		return Int;
 	}
 
 	return Void;
