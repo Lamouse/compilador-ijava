@@ -83,7 +83,7 @@ MethodDecl* getMethod(char* name) {
 
 	for (decl = program->declarations; decl != NULL; decl = decl->next)
 		if (decl->isMethod)
-			if (!strcmp(decl->content.method.id, name)
+			if (!strcmp(decl->content.method.id, name))
 				return &decl->content.method;
 
 	reportMissingSymbol(name);
@@ -290,7 +290,7 @@ Type getOperResultType(ExpType type, Oper* oper) {
 
 			while (value != NULL || param != NULL) {
 				Type given = getExpType(value);
-				Type expected = param != NULL ? getVarType(param->ids->name) : Void;
+				Type expected = param != NULL ? getVarType(method, param->ids->name) : Void;
 
 				if (given != expected) {
 					hasErrors = 1;
@@ -308,6 +308,7 @@ Type getOperResultType(ExpType type, Oper* oper) {
 		}
 
 	} else if (type == IntLit) {
+
 		return Int;
 
 	} else if (type == BoolLit) {
