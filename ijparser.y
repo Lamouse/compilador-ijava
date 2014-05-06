@@ -213,18 +213,19 @@ int main(int argc, char **argv) {
 	yyparse();
 
 	if (!hasErrors){
-		//checkDuplicateDeclaration();
-		//checkTypeIssues();
-
 		if(tree){
 			printProgram(program);
 		}
-		if(table){
-			printProgramSymbols(program);
+
+		checkDuplicateDeclaration();
+		//checkTypeIssues();
+
+		if(!hasErrors){
+			if(table){
+				printProgramSymbols(program);
+			}
 		}
 		
-
-
 		//free memory
 		cleanProgram(program);
 	}
