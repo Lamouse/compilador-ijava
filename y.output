@@ -1,0 +1,1828 @@
+Terminals unused in grammar
+
+   RESERVED
+   EXPR
+   OPERSX
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: CLASS ID OBRACE declarations CBRACE
+
+    2 declarations: declarationList
+    3             | %empty
+
+    4 declarationList: declaration declarationList
+    5                | declaration
+
+    6 declaration: fieldDecl
+    7            | methodDecl
+
+    8 fieldDecl: STATIC varDecl
+
+    9 methodDecl: PUBLIC STATIC type ID OCURV params CCURV OBRACE statements CBRACE
+
+   10 statements: varList stateList
+   11           | varList
+   12           | stateList
+   13           | %empty
+
+   14 params: STRING OSQUARE CSQUARE ID
+   15       | paramList
+   16       | %empty
+
+   17 paramList: param COMMA paramList
+   18          | param
+
+   19 varList: varDecl varList
+   20        | varDecl
+
+   21 param: varType ID
+
+   22 varDecl: varType ids SEMIC
+
+   23 ids: ID COMMA ids
+   24    | ID
+
+   25 stateList: statement stateList
+   26          | statement
+
+   27 statement: ifState ELSE statement
+   28          | ifState
+   29          | OBRACE stateList CBRACE
+   30          | OBRACE CBRACE
+   31          | WHILE OCURV expr CCURV statement
+   32          | PRINT OCURV expr CCURV SEMIC
+   33          | ID ASSIGN expr SEMIC
+   34          | ID OSQUARE expr CSQUARE ASSIGN expr SEMIC
+   35          | RETURN optionalExp SEMIC
+
+   36 ifState: IF OCURV expr CCURV statement
+
+   37 optionalExp: expr
+   38            | %empty
+
+   39 expr: exprindex
+   40     | exprnoindex
+
+   41 exprnoindex: NEW numType OSQUARE expr CSQUARE
+   42            | expr OP11 expr
+   43            | expr OP12 expr
+   44            | expr OP21 expr
+   45            | expr OP22 expr
+   46            | expr OP3 expr
+   47            | expr OP4 expr
+   48            | OP3 expr
+   49            | NOT expr
+   50            | PARSEINT OCURV ID OSQUARE expr CSQUARE CCURV
+   51            | ID OCURV optionalArgs CCURV
+   52            | OCURV expr CCURV
+
+   53 exprindex: exprindex OSQUARE expr CSQUARE
+   54          | ID
+   55          | INTLIT
+   56          | BOOLLIT
+   57          | expr DOTLENGTH
+
+   58 optionalArgs: args
+   59             | %empty
+
+   60 args: expr COMMA args
+   61     | expr
+
+   62 type: VOID
+   63     | varType
+
+   64 varType: numType
+   65        | numType OSQUARE CSQUARE
+
+   66 numType: INT
+   67        | BOOL
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+PRINT (258) 32
+PARSEINT (259) 50
+RETURN (260) 35
+DOTLENGTH (261) 57
+INT (262) 66
+BOOL (263) 67
+VOID (264) 62
+STRING (265) 14
+NEW (266) 41
+IF (267) 36
+ELSE (268) 27
+WHILE (269) 31
+CLASS (270) 1
+PUBLIC (271) 9
+STATIC (272) 8 9
+OCURV (273) 9 31 32 36 50 51 52
+CCURV (274) 9 31 32 36 50 51 52
+OBRACE (275) 1 9 29 30
+CBRACE (276) 1 9 29 30
+OSQUARE (277) 14 34 41 50 53 65
+CSQUARE (278) 14 34 41 50 53 65
+NOT (279) 49
+ASSIGN (280) 33 34
+SEMIC (281) 22 32 33 34 35
+COMMA (282) 17 23 60
+RESERVED (283)
+OP11 (284) 42
+OP12 (285) 43
+OP21 (286) 44
+OP22 (287) 45
+OP3 (288) 46 48
+OP4 (289) 47
+INTLIT (290) 55
+BOOLLIT (291) 56
+ID (292) 1 9 14 21 23 24 33 34 50 51 54
+EXPR (293)
+IFX (294)
+OPERSX (295)
+
+
+Nonterminals, with rules where they appear
+
+$accept (41)
+    on left: 0
+program (42)
+    on left: 1, on right: 0
+declarations (43)
+    on left: 2 3, on right: 1
+declarationList (44)
+    on left: 4 5, on right: 2 4
+declaration (45)
+    on left: 6 7, on right: 4 5
+fieldDecl (46)
+    on left: 8, on right: 6
+methodDecl (47)
+    on left: 9, on right: 7
+statements (48)
+    on left: 10 11 12 13, on right: 9
+params (49)
+    on left: 14 15 16, on right: 9
+paramList (50)
+    on left: 17 18, on right: 15 17
+varList (51)
+    on left: 19 20, on right: 10 11 19
+param (52)
+    on left: 21, on right: 17 18
+varDecl (53)
+    on left: 22, on right: 8 19 20
+ids (54)
+    on left: 23 24, on right: 22 23
+stateList (55)
+    on left: 25 26, on right: 10 12 25 29
+statement (56)
+    on left: 27 28 29 30 31 32 33 34 35, on right: 25 26 27 31 36
+ifState (57)
+    on left: 36, on right: 27 28
+optionalExp (58)
+    on left: 37 38, on right: 35
+expr (59)
+    on left: 39 40, on right: 31 32 33 34 36 37 41 42 43 44 45 46 47
+    48 49 50 52 53 57 60 61
+exprnoindex (60)
+    on left: 41 42 43 44 45 46 47 48 49 50 51 52, on right: 40
+exprindex (61)
+    on left: 53 54 55 56 57, on right: 39 53
+optionalArgs (62)
+    on left: 58 59, on right: 51
+args (63)
+    on left: 60 61, on right: 58 60
+type (64)
+    on left: 62 63, on right: 9
+varType (65)
+    on left: 64 65, on right: 21 22 63
+numType (66)
+    on left: 66 67, on right: 41 64 65
+
+
+State 0
+
+    0 $accept: . program $end
+
+    CLASS  shift, and go to state 1
+
+    program  go to state 2
+
+
+State 1
+
+    1 program: CLASS . ID OBRACE declarations CBRACE
+
+    ID  shift, and go to state 3
+
+
+State 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    1 program: CLASS ID . OBRACE declarations CBRACE
+
+    OBRACE  shift, and go to state 5
+
+
+State 4
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 5
+
+    1 program: CLASS ID OBRACE . declarations CBRACE
+
+    PUBLIC  shift, and go to state 6
+    STATIC  shift, and go to state 7
+
+    $default  reduce using rule 3 (declarations)
+
+    declarations     go to state 8
+    declarationList  go to state 9
+    declaration      go to state 10
+    fieldDecl        go to state 11
+    methodDecl       go to state 12
+
+
+State 6
+
+    9 methodDecl: PUBLIC . STATIC type ID OCURV params CCURV OBRACE statements CBRACE
+
+    STATIC  shift, and go to state 13
+
+
+State 7
+
+    8 fieldDecl: STATIC . varDecl
+
+    INT   shift, and go to state 14
+    BOOL  shift, and go to state 15
+
+    varDecl  go to state 16
+    varType  go to state 17
+    numType  go to state 18
+
+
+State 8
+
+    1 program: CLASS ID OBRACE declarations . CBRACE
+
+    CBRACE  shift, and go to state 19
+
+
+State 9
+
+    2 declarations: declarationList .
+
+    $default  reduce using rule 2 (declarations)
+
+
+State 10
+
+    4 declarationList: declaration . declarationList
+    5                | declaration .
+
+    PUBLIC  shift, and go to state 6
+    STATIC  shift, and go to state 7
+
+    $default  reduce using rule 5 (declarationList)
+
+    declarationList  go to state 20
+    declaration      go to state 10
+    fieldDecl        go to state 11
+    methodDecl       go to state 12
+
+
+State 11
+
+    6 declaration: fieldDecl .
+
+    $default  reduce using rule 6 (declaration)
+
+
+State 12
+
+    7 declaration: methodDecl .
+
+    $default  reduce using rule 7 (declaration)
+
+
+State 13
+
+    9 methodDecl: PUBLIC STATIC . type ID OCURV params CCURV OBRACE statements CBRACE
+
+    INT   shift, and go to state 14
+    BOOL  shift, and go to state 15
+    VOID  shift, and go to state 21
+
+    type     go to state 22
+    varType  go to state 23
+    numType  go to state 18
+
+
+State 14
+
+   66 numType: INT .
+
+    $default  reduce using rule 66 (numType)
+
+
+State 15
+
+   67 numType: BOOL .
+
+    $default  reduce using rule 67 (numType)
+
+
+State 16
+
+    8 fieldDecl: STATIC varDecl .
+
+    $default  reduce using rule 8 (fieldDecl)
+
+
+State 17
+
+   22 varDecl: varType . ids SEMIC
+
+    ID  shift, and go to state 24
+
+    ids  go to state 25
+
+
+State 18
+
+   64 varType: numType .
+   65        | numType . OSQUARE CSQUARE
+
+    OSQUARE  shift, and go to state 26
+
+    $default  reduce using rule 64 (varType)
+
+
+State 19
+
+    1 program: CLASS ID OBRACE declarations CBRACE .
+
+    $default  reduce using rule 1 (program)
+
+
+State 20
+
+    4 declarationList: declaration declarationList .
+
+    $default  reduce using rule 4 (declarationList)
+
+
+State 21
+
+   62 type: VOID .
+
+    $default  reduce using rule 62 (type)
+
+
+State 22
+
+    9 methodDecl: PUBLIC STATIC type . ID OCURV params CCURV OBRACE statements CBRACE
+
+    ID  shift, and go to state 27
+
+
+State 23
+
+   63 type: varType .
+
+    $default  reduce using rule 63 (type)
+
+
+State 24
+
+   23 ids: ID . COMMA ids
+   24    | ID .
+
+    COMMA  shift, and go to state 28
+
+    $default  reduce using rule 24 (ids)
+
+
+State 25
+
+   22 varDecl: varType ids . SEMIC
+
+    SEMIC  shift, and go to state 29
+
+
+State 26
+
+   65 varType: numType OSQUARE . CSQUARE
+
+    CSQUARE  shift, and go to state 30
+
+
+State 27
+
+    9 methodDecl: PUBLIC STATIC type ID . OCURV params CCURV OBRACE statements CBRACE
+
+    OCURV  shift, and go to state 31
+
+
+State 28
+
+   23 ids: ID COMMA . ids
+
+    ID  shift, and go to state 24
+
+    ids  go to state 32
+
+
+State 29
+
+   22 varDecl: varType ids SEMIC .
+
+    $default  reduce using rule 22 (varDecl)
+
+
+State 30
+
+   65 varType: numType OSQUARE CSQUARE .
+
+    $default  reduce using rule 65 (varType)
+
+
+State 31
+
+    9 methodDecl: PUBLIC STATIC type ID OCURV . params CCURV OBRACE statements CBRACE
+
+    INT     shift, and go to state 14
+    BOOL    shift, and go to state 15
+    STRING  shift, and go to state 33
+
+    $default  reduce using rule 16 (params)
+
+    params     go to state 34
+    paramList  go to state 35
+    param      go to state 36
+    varType    go to state 37
+    numType    go to state 18
+
+
+State 32
+
+   23 ids: ID COMMA ids .
+
+    $default  reduce using rule 23 (ids)
+
+
+State 33
+
+   14 params: STRING . OSQUARE CSQUARE ID
+
+    OSQUARE  shift, and go to state 38
+
+
+State 34
+
+    9 methodDecl: PUBLIC STATIC type ID OCURV params . CCURV OBRACE statements CBRACE
+
+    CCURV  shift, and go to state 39
+
+
+State 35
+
+   15 params: paramList .
+
+    $default  reduce using rule 15 (params)
+
+
+State 36
+
+   17 paramList: param . COMMA paramList
+   18          | param .
+
+    COMMA  shift, and go to state 40
+
+    $default  reduce using rule 18 (paramList)
+
+
+State 37
+
+   21 param: varType . ID
+
+    ID  shift, and go to state 41
+
+
+State 38
+
+   14 params: STRING OSQUARE . CSQUARE ID
+
+    CSQUARE  shift, and go to state 42
+
+
+State 39
+
+    9 methodDecl: PUBLIC STATIC type ID OCURV params CCURV . OBRACE statements CBRACE
+
+    OBRACE  shift, and go to state 43
+
+
+State 40
+
+   17 paramList: param COMMA . paramList
+
+    INT   shift, and go to state 14
+    BOOL  shift, and go to state 15
+
+    paramList  go to state 44
+    param      go to state 36
+    varType    go to state 37
+    numType    go to state 18
+
+
+State 41
+
+   21 param: varType ID .
+
+    $default  reduce using rule 21 (param)
+
+
+State 42
+
+   14 params: STRING OSQUARE CSQUARE . ID
+
+    ID  shift, and go to state 45
+
+
+State 43
+
+    9 methodDecl: PUBLIC STATIC type ID OCURV params CCURV OBRACE . statements CBRACE
+
+    PRINT   shift, and go to state 46
+    RETURN  shift, and go to state 47
+    INT     shift, and go to state 14
+    BOOL    shift, and go to state 15
+    IF      shift, and go to state 48
+    WHILE   shift, and go to state 49
+    OBRACE  shift, and go to state 50
+    ID      shift, and go to state 51
+
+    $default  reduce using rule 13 (statements)
+
+    statements  go to state 52
+    varList     go to state 53
+    varDecl     go to state 54
+    stateList   go to state 55
+    statement   go to state 56
+    ifState     go to state 57
+    varType     go to state 17
+    numType     go to state 18
+
+
+State 44
+
+   17 paramList: param COMMA paramList .
+
+    $default  reduce using rule 17 (paramList)
+
+
+State 45
+
+   14 params: STRING OSQUARE CSQUARE ID .
+
+    $default  reduce using rule 14 (params)
+
+
+State 46
+
+   32 statement: PRINT . OCURV expr CCURV SEMIC
+
+    OCURV  shift, and go to state 58
+
+
+State 47
+
+   35 statement: RETURN . optionalExp SEMIC
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    $default  reduce using rule 38 (optionalExp)
+
+    optionalExp  go to state 67
+    expr         go to state 68
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 48
+
+   36 ifState: IF . OCURV expr CCURV statement
+
+    OCURV  shift, and go to state 71
+
+
+State 49
+
+   31 statement: WHILE . OCURV expr CCURV statement
+
+    OCURV  shift, and go to state 72
+
+
+State 50
+
+   29 statement: OBRACE . stateList CBRACE
+   30          | OBRACE . CBRACE
+
+    PRINT   shift, and go to state 46
+    RETURN  shift, and go to state 47
+    IF      shift, and go to state 48
+    WHILE   shift, and go to state 49
+    OBRACE  shift, and go to state 50
+    CBRACE  shift, and go to state 73
+    ID      shift, and go to state 51
+
+    stateList  go to state 74
+    statement  go to state 56
+    ifState    go to state 57
+
+
+State 51
+
+   33 statement: ID . ASSIGN expr SEMIC
+   34          | ID . OSQUARE expr CSQUARE ASSIGN expr SEMIC
+
+    OSQUARE  shift, and go to state 75
+    ASSIGN   shift, and go to state 76
+
+
+State 52
+
+    9 methodDecl: PUBLIC STATIC type ID OCURV params CCURV OBRACE statements . CBRACE
+
+    CBRACE  shift, and go to state 77
+
+
+State 53
+
+   10 statements: varList . stateList
+   11           | varList .
+
+    PRINT   shift, and go to state 46
+    RETURN  shift, and go to state 47
+    IF      shift, and go to state 48
+    WHILE   shift, and go to state 49
+    OBRACE  shift, and go to state 50
+    ID      shift, and go to state 51
+
+    $default  reduce using rule 11 (statements)
+
+    stateList  go to state 78
+    statement  go to state 56
+    ifState    go to state 57
+
+
+State 54
+
+   19 varList: varDecl . varList
+   20        | varDecl .
+
+    INT   shift, and go to state 14
+    BOOL  shift, and go to state 15
+
+    $default  reduce using rule 20 (varList)
+
+    varList  go to state 79
+    varDecl  go to state 54
+    varType  go to state 17
+    numType  go to state 18
+
+
+State 55
+
+   12 statements: stateList .
+
+    $default  reduce using rule 12 (statements)
+
+
+State 56
+
+   25 stateList: statement . stateList
+   26          | statement .
+
+    PRINT   shift, and go to state 46
+    RETURN  shift, and go to state 47
+    IF      shift, and go to state 48
+    WHILE   shift, and go to state 49
+    OBRACE  shift, and go to state 50
+    ID      shift, and go to state 51
+
+    $default  reduce using rule 26 (stateList)
+
+    stateList  go to state 80
+    statement  go to state 56
+    ifState    go to state 57
+
+
+State 57
+
+   27 statement: ifState . ELSE statement
+   28          | ifState .
+
+    ELSE  shift, and go to state 81
+
+    $default  reduce using rule 28 (statement)
+
+
+State 58
+
+   32 statement: PRINT OCURV . expr CCURV SEMIC
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 82
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 59
+
+   50 exprnoindex: PARSEINT . OCURV ID OSQUARE expr CSQUARE CCURV
+
+    OCURV  shift, and go to state 83
+
+
+State 60
+
+   41 exprnoindex: NEW . numType OSQUARE expr CSQUARE
+
+    INT   shift, and go to state 14
+    BOOL  shift, and go to state 15
+
+    numType  go to state 84
+
+
+State 61
+
+   52 exprnoindex: OCURV . expr CCURV
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 85
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 62
+
+   49 exprnoindex: NOT . expr
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 86
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 63
+
+   48 exprnoindex: OP3 . expr
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 87
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 64
+
+   55 exprindex: INTLIT .
+
+    $default  reduce using rule 55 (exprindex)
+
+
+State 65
+
+   56 exprindex: BOOLLIT .
+
+    $default  reduce using rule 56 (exprindex)
+
+
+State 66
+
+   51 exprnoindex: ID . OCURV optionalArgs CCURV
+   54 exprindex: ID .
+
+    OCURV  shift, and go to state 88
+
+    $default  reduce using rule 54 (exprindex)
+
+
+State 67
+
+   35 statement: RETURN optionalExp . SEMIC
+
+    SEMIC  shift, and go to state 89
+
+
+State 68
+
+   37 optionalExp: expr .
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    OP11       shift, and go to state 91
+    OP12       shift, and go to state 92
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+    $default  reduce using rule 37 (optionalExp)
+
+
+State 69
+
+   40 expr: exprnoindex .
+
+    $default  reduce using rule 40 (expr)
+
+
+State 70
+
+   39 expr: exprindex .
+   53 exprindex: exprindex . OSQUARE expr CSQUARE
+
+    OSQUARE  shift, and go to state 97
+
+    $default  reduce using rule 39 (expr)
+
+
+State 71
+
+   36 ifState: IF OCURV . expr CCURV statement
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 98
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 72
+
+   31 statement: WHILE OCURV . expr CCURV statement
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 99
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 73
+
+   30 statement: OBRACE CBRACE .
+
+    $default  reduce using rule 30 (statement)
+
+
+State 74
+
+   29 statement: OBRACE stateList . CBRACE
+
+    CBRACE  shift, and go to state 100
+
+
+State 75
+
+   34 statement: ID OSQUARE . expr CSQUARE ASSIGN expr SEMIC
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 101
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 76
+
+   33 statement: ID ASSIGN . expr SEMIC
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 102
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 77
+
+    9 methodDecl: PUBLIC STATIC type ID OCURV params CCURV OBRACE statements CBRACE .
+
+    $default  reduce using rule 9 (methodDecl)
+
+
+State 78
+
+   10 statements: varList stateList .
+
+    $default  reduce using rule 10 (statements)
+
+
+State 79
+
+   19 varList: varDecl varList .
+
+    $default  reduce using rule 19 (varList)
+
+
+State 80
+
+   25 stateList: statement stateList .
+
+    $default  reduce using rule 25 (stateList)
+
+
+State 81
+
+   27 statement: ifState ELSE . statement
+
+    PRINT   shift, and go to state 46
+    RETURN  shift, and go to state 47
+    IF      shift, and go to state 48
+    WHILE   shift, and go to state 49
+    OBRACE  shift, and go to state 50
+    ID      shift, and go to state 51
+
+    statement  go to state 103
+    ifState    go to state 57
+
+
+State 82
+
+   32 statement: PRINT OCURV expr . CCURV SEMIC
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    CCURV      shift, and go to state 104
+    OP11       shift, and go to state 91
+    OP12       shift, and go to state 92
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+
+State 83
+
+   50 exprnoindex: PARSEINT OCURV . ID OSQUARE expr CSQUARE CCURV
+
+    ID  shift, and go to state 105
+
+
+State 84
+
+   41 exprnoindex: NEW numType . OSQUARE expr CSQUARE
+
+    OSQUARE  shift, and go to state 106
+
+
+State 85
+
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   52            | OCURV expr . CCURV
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    CCURV      shift, and go to state 107
+    OP11       shift, and go to state 91
+    OP12       shift, and go to state 92
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+
+State 86
+
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   49            | NOT expr .
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+
+    $default  reduce using rule 49 (exprnoindex)
+
+
+State 87
+
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   48            | OP3 expr .
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    OP4        shift, and go to state 96
+
+    $default  reduce using rule 48 (exprnoindex)
+
+
+State 88
+
+   51 exprnoindex: ID OCURV . optionalArgs CCURV
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    $default  reduce using rule 59 (optionalArgs)
+
+    expr          go to state 108
+    exprnoindex   go to state 69
+    exprindex     go to state 70
+    optionalArgs  go to state 109
+    args          go to state 110
+
+
+State 89
+
+   35 statement: RETURN optionalExp SEMIC .
+
+    $default  reduce using rule 35 (statement)
+
+
+State 90
+
+   57 exprindex: expr DOTLENGTH .
+
+    $default  reduce using rule 57 (exprindex)
+
+
+State 91
+
+   42 exprnoindex: expr OP11 . expr
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 111
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 92
+
+   43 exprnoindex: expr OP12 . expr
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 112
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 93
+
+   44 exprnoindex: expr OP21 . expr
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 113
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 94
+
+   45 exprnoindex: expr OP22 . expr
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 114
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 95
+
+   46 exprnoindex: expr OP3 . expr
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 115
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 96
+
+   47 exprnoindex: expr OP4 . expr
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 116
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 97
+
+   53 exprindex: exprindex OSQUARE . expr CSQUARE
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 117
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 98
+
+   36 ifState: IF OCURV expr . CCURV statement
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    CCURV      shift, and go to state 118
+    OP11       shift, and go to state 91
+    OP12       shift, and go to state 92
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+
+State 99
+
+   31 statement: WHILE OCURV expr . CCURV statement
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    CCURV      shift, and go to state 119
+    OP11       shift, and go to state 91
+    OP12       shift, and go to state 92
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+
+State 100
+
+   29 statement: OBRACE stateList CBRACE .
+
+    $default  reduce using rule 29 (statement)
+
+
+State 101
+
+   34 statement: ID OSQUARE expr . CSQUARE ASSIGN expr SEMIC
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    CSQUARE    shift, and go to state 120
+    OP11       shift, and go to state 91
+    OP12       shift, and go to state 92
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+
+State 102
+
+   33 statement: ID ASSIGN expr . SEMIC
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    SEMIC      shift, and go to state 121
+    OP11       shift, and go to state 91
+    OP12       shift, and go to state 92
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+
+State 103
+
+   27 statement: ifState ELSE statement .
+
+    $default  reduce using rule 27 (statement)
+
+
+State 104
+
+   32 statement: PRINT OCURV expr CCURV . SEMIC
+
+    SEMIC  shift, and go to state 122
+
+
+State 105
+
+   50 exprnoindex: PARSEINT OCURV ID . OSQUARE expr CSQUARE CCURV
+
+    OSQUARE  shift, and go to state 123
+
+
+State 106
+
+   41 exprnoindex: NEW numType OSQUARE . expr CSQUARE
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 124
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 107
+
+   52 exprnoindex: OCURV expr CCURV .
+
+    $default  reduce using rule 52 (exprnoindex)
+
+
+State 108
+
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+   60 args: expr . COMMA args
+   61     | expr .
+
+    DOTLENGTH  shift, and go to state 90
+    COMMA      shift, and go to state 125
+    OP11       shift, and go to state 91
+    OP12       shift, and go to state 92
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+    $default  reduce using rule 61 (args)
+
+
+State 109
+
+   51 exprnoindex: ID OCURV optionalArgs . CCURV
+
+    CCURV  shift, and go to state 126
+
+
+State 110
+
+   58 optionalArgs: args .
+
+    $default  reduce using rule 58 (optionalArgs)
+
+
+State 111
+
+   42 exprnoindex: expr . OP11 expr
+   42            | expr OP11 expr .
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    OP12       shift, and go to state 92
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+    $default  reduce using rule 42 (exprnoindex)
+
+
+State 112
+
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   43            | expr OP12 expr .
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+    $default  reduce using rule 43 (exprnoindex)
+
+
+State 113
+
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   44            | expr OP21 expr .
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+    $default  reduce using rule 44 (exprnoindex)
+
+
+State 114
+
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   45            | expr OP22 expr .
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    OP21       shift, and go to state 93
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+    $default  reduce using rule 45 (exprnoindex)
+
+
+State 115
+
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   46            | expr OP3 expr .
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    OP4        shift, and go to state 96
+
+    $default  reduce using rule 46 (exprnoindex)
+
+
+State 116
+
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   47            | expr OP4 expr .
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+
+    $default  reduce using rule 47 (exprnoindex)
+
+
+State 117
+
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   53 exprindex: exprindex OSQUARE expr . CSQUARE
+   57          | expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    CSQUARE    shift, and go to state 127
+    OP11       shift, and go to state 91
+    OP12       shift, and go to state 92
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+
+State 118
+
+   36 ifState: IF OCURV expr CCURV . statement
+
+    PRINT   shift, and go to state 46
+    RETURN  shift, and go to state 47
+    IF      shift, and go to state 48
+    WHILE   shift, and go to state 49
+    OBRACE  shift, and go to state 50
+    ID      shift, and go to state 51
+
+    statement  go to state 128
+    ifState    go to state 57
+
+
+State 119
+
+   31 statement: WHILE OCURV expr CCURV . statement
+
+    PRINT   shift, and go to state 46
+    RETURN  shift, and go to state 47
+    IF      shift, and go to state 48
+    WHILE   shift, and go to state 49
+    OBRACE  shift, and go to state 50
+    ID      shift, and go to state 51
+
+    statement  go to state 129
+    ifState    go to state 57
+
+
+State 120
+
+   34 statement: ID OSQUARE expr CSQUARE . ASSIGN expr SEMIC
+
+    ASSIGN  shift, and go to state 130
+
+
+State 121
+
+   33 statement: ID ASSIGN expr SEMIC .
+
+    $default  reduce using rule 33 (statement)
+
+
+State 122
+
+   32 statement: PRINT OCURV expr CCURV SEMIC .
+
+    $default  reduce using rule 32 (statement)
+
+
+State 123
+
+   50 exprnoindex: PARSEINT OCURV ID OSQUARE . expr CSQUARE CCURV
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 131
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 124
+
+   41 exprnoindex: NEW numType OSQUARE expr . CSQUARE
+   42            | expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    CSQUARE    shift, and go to state 132
+    OP11       shift, and go to state 91
+    OP12       shift, and go to state 92
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+
+State 125
+
+   60 args: expr COMMA . args
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 108
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+    args         go to state 133
+
+
+State 126
+
+   51 exprnoindex: ID OCURV optionalArgs CCURV .
+
+    $default  reduce using rule 51 (exprnoindex)
+
+
+State 127
+
+   53 exprindex: exprindex OSQUARE expr CSQUARE .
+
+    $default  reduce using rule 53 (exprindex)
+
+
+State 128
+
+   36 ifState: IF OCURV expr CCURV statement .
+
+    $default  reduce using rule 36 (ifState)
+
+
+State 129
+
+   31 statement: WHILE OCURV expr CCURV statement .
+
+    $default  reduce using rule 31 (statement)
+
+
+State 130
+
+   34 statement: ID OSQUARE expr CSQUARE ASSIGN . expr SEMIC
+
+    PARSEINT  shift, and go to state 59
+    NEW       shift, and go to state 60
+    OCURV     shift, and go to state 61
+    NOT       shift, and go to state 62
+    OP3       shift, and go to state 63
+    INTLIT    shift, and go to state 64
+    BOOLLIT   shift, and go to state 65
+    ID        shift, and go to state 66
+
+    expr         go to state 134
+    exprnoindex  go to state 69
+    exprindex    go to state 70
+
+
+State 131
+
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   50            | PARSEINT OCURV ID OSQUARE expr . CSQUARE CCURV
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    CSQUARE    shift, and go to state 135
+    OP11       shift, and go to state 91
+    OP12       shift, and go to state 92
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+
+State 132
+
+   41 exprnoindex: NEW numType OSQUARE expr CSQUARE .
+
+    $default  reduce using rule 41 (exprnoindex)
+
+
+State 133
+
+   60 args: expr COMMA args .
+
+    $default  reduce using rule 60 (args)
+
+
+State 134
+
+   34 statement: ID OSQUARE expr CSQUARE ASSIGN expr . SEMIC
+   42 exprnoindex: expr . OP11 expr
+   43            | expr . OP12 expr
+   44            | expr . OP21 expr
+   45            | expr . OP22 expr
+   46            | expr . OP3 expr
+   47            | expr . OP4 expr
+   57 exprindex: expr . DOTLENGTH
+
+    DOTLENGTH  shift, and go to state 90
+    SEMIC      shift, and go to state 136
+    OP11       shift, and go to state 91
+    OP12       shift, and go to state 92
+    OP21       shift, and go to state 93
+    OP22       shift, and go to state 94
+    OP3        shift, and go to state 95
+    OP4        shift, and go to state 96
+
+
+State 135
+
+   50 exprnoindex: PARSEINT OCURV ID OSQUARE expr CSQUARE . CCURV
+
+    CCURV  shift, and go to state 137
+
+
+State 136
+
+   34 statement: ID OSQUARE expr CSQUARE ASSIGN expr SEMIC .
+
+    $default  reduce using rule 34 (statement)
+
+
+State 137
+
+   50 exprnoindex: PARSEINT OCURV ID OSQUARE expr CSQUARE CCURV .
+
+    $default  reduce using rule 50 (exprnoindex)

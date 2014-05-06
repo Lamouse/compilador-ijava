@@ -83,7 +83,8 @@ extern char* yytext;
 
 %type <exp> optionalExp
 %type <exp> expr
-%type <exp> safeExpr
+%type <exp> exprnoindex
+%type <exp> exprindex
 %type <exp> optionalArgs
 %type <exp> args
 
@@ -160,25 +161,28 @@ ifState: IF OCURV expr CCURV statement											{$$ = newIf($3, $5);}
 optionalExp: expr																{$$ = $1;}
 	|																			{$$ = NULL;}
 
-expr:	NEW numType OSQUARE expr CSQUARE										{$$ = newAnonymousOper($4, NULL, $2 == Int ? NewInt:NewBool);}
-	| safeExpr %prec EXPR 														{$$ = $1;}
+expr: exprindex 																{$$ = $1;}
+	| exprnoindex																{$$ = $1;}
 
-safeExpr: expr OP11 expr 														{$$ = newAnonymousOper($1, $3, getOperType($2));}
+exprnoindex: NEW numType OSQUARE expr CSQUARE									{$$ = newAnonymousOper($4, NULL, $2 == Int ? NewInt:NewBool);}
+	| expr OP11 expr 															{$$ = newAnonymousOper($1, $3, getOperType($2));}
 	| expr OP12 expr															{$$ = newAnonymousOper($1, $3, getOperType($2));}
 	| expr OP21 expr															{$$ = newAnonymousOper($1, $3, getOperType($2));}
 	| expr OP22 expr															{$$ = newAnonymousOper($1, $3, getOperType($2));}
 	| expr OP3 expr																{$$ = newAnonymousOper($1, $3, getOperType($2));}
 	| expr OP4 expr																{$$ = newAnonymousOper($1, $3, getOperType($2));}
-	| safeExpr OSQUARE expr CSQUARE												{$$ = newAnonymousOper($1, $3, LoadArray);}
+	| OP3 expr																	{$$ = newAnonymousOper($2, NULL, !strcmp($1, "+") ? Plus : Minus);}
+	| NOT expr 																	{$$ = newAnonymousOper($2, NULL, Not);}
+	| PARSEINT OCURV ID OSQUARE expr CSQUARE CCURV								{$$ = newAnonymousOper(newId($3), $5, Parse);}
+	| ID OCURV optionalArgs CCURV												{$$ = newOper($1, $3, Call);}
+	| OCURV expr CCURV 															{$$ = $2;}
+
+exprindex: exprindex OSQUARE expr CSQUARE 										{$$ = newAnonymousOper($1, $3, LoadArray);}
 	| ID 																		{$$ = newId($1);}
 	| INTLIT 																	{$$ = newLiteral($1, IntLit);}
 	| BOOLLIT 																	{$$ = newLiteral($1, BoolLit);}
 	| expr DOTLENGTH															{$$ = newAnonymousOper($1, NULL, Length);}
-	| OP3 expr																	{$$ = newAnonymousOper($2, NULL, !strcmp($1, "+") ? Plus : Minus);}
-	| NOT expr																	{$$ = newAnonymousOper($2, NULL, Not);}
-	| PARSEINT OCURV ID OSQUARE expr CSQUARE CCURV								{$$ = newAnonymousOper(newId($3), $5, Parse);}
-	| ID OCURV optionalArgs CCURV												{$$ = newOper($1, $3, Call);}
-	| OCURV expr CCURV															{$$ = $2;}
+
 
 optionalArgs: args 																{$$ = $1;}
 	| 																			{$$ = NULL;}
@@ -218,14 +222,14 @@ int main(int argc, char **argv) {
 		}
 
 		checkDuplicateDeclaration();
-		//checkTypeIssues();
+		checkTypeIssues();
 
 		if(!hasErrors){
 			if(table){
 				printProgramSymbols(program);
 			}
 		}
-		
+
 		//free memory
 		cleanProgram(program);
 	}

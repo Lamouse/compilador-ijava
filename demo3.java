@@ -1,17 +1,16 @@
 class gcd {
 	static int y;
+	static int c;
 
-	public static void main(String[] args) {
-		boolean aux;
-		a = 2/2;
-		b = true || false;
-		return x;
+	public static void main(int a) {
+		
 	}
 
-	static boolean p;
+	public static int a(int a, int b){
+		int c;
 
-	public static int abc(int a){
-
+		c= a(1, 1);
+		//deve dar erro
 	}
 }
    

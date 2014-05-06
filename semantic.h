@@ -96,6 +96,7 @@ int checkOldDeclaration(Declaration* decl) {
 	Declaration* tempDecl;
 	VarDecl* varDecl, *varTempDecl;
 	Ids* id1, *id2;
+	char* name;
 
 	for (tempDecl = program->declarations; tempDecl != NULL; tempDecl = tempDecl->next) {
 		if(decl->isMethod == tempDecl->isMethod){
@@ -115,6 +116,23 @@ int checkOldDeclaration(Declaration* decl) {
 							return 1;
 						}
 					}
+				}
+			}
+		}
+		else{
+			if(decl->isMethod){
+				name = decl->content.method.id;
+				varDecl = &tempDecl->content.var;
+			}
+			else{
+				name = tempDecl->content.method.id;
+				varDecl = &decl->content.var;
+			}
+
+			for(id1 = varDecl->ids; id1 != NULL; id1 = id1->next){
+				if(!strcmp(id1->name, name)) {
+					printf("Symbol %s already defined\n", id1->name);
+					return 1;
 				}
 			}
 		}
@@ -140,13 +158,13 @@ int checkDuplicateIdsVarDecl(VarDecl* var1, VarDecl* var2){
 }
 
 int checkDuplicateIdsVarDecls(VarDecl* var1, VarDecl* var2){
-	VarDecl* id1;
-	Ids* id2;
+	Ids* id1;
+	VarDecl* id2;
 
-	for(id1 = var1; id1 != NULL; id1 = id1->next){
-		for (id2 = var2->ids; id2 != NULL; id2 = id2->next) {
-			if(!strcmp(id1->ids->name, id2->name)){
-				printf("Symbol %s already defined\n", id1->ids->name);
+	for(id1 = var1->ids; id1 != NULL; id1 = id1->next){
+		for (id2 = var2; id2 != NULL && id2->ids != id1; id2 = id2->next) {
+			if(!strcmp(id1->name, id2->ids->name)){
+				printf("Symbol %s already defined\n", id1->name);
 				return 1;
 			}
 		}
@@ -166,25 +184,15 @@ int checkLocalVars(MethodDecl* decl) {
 			//check param and old params
 			if(checkDuplicateIdsVarDecls(atual, params))
 				return 1;
-
-			//check param and global vars
-			if(findFieldType(atual->ids->name) != Void){
-				printf("Symbol %s already defined\n", atual->ids->name);
-				return 1;
-			}
-		}
-
-		//check first param and global vars
-		if(findFieldType(params->ids->name) != Void){
-			printf("Symbol %s already defined\n", params->ids->name);
-			return 1;
 		}
 	}
 
 	for(atual = decl->vars; atual != NULL; atual = atual->next){
 		//check vars and params
-		if(checkDuplicateIdsVarDecls(atual, params))
-			return 1;
+		if(params != NULL){
+			if(checkDuplicateIdsVarDecls(atual, params))
+				return 1;
+		}
 
 		//check vars and old vars
 		for(temp = decl->vars; temp != NULL && temp != atual; temp = temp->next){
@@ -194,15 +202,7 @@ int checkLocalVars(MethodDecl* decl) {
 
 		//check ids inside vars
 		if(checkDuplicateIdsVarDecl(atual, atual))
-			return 1;
-
-		//check vars and global vars
-		for(id1 = atual->ids; id1 != NULL; id1 = id1->next){
-			if(findFieldType(id1->name) != Void){
-				printf("Symbol %s already defined\n", id1->name);
-				return 1;
-			}
-		}		
+			return 1;	
 	}
 	return 0;
 }
@@ -294,7 +294,7 @@ Type getOperResultType(ExpType type, Oper* oper) {
 
 				if (given != expected) {
 					hasErrors = 1;
-					printf("Incompatible type of argument %d in call to method %s (got %s, required %s)",
+					printf("Incompatible type of argument %d in call to method %s (got %s, required %s)\n",
 						i, method->id, getTypeSymbol(given), getTypeSymbol(expected));
 					break;
 				}
