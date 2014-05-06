@@ -2,8 +2,8 @@
 #include<string.h>
 
 char* TypeSymbols[] = {"void", "String", "boolean", "int", "String[]", "boolean[]", "int[]"};
-char* OperNames[] = {"Not", "Or", "And", "Eq", "Neq", "Lt", "Gt", "Leq", "Geq", "Add", "Sub", "Mul", "Div", "Mod", "Minus", "Plus", "LoadArray", "Call", "Length", "ParseArgs",  "NewInt", "NewBool"};
-char* OperSymbols[] = {"!", "||", "&&", "==", "!=", "<", ">", "<=", ">=", "+", "-", "*", "\\", "%", "-", "+", "[", "("};
+char* OperNames[] = {"Not", "Or", "And", "Eq", "Neq", "Lt", "Gt", "Leq", "Geq", "Add", "Sub", "Mul", "Div", "Mod", "Minus", "Plus", "LoadArray", "Call",  "NewInt", "NewBool", "Length", "ParseArgs"};
+char* OperSymbols[] = {"!", "||", "&&", "==", "!=", "<", ">", "<=", ">=", "+", "-", "*", "/", "%", "-", "+", "[", "("};
 
 
 // Expressions
