@@ -301,12 +301,6 @@ Type getOperResultType(ExpType type, Oper* oper) {
 			return method->type;
 		}
 
-	} else if (type == Length) {
-		if (a < StringArray)
-			reportOperatorType(type, a);
-
-		return Int;
-
 	}  else if (type == Parse) {
 		Type array = getVarType(method, oper->id);
 		reportIndexTypes(array, a);

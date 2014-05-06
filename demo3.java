@@ -7,11 +7,11 @@ class gcd {
 	}
 
 	public static int a(String[] args){
-		int[] c;
 		int d;
+		boolean[] c;
+		d = Integer.parseInt(c[2]);
 
-		d = d.length;
-		
+		d = c[2];
 	}
 }
    
