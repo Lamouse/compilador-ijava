@@ -6,11 +6,12 @@ class gcd {
 		
 	}
 
-	public static int a(int a, int b){
-		int c;
+	public static int a(String[] args){
+		int[] c;
+		int d;
 
-		c= a(1, 1);
-		//deve dar erro
+		d = d.length;
+		
 	}
 }
    

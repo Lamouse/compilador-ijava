@@ -248,12 +248,14 @@ Type getOperResultType(ExpType type, Oper* oper) {
 		if (a != b)
 			reportOperatorTypes(type, a, b);
 
-		return a;
+		return Bool;
 
 	} else if (type >= Lt && type <= Mod) {
 		if (a != Int || b != Int)
 			reportOperatorTypes(type, a, b);
 
+		if(type < Add)
+			return Bool;
 		return Int;
 
 	} else if (type >= Minus && type <= NewBool) {
