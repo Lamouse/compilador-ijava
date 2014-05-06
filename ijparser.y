@@ -222,7 +222,7 @@ int main(int argc, char **argv) {
 		}
 
 		checkDuplicateDeclaration();
-		//checkTypeIssues();
+		checkTypeIssues();
 
 		if(!hasErrors){
 			if(table){

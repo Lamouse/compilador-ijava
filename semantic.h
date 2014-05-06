@@ -294,7 +294,7 @@ Type getOperResultType(ExpType type, Oper* oper) {
 
 				if (given != expected) {
 					hasErrors = 1;
-					printf("Incompatible type of argument %d in call to method %s (got %s, required %s)", i, method->id,
+					printf("Incompatible type of argument %d in call to method %s (got %s, required %s)\n", i, method->id,
 						getTypeSymbol(given), getTypeSymbol(expected));
 					break;
 				}
