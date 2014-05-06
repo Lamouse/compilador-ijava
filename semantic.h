@@ -306,13 +306,6 @@ Type getOperResultType(ExpType type, Oper* oper) {
 
 			return method->type;
 		}
-
-	} else if (type == IntLit) {
-
-		return Int;
-
-	} else if (type == BoolLit) {
-		return Bool;
 	}
 
 	return Void;
@@ -323,11 +316,16 @@ Type getExpType(Exp* exp) {
 		return Void;
 	else if (exp->type == Id)
 		return getVarType(method, exp->content.id);
-	else if (exp->type == IntLit)
-		return Int;
 	else if (exp->type == BoolLit)
 		return Bool;
-	else
+	else if (exp->type == IntLit) {
+		if (!hasErrors && exp->content.literal[0] == '0' && exp->content.literal[1] != 'x') {
+			hasErrors = 1;
+			printf("Invalid literal %s\n", exp->content.literal);
+		}
+
+		return Int;
+	} else
 		return getOperResultType(exp->type, &exp->content.oper);
 }
 
