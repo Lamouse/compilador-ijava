@@ -166,25 +166,15 @@ int checkLocalVars(MethodDecl* decl) {
 			//check param and old params
 			if(checkDuplicateIdsVarDecls(atual, params))
 				return 1;
-
-			//check param and global vars
-			if(findFieldType(atual->ids->name) != Void){
-				printf("Symbol %s already defined\n", atual->ids->name);
-				return 1;
-			}
-		}
-
-		//check first param and global vars
-		if(findFieldType(params->ids->name) != Void){
-			printf("Symbol %s already defined\n", params->ids->name);
-			return 1;
 		}
 	}
 
 	for(atual = decl->vars; atual != NULL; atual = atual->next){
 		//check vars and params
-		if(checkDuplicateIdsVarDecls(atual, params))
-			return 1;
+		if(params != NULL){
+			if(checkDuplicateIdsVarDecls(atual, params))
+				return 1;
+		}
 
 		//check vars and old vars
 		for(temp = decl->vars; temp != NULL && temp != atual; temp = temp->next){
@@ -194,15 +184,7 @@ int checkLocalVars(MethodDecl* decl) {
 
 		//check ids inside vars
 		if(checkDuplicateIdsVarDecl(atual, atual))
-			return 1;
-
-		//check vars and global vars
-		for(id1 = atual->ids; id1 != NULL; id1 = id1->next){
-			if(findFieldType(id1->name) != Void){
-				printf("Symbol %s already defined\n", id1->name);
-				return 1;
-			}
-		}		
+			return 1;	
 	}
 	return 0;
 }
