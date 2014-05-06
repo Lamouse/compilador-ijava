@@ -158,13 +158,13 @@ int checkDuplicateIdsVarDecl(VarDecl* var1, VarDecl* var2){
 }
 
 int checkDuplicateIdsVarDecls(VarDecl* var1, VarDecl* var2){
-	VarDecl* id1;
-	Ids* id2;
+	Ids* id1;
+	VarDecl* id2;
 
-	for(id1 = var1; id1 != NULL; id1 = id1->next){
-		for (id2 = var2->ids; id2 != NULL; id2 = id2->next) {
-			if(!strcmp(id1->ids->name, id2->name)){
-				printf("Symbol %s already defined\n", id1->ids->name);
+	for(id1 = var1->ids; id1 != NULL; id1 = id1->next){
+		for (id2 = var2; id2 != NULL && id2->ids != id1; id2 = id2->next) {
+			if(!strcmp(id1->name, id2->ids->name)){
+				printf("Symbol %s already defined\n", id1->name);
 				return 1;
 			}
 		}
