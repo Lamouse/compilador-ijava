@@ -62,7 +62,7 @@ Type findFieldType(char* name) {
 	return Void;
 }
 
-Type getVarType(char* name) {
+Type getVarType(MethodDecl* method, char* name) {
 	Type type = findVarType(method->params, name);
 
 	if (type == Void) {
@@ -76,6 +76,18 @@ Type getVarType(char* name) {
 	}
 
 	return type;
+}
+
+MethodDecl* getMethod(char* name) {
+	Declaration* decl;
+
+	for (decl = program->declarations; decl != NULL; decl = decl->next)
+		if (decl->isMethod)
+			if (!strcmp(decl->content.method.id, name)
+				return &decl->content.method;
+
+	reportMissingSymbol(name);
+	return NULL;
 }
 
 
@@ -263,10 +275,33 @@ Type getOperResultType(ExpType type, Oper* oper) {
 		return Int;
 
 	} else if (type == LoadArray) {
-		Type array = getVarType(oper->id);
+		Type array = getVarType(method, oper->id);
 		reportIndexTypes(array, a);
 
 		return hasErrors ? Void : array - 3;
+
+	} else if (type == Call) {
+		MethodDecl* method = getMethod(oper->id);
+
+		if (!hasErrors) {
+			VarDecl* param = method->params;
+			Exp* value = oper->params;
+
+			while (value != NULL || param != NULL) {
+				Type given = getExpType(value);
+				Type expected = param != NULL ? getVarType(param->ids->name) : Void;
+
+				if (given != expected) {
+					
+				}
+			}
+		}
+
+	} else if (type == IntLit) {
+		return Int;
+
+	} else if (type == BoolLit) {
+		return Bool;
 	}
 
 	return Void;
@@ -276,7 +311,7 @@ Type getExpType(Exp* exp) {
 	if (exp == NULL)
 		return Void;
 	else if (exp->type == Id)
-		return getVarType(exp->content.id);
+		return getVarType(method, exp->content.id);
 	else if (exp->type == IntLit)
 		return Int;
 	else if (exp->type == BoolLit)
@@ -289,7 +324,7 @@ Type getExpType(Exp* exp) {
 // Statements
 void checkStatement(Statement* state);
 void checkStore(Store* store) {
-	Type type = getVarType(store->target);
+	Type type = getVarType(method, store->target);
 	Type gotten = getExpType(store->value);
 
 	if (store->index != NULL) {
@@ -323,7 +358,7 @@ void checkIf(IfElse* ifelse) {
 
 void checkWhile(While* _while) {
 	getExpType(_while->condition);
-	printStatement(_while->statement);
+	checkStatement(_while->statement);
 }
 
 void checkReturn(Return* _return) {
