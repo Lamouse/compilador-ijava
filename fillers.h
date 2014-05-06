@@ -4,7 +4,6 @@
 char* TypeSymbols[] = {"void", "String", "boolean", "int", "String[]", "boolean[]", "int[]"};
 char* OperNames[] = {"Not", "Or", "And", "Eq", "Neq", "Lt", "Gt", "Leq", "Geq", "Add", "Sub", "Mul", "Div", "Mod", "Minus", "Plus", "LoadArray", "Call", "Length", "ParseArgs",  "NewInt", "NewBool"};
 char* OperSymbols[] = {"!", "||", "&&", "==", "!=", "<", ">", "<=", ">=", "+", "-", "*", "\\", "%", "-", "+", "[", "("};
-int NumOperSymbols = 18;
 
 
 // Expressions
@@ -42,10 +41,10 @@ Exp* newId(char* id) {
 }
 
 ExpType getOperType(char* oper) {
-	int i;
-	for (i = 0; i < NumOperSymbols; ++i)
-		if (!strcmp(oper, OperSymbols[i]))
-			return (ExpType) i;
+	ExpType type;
+	for (type = Not; type <= Plus; ++type)
+		if (!strcmp(oper, OperSymbols[type]))
+			return type;
 }
 
 Exp* connectExp(Exp* a, Exp* b) {
