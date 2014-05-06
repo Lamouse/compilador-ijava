@@ -96,6 +96,7 @@ int checkOldDeclaration(Declaration* decl) {
 	Declaration* tempDecl;
 	VarDecl* varDecl, *varTempDecl;
 	Ids* id1, *id2;
+	char* name;
 
 	for (tempDecl = program->declarations; tempDecl != NULL; tempDecl = tempDecl->next) {
 		if(decl->isMethod == tempDecl->isMethod){
@@ -115,6 +116,23 @@ int checkOldDeclaration(Declaration* decl) {
 							return 1;
 						}
 					}
+				}
+			}
+		}
+		else{
+			if(decl->isMethod){
+				name = decl->content.method.id;
+				varDecl = &tempDecl->content.var;
+			}
+			else{
+				name = tempDecl->content.method.id;
+				varDecl = &decl->content.var;
+			}
+
+			for(id1 = varDecl->ids; id1 != NULL; id1 = id1->next){
+				if(!strcmp(id1->name, name)) {
+					printf("Symbol %s already defined\n", id1->name);
+					return 1;
 				}
 			}
 		}

@@ -1,11 +1,14 @@
 class gcd {
 	static int y;
+	static int c;
 
-	public static void main() {
-		int a;
-		a = new int[2].length;
+	public static void main(int c) {
+		int c;
 
-		if(new int[2]) a = a + 1;
+	}
+
+	public static int a(){
+		//deve dar erro
 	}
 }
    
