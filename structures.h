@@ -10,8 +10,8 @@ typedef enum {
 	Eq, Neq,
 	Lt, Gt, Leq, Geq, Add, Sub, Mul, Div, Mod,
 	Minus, Plus,
-	LoadArray, Call,
 	NewInt, NewBool,
+	LoadArray, Call,
 	Length, Parse,
 	IntLit, BoolLit, Id} ExpType;
 
