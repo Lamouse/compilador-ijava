@@ -1,8 +1,7 @@
 #ifndef _STRUCTURES_
 #define _STRUCTURES_
 
-typedef struct _Exp Exp;
-typedef struct _Statement Statement;
+// Enumerations
 typedef enum {Void, String, Bool, Int, StringArray, BoolArray, IntArray} Type;
 typedef enum {IfType, ReturnType, WhileType, StoreType, PrintType} StatementType;
 typedef enum {
@@ -11,11 +10,13 @@ typedef enum {
 	Eq, Neq, Lt, Gt, Leq, Geq,
 	Add, Sub, Mul, Div, Mod,
 	Minus, Plus,
+	LoadArray, Call,
 	NewInt, NewBool,
-	Length, Parse, LoadArray, Call,
+	Length, Parse,
 	IntLit, BoolLit, Id} ExpType;
 
 // Expressions
+typedef struct _Exp Exp;
 typedef struct {
 	Exp* params;
 	char* id;
@@ -34,6 +35,7 @@ struct _Exp {
 
 
 // Statements
+typedef struct _Statement Statement;
 typedef struct {
 	Exp* value;
 } Print;

@@ -13,15 +13,20 @@ void reportMissingSymbol(char* name) {
 void reportOperatorType(ExpType oper, Type type) {
 	if (!hasErrors) {
 		hasErrors = 1;
-		printf("Operator OPER cannot be applied to type %s\n", getTypeSymbol(type));
+		printf("Operator %s cannot be applied to type %s\n", OperSymbols[oper], getTypeSymbol(type));
 	}
 }
 
 void reportOperatorTypes(ExpType oper, Type a, Type b) {
 	if (!hasErrors) {
 		hasErrors = 1;
-		printf("Operator OPER cannot be applied to types %s, %s\n", getTypeSymbol(a), getTypeSymbol(b));
+		printf("Operator %s cannot be applied to types %s, %s\n", OperSymbols[oper], getTypeSymbol(a), getTypeSymbol(b));
 	}
+}
+
+void reportIndexTypes(Type array, Type index) {
+	if (array < StringArray || index != Int) 
+		reportOperatorTypes(LoadArray, array, index);
 }
 
 
@@ -225,11 +230,10 @@ Type getOperResultType(ExpType type, Oper* oper) {
 		return Int;
 
 	} else if (type == LoadArray) {
-		Type arrayType = getVarType(oper->id);
-		if (arrayType < StringArray || a != Int)
-			printf("WE FOUND LoadArray error!\n");
+		Type array = getVarType(oper->id);
+		reportIndexTypes(array, a);
 
-		return arrayType - 3;
+		return hasErrors ? Void : array - 3;
 	}
 
 	return Void;
@@ -255,18 +259,18 @@ void checkStore(Store* store) {
 	Type type = getVarType(store->target);
 	Type gotten = getExpType(store->value);
 
-	if (type >= StringArray) {
+	if (store->index != NULL) {
 		Type index = getExpType(store->index);
 		Type stored = type - 3;
+		reportIndexTypes(type, index);
 
-		if (!hasErrors) {
-			if (index != Int)
-				printf("INDEX ERROR, got type %s\n", getTypeSymbol(index));
-			else if (stored != gotten)
-				printf("Incompatible type in assignment to %s[] (got %s, required %s)\n", store->target,
-					getTypeSymbol(gotten), getTypeSymbol(stored));
+		if (!hasErrors && stored != gotten) {
+			hasErrors = 1;
+			printf("Incompatible type in assignment to %s[] (got %s, required %s)\n", store->target,
+				getTypeSymbol(gotten), getTypeSymbol(stored));
 		}
 	} else if (!hasErrors && type != gotten) {
+		hasErrors = 1;
 		printf("Incompatible type in assignment to %s (got %s, required %s)\n", store->target,
 			getTypeSymbol(gotten), getTypeSymbol(type));
 	}

@@ -1,6 +1,11 @@
 #include<stdlib.h>
 #include<string.h>
 
+char* TypeSymbols[] = {"void", "String", "boolean", "int", "String[]", "boolean[]", "int[]"};
+char* OperNames[] = {"Not", "Or", "And", "Eq", "Neq", "Lt", "Gt", "Leq", "Geq", "Add", "Sub", "Mul", "Div", "Mod", "Minus", "Plus", "LoadArray", "Call", "Length", "ParseArgs",  "NewInt", "NewBool"};
+char* OperSymbols[] = {"!", "||", "&&", "==", "!=", "<", ">", "<=", ">=", "+", "-", "*", "\\", "%", "-", "+", "[", "("};
+int NumOperSymbols = 18;
+
 
 // Expressions
 Exp* newOper(char* id, Exp* params, ExpType type) {
@@ -37,32 +42,10 @@ Exp* newId(char* id) {
 }
 
 ExpType getOperType(char* oper) {
-	if (!strcmp(oper, "&&"))
-		return And;
-	if (!strcmp(oper, "||"))
-		return Or;
-	if (!strcmp(oper, "<"))
-		return Lt;
-	if (!strcmp(oper, ">"))
-		return Gt;
-	if (!strcmp(oper, "=="))
-		return Eq;
-	if (!strcmp(oper, "!="))
-		return Neq;
-	if (!strcmp(oper, "<="))
-		return Leq;
-	if (!strcmp(oper, ">="))
-		return Geq;
-	if (!strcmp(oper, "+"))
-		return Add;
-	if (!strcmp(oper, "-"))
-		return Sub;
-	if (!strcmp(oper, "*"))
-		return Mul;
-	if (!strcmp(oper, "/"))
-		return Div;
-	if (!strcmp(oper, "%"))
-		return Mod;
+	int i;
+	for (i = 0; i < NumOperSymbols; ++i)
+		if (!strcmp(oper, OperSymbols[i]))
+			return (ExpType) i;
 }
 
 Exp* connectExp(Exp* a, Exp* b) {

@@ -1,7 +1,6 @@
 void printStatement(Statement*);
 void printExp(Exp*);
 
-char* OperSymbols[] = {"Not", "Or", "And", "Eq", "Neq", "Lt", "Gt", "Leq", "Geq", "Add", "Sub", "Mul", "Div", "Mod", "Minus", "Plus", "NewInt", "NewBool", "Length", "ParseArgs", "LoadArray", "Call"};
 int identation = 0;
 int isParams = 0;
 
@@ -48,7 +47,7 @@ void printIds(Ids* ids) {
 
 // Expressions
 void printOper(ExpType type, Oper* oper) {
-	ident(); printf("%s\n", OperSymbols[(int) type]);
+	ident(); printf("%s\n", OperNames[(int) type]);
 
 	identation++;
 	printId(oper->id);
