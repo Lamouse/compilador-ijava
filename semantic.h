@@ -256,7 +256,7 @@ Type getOperResultType(ExpType type, Oper* oper) {
 
 		return Int;
 
-	} else if (type >= Minus && type <= Plus) {
+	} else if (type >= Minus && type <= NewBool) {
 		if (a != Int)
 			reportOperatorType(type, a);
 
@@ -306,6 +306,7 @@ Type getOperResultType(ExpType type, Oper* oper) {
 
 			return method->type;
 		}
+
 	}
 
 	return Void;
