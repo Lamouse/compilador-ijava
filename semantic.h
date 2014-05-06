@@ -286,15 +286,25 @@ Type getOperResultType(ExpType type, Oper* oper) {
 		if (!hasErrors) {
 			VarDecl* param = method->params;
 			Exp* value = oper->params;
+			int i = 1;
 
 			while (value != NULL || param != NULL) {
 				Type given = getExpType(value);
 				Type expected = param != NULL ? getVarType(param->ids->name) : Void;
 
 				if (given != expected) {
-					
+					hasErrors = 1;
+					printf("Incompatible type of argument %d in call to method %s (got %s, required %s)", i, method->id,
+						getTypeSymbol(given), getTypeSymbol(expected));
+					break;
 				}
+
+				value = value->next;
+				param = param->next;
+				i++;
 			}
+
+			return method->type;
 		}
 
 	} else if (type == IntLit) {
