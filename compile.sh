@@ -8,4 +8,5 @@ gcc -o ijparser y.tab.c lex.yy.c -ll -ly
 #./ijparser -s < demo5.java
 #./ijparser < demo3.java
 #./ijparser < demo4.java
-./ijparser -t < demo8.java
+#./ijparser < demo8.java
+./ijparser -t < demo9.java

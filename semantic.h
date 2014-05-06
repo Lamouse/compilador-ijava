@@ -270,15 +270,8 @@ Type getOperResultType(ExpType type, Oper* oper) {
 
 		return Int;
 
-	} else if (type == Parse) {
-		if (a != StringArray)
-			reportOperatorType(type, a);
-
-		return Int;
-
 	} else if (type == LoadArray) {
 		reportIndexTypes(a, b);
-
 		return hasErrors ? Void : a - 3;
 
 	} else if (type == Call) {
@@ -315,9 +308,12 @@ Type getOperResultType(ExpType type, Oper* oper) {
 		return Int;
 
 	}  else if (type == Parse) {
-		if (a != String) {
+		Type array = getVarType(method, oper->id);
+		reportIndexTypes(array, a);
+
+		if (!hasErrors && array != StringArray) {
 			hasErrors = 1;
-			printf("Incompatible type of argument 1 in call to method Integer.parseInt (got %s, required String)\n", getTypeSymbol(a));
+			printf("Incompatible type of argument 1 in call to method Integer.parseInt (got %s, required String)\n", getTypeSymbol(array-3));
 		}
 
 		return Int;
