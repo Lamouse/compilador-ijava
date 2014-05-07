@@ -317,6 +317,8 @@ Type getOperResultType(ExpType type, Oper* oper) {
 }
 
 Type getExpType(Exp* exp) {
+	char* aux;
+
 	if (exp == NULL)
 		return Void;
 	else if (exp->type == Id)
@@ -324,11 +326,19 @@ Type getExpType(Exp* exp) {
 	else if (exp->type == BoolLit)
 		return Bool;
 	else if (exp->type == IntLit) {
-		if (!hasErrors && exp->content.literal[0] == '0' && exp->content.literal[1] != 'x') {
-			hasErrors = 1;
-			printf("Invalid literal %s\n", exp->content.literal);
+		if(!hasErrors && exp->content.literal[0] == '0'){
+			if (strcmp(exp->content.literal,"0") && exp->content.literal[1] != 'x') {
+				aux = exp->content.literal;
+				while(*aux != '\0'){
+					if(*aux >= '8'){
+						hasErrors = 1;
+						printf("Invalid literal %s\n", exp->content.literal);
+						return;
+					}
+					aux++;
+				}
+			}
 		}
-
 		return Int;
 	} else
 		return getOperResultType(exp->type, &exp->content.oper);

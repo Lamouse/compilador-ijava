@@ -3,22 +3,10 @@ class gcd {
 
 	public static int main(String[] args){
 		int x;
-		int[] z;
+		boolean[] z;
 
 		//ver depois
-		//x = 09;
-
-		if(true){
-			//System.out.println(args);
-
-			return z;
-		}
-
-		if(true){
-			if(1){
-
-			}
-		}
+		x = 099;
 
 		return x;
 	}
