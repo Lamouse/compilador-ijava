@@ -3,11 +3,14 @@ class gcd {
 
 	public static int main(String[] args){
 		int x;
-		boolean[] z;
+		int[] z;
 
-		//ver depois
-		x = 099;
+		x = 077;
 
-		return x;
+		if(true){
+
+		}
+
+		return x[1];
 	}
 }

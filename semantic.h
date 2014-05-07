@@ -26,7 +26,7 @@ void reportOperatorTypes(ExpType oper, Type a, Type b) {
 }
 
 void reportIndexTypes(Type array, Type index) {
-	if (array < StringArray || index != Int) 
+	if (array < StringArray || index != Int)
 		reportOperatorTypes(LoadArray, array, index);
 }
 
@@ -286,7 +286,7 @@ Type getOperResultType(ExpType type, Oper* oper) {
 				Type given = getExpType(value);
 				Type expected = param != NULL ? getVarType(method, param->ids->name) : Void;
 
-				if (given != expected) {
+				if (!hasErrors && given != expected) {
 					hasErrors = 1;
 					printf("Incompatible type of argument %d in call to method %s (got %s, required %s)\n",
 						i, method->id, getTypeSymbol(given), getTypeSymbol(expected));
@@ -371,19 +371,21 @@ void checkStore(Store* store) {
 void checkPrint(Print* print) {
 	Exp* val;
 	Type a;
-	for (val = print->value; val != NULL; val = val->next){
-		a = getExpType(val);
-		if(a != Bool || a != Int){
-			printf("Incompatible type in System.out.println statement (got %s, required boolean or int)\n", getTypeSymbol(a));
-			hasErrors = 1;
-			return;
+	if(!hasErrors){
+		for (val = print->value; val != NULL; val = val->next){
+			a = getExpType(val);
+			if(a != Bool || a != Int){
+				printf("Incompatible type in System.out.println statement (got %s, required boolean or int)\n", getTypeSymbol(a));
+				hasErrors = 1;
+				return;
+			}
 		}
 	}
 }
 
 void checkIf(IfElse* ifelse) {
 	Type a = getExpType(ifelse->condition);
-	if (a != Bool) {
+	if (!hasErrors && a != Bool) {
 		printf("Incompatible type in if statement (got %s, required boolean)\n", getTypeSymbol(a));
 		hasErrors = 1;
 		return;
@@ -394,7 +396,7 @@ void checkIf(IfElse* ifelse) {
 
 void checkWhile(While* _while) {
 	Type a = getExpType(_while->condition);
-	if (a != Bool) {
+	if (!hasErrors && a != Bool) {
 		printf("Incompatible type in if statement (got %s, required boolean)\n", getTypeSymbol(a));
 		hasErrors = 1;
 		return;
@@ -404,7 +406,7 @@ void checkWhile(While* _while) {
 
 void checkReturn(Return* _return) {
 	Type returned = getExpType(_return->value);
-	if (returned != method->type){
+	if (!hasErrors && returned != method->type){
 		printf("Incompatible type in return statement (got %s, required %s)\n",
 			getTypeSymbol(returned), getTypeSymbol(method->type));
 		hasErrors = 1;
@@ -431,14 +433,16 @@ void checkTypeIssues() {
 	Declaration* decl;
 	Statement* state;
 
-	for (decl = program->declarations; decl != NULL; decl = decl->next) {
-		if (decl->isMethod) {
-			method = &decl->content.method;
+	if(!hasErrors){
+		for (decl = program->declarations; decl != NULL; decl = decl->next) {
+			if (decl->isMethod) {
+				method = &decl->content.method;
 
-			for (state = decl->content.method.statements; state != NULL; state = state->next) {
-				checkStatement(state);
-				if (hasErrors)
-					return;
+				for (state = decl->content.method.statements; state != NULL; state = state->next) {
+					checkStatement(state);
+					if (hasErrors)
+						return;
+				}
 			}
 		}
 	}
