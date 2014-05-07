@@ -4,9 +4,19 @@ class gcd {
 	public static void main(String[] args){
 		int x;
 		boolean[] b;
+		int[] i;
 
 		x = args.length;
-		System.out.println(b[2]);
+		x = b.length;
+
+		x = kjghjgh;
+
+		System.out.println(1 < 2 + 1);
+		System.out.println(2 + 1 + x + i[1]);
+
+		if(args[1] == args[1]){
+
+		}
 
 		x = Integer.parseInt(args[2]);
 

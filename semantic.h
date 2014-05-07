@@ -402,7 +402,7 @@ void checkIf(IfElse* ifelse) {
 void checkWhile(While* _while) {
 	Type a = getExpType(_while->condition);
 	if (!hasErrors && a != Bool) {
-		printf("Incompatible type in if statement (got %s, required boolean)\n", getTypeSymbol(a));
+		printf("Incompatible type in while statement (got %s, required boolean)\n", getTypeSymbol(a));
 		hasErrors = 1;
 		return;
 	}
