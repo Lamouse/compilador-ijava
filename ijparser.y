@@ -148,7 +148,7 @@ stateList: statement stateList													{$$ = connectStatement($1, $2);}
 
 statement: ifState ELSE statement 												{$$ = newElse($1, $3);}
 	| ifState %prec IFX 														{$$ = $1;}
-	| OBRACE stateList CBRACE													{$$ = $2;}
+	| OBRACE stateList CBRACE													{$$ = newComp($2);}
 	| OBRACE CBRACE																{$$ = NULL;}
 	| WHILE OCURV expr CCURV statement 											{$$ = newWhile($3, $5);}
 	| PRINT OCURV expr CCURV SEMIC												{$$ = newPrint($3);}
@@ -221,8 +221,8 @@ int main(int argc, char **argv) {
 			printProgram(program);
 		}
 
-		checkDuplicateDeclaration();
-		checkTypeIssues();
+		//checkDuplicateDeclaration();
+		//checkTypeIssues();
 
 		if(!hasErrors){
 			if(table){

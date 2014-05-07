@@ -1580,7 +1580,7 @@ yyreduce:
 
   case 30:
 #line 151 "ijparser.y" /* yacc.c:1646  */
-    {(yyval.statement) = (yyvsp[-1].statement);}
+    {(yyval.statement) = newComp((yyvsp[-1].statement));}
 #line 1585 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -2064,8 +2064,8 @@ int main(int argc, char **argv) {
 			printProgram(program);
 		}
 
-		checkDuplicateDeclaration();
-		checkTypeIssues();
+		//checkDuplicateDeclaration();
+		//checkTypeIssues();
 
 		if(!hasErrors){
 			if(table){

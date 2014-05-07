@@ -109,6 +109,15 @@ Statement* newPrint(Exp* value) {
 	return state;
 }
 
+Statement* newComp(Statement* value) {
+	Statement* state = (Statement*) malloc(sizeof(Statement));
+	state->content.comp.value = value;
+	state->type = CompType;
+	state->next = NULL;
+
+	return state;
+}
+
 Statement* connectStatement(Statement* a, Statement* b) {
 	if(a == NULL)
 		return b;

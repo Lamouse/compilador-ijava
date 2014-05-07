@@ -3,7 +3,7 @@
 
 // Enumerations
 typedef enum {Void, String, Bool, Int, StringArray, BoolArray, IntArray} Type;
-typedef enum {IfType, ReturnType, WhileType, StoreType, PrintType} StatementType;
+typedef enum {IfType, ReturnType, WhileType, StoreType, PrintType, CompType} StatementType;
 typedef enum {
 	Not,
 	Or, And,
@@ -61,6 +61,10 @@ typedef struct {
 	Exp* value;
 } Return;
 
+typedef struct {
+	Statement* value;
+} Comp;
+
 struct _Statement {
 	union {
 		IfElse ifelse;
@@ -68,6 +72,7 @@ struct _Statement {
 		While _while;
 		Store store;
 		Print print;
+		Comp comp;
 	} content;
 
 	StatementType type;

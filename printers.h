@@ -146,6 +146,20 @@ void printReturn(Return* _return) {
 	identation--;
 }
 
+void printComp(Comp* comp) {
+	if(comp->value != NULL){
+		if(comp->value->next != NULL){
+			printf("CompoundStat\n");
+
+			identation++;
+			printStatement(comp->value);
+			identation--;
+		}
+	}
+	else
+		printStatement(comp->value);
+}
+
 void printStatement(Statement* state) {
 	ident();
 
@@ -162,6 +176,8 @@ void printStatement(Statement* state) {
 			printStore(&state->content.store);
 		else if (state->type == PrintType)
 			printPrint(&state->content.print);
+		else if (state->type == CompType)
+			printComp(&state->content.comp);
 
 		if (state->next != NULL)
 			printStatement(state->next);
