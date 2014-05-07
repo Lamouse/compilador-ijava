@@ -360,26 +360,45 @@ void checkStore(Store* store) {
 
 void checkPrint(Print* print) {
 	Exp* val;
-	for (val = print->value; val != NULL; val = val->next)
-		getExpType(val);
+	Type a;
+	for (val = print->value; val != NULL; val = val->next){
+		a = getExpType(val);
+		if(a != Bool || a != Int){
+			printf("Incompatible type in System.out.println statement (got %s, required boolean or int)\n", getTypeSymbol(a));
+			hasErrors = 1;
+			return;
+		}
+	}
 }
 
 void checkIf(IfElse* ifelse) {
-	getExpType(ifelse->condition);
+	Type a = getExpType(ifelse->condition);
+	if (a != Bool) {
+		printf("Incompatible type in if statement (got %s, required boolean)\n", getTypeSymbol(a));
+		hasErrors = 1;
+		return;
+	}
 	checkStatement(ifelse->first);
 	checkStatement(ifelse->second);
 }
 
 void checkWhile(While* _while) {
-	getExpType(_while->condition);
+	Type a = getExpType(_while->condition);
+	if (a != Bool) {
+		printf("Incompatible type in if statement (got %s, required boolean)\n", getTypeSymbol(a));
+		hasErrors = 1;
+		return;
+	}
 	checkStatement(_while->statement);
 }
 
 void checkReturn(Return* _return) {
 	Type returned = getExpType(_return->value);
-	if (returned != method->type)
+	if (returned != method->type){
 		printf("Incompatible type in return statement (got %s, required %s)\n",
 			getTypeSymbol(returned), getTypeSymbol(method->type));
+		hasErrors = 1;
+	}
 }
 
 
