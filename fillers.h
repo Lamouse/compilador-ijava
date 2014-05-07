@@ -110,6 +110,9 @@ Statement* newPrint(Exp* value) {
 }
 
 Statement* newComp(Statement* value) {
+	if(value == NULL)
+		return NULL;
+	
 	Statement* state = (Statement*) malloc(sizeof(Statement));
 	state->content.comp.value = value;
 	state->type = CompType;

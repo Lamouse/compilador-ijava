@@ -93,30 +93,54 @@ void printPrint(Print* print) {
 	identation--;
 }
 
+void printComp(Comp* comp) {
+	if(comp->value != NULL){
+		printf("1\n");
+		if(comp->value->next != NULL){
+			printf("CompoundStat\n");
+			identation++;
+			printStatement(comp->value);
+			identation--;
+		}
+		else{
+			printStatement(comp->value);
+		}
+	}
+}
+
 void printIf(IfElse* ifelse) {
 	printf("IfElse\n");
 
 	identation++;
-	printExp(ifelse->condition);
-	if(ifelse->first != NULL && ifelse->first->next != NULL){
-		ident();
-		printf("CompoundStat\n");
-		identation++;
-		printStatement(ifelse->first);
-		identation--;
-	}
-	else
-		printStatement(ifelse->first);
 
-	if(ifelse->second != NULL && ifelse->second->next != NULL){
-		ident();
-		printf("CompoundStat\n");
-		identation++;
-		printStatement(ifelse->second);
-		identation--;
+	printExp(ifelse->condition);
+	if(ifelse->first != NULL){
+		if(ifelse->first->type == CompType){
+			if(&ifelse->first->content.comp.value != NULL && &ifelse->first->content.comp.value->next != NULL){
+				ident();
+				printComp(&ifelse->first->content.comp);
+			}
+		}
+		else
+			printStatement(ifelse->first);
 	}
-	else
-		printStatement(ifelse->second);
+	else{
+		ident();
+		printf("Null\n");
+	}
+	if(ifelse->second != NULL){
+		if(ifelse->second->type == CompType)
+			if(&ifelse->second->content.comp.value != NULL && &ifelse->second->content.comp.value->next != NULL){
+				ident();
+				printComp(&ifelse->second->content.comp);
+			}
+		else
+			printStatement(ifelse->second);
+	}
+	else{
+		ident();
+		printf("Null\n");
+	}
 	identation--;
 }
 
@@ -125,16 +149,19 @@ void printWhile(While* _while) {
 
 	identation++;
 	printExp(_while->condition);
-
-	if(_while->statement != NULL && _while->statement->next != NULL){
-		ident();
-		printf("CompoundStat\n");
-		identation++;
-		printStatement(_while->statement);
-		identation--;
+	if(_while->statement != NULL){
+		if(_while->statement->type == CompType)
+			if(&_while->statement->content.comp.value != NULL && &_while->statement->content.comp.value->next != NULL){
+				ident();
+				printComp(&_while->statement->content.comp);
+			}
+		else
+			printStatement(_while->statement);
 	}
-	else
-		printStatement(_while->statement);
+	else{
+		ident();
+		printf("Null\n");
+	}
 	identation--;
 }
 
@@ -144,20 +171,6 @@ void printReturn(Return* _return) {
 	identation++;
 	printExp(_return->value);
 	identation--;
-}
-
-void printComp(Comp* comp) {
-	if(comp->value != NULL){
-		if(comp->value->next != NULL){
-			printf("CompoundStat\n");
-
-			identation++;
-			printStatement(comp->value);
-			identation--;
-		}
-	}
-	else
-		printStatement(comp->value);
 }
 
 void printStatement(Statement* state) {
