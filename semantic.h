@@ -262,6 +262,10 @@ Type getOperResultType(ExpType type, Oper* oper) {
 		if (a != Int)
 			reportOperatorType(type, a);
 
+		if (type == NewInt)
+			return IntArray;
+		else if (type == NewBool)
+			return BoolArray;
 		return Int;
 
 	} else if (type == Length) {
