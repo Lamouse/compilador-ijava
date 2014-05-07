@@ -389,24 +389,33 @@ void checkPrint(Print* print) {
 }
 
 void checkIf(IfElse* ifelse) {
+	Statement* atual;
+
 	Type a = getExpType(ifelse->condition);
 	if (!hasErrors && a != Bool) {
 		printf("Incompatible type in if statement (got %s, required boolean)\n", getTypeSymbol(a));
 		hasErrors = 1;
 		return;
 	}
-	checkStatement(ifelse->first);
-	checkStatement(ifelse->second);
+	for(atual = ifelse->first; atual != NULL; atual = atual->next)
+		checkStatement(atual);
+
+	for(atual = ifelse->second; atual != NULL; atual = atual->next)
+		checkStatement(atual);
 }
 
 void checkWhile(While* _while) {
+	Statement* atual;
 	Type a = getExpType(_while->condition);
-	if (!hasErrors && a != Bool) {
+	
+	if(!hasErrors && a != Bool) {
 		printf("Incompatible type in while statement (got %s, required boolean)\n", getTypeSymbol(a));
 		hasErrors = 1;
 		return;
 	}
-	checkStatement(_while->statement);
+
+	for(atual = _while->statement; atual != NULL; atual = atual->next)
+		checkStatement(atual);
 }
 
 void checkReturn(Return* _return) {

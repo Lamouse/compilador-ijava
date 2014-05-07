@@ -1,28 +1,18 @@
 class gcd {
-	static int c, b;
+	static boolean x;
 
 	public static void main(String[] args){
-		int x;
-		boolean[] b;
-		int[] i;
-
-		x = args.length;
-		x = b.length;
-
-		x = kjghjgh;
-
-		System.out.println(1 < 2 + 1);
-		System.out.println(2 + 1 + x + i[1]);
-
-		if(args[1] == args[1]){
+		if(true){
 
 		}
+		else{
 
-		x = Integer.parseInt(args[2]);
+			x = true;
+			x = 0;
+			
+			return x;
+			return;
+		}
 
-		return a();
-	}
-
-	public static void a(){
 	}
 }
