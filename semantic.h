@@ -26,7 +26,7 @@ void reportOperatorTypes(ExpType oper, Type a, Type b) {
 }
 
 void reportIndexTypes(Type array, Type index) {
-	if (array < StringArray || index != Int)
+	if (array <= StringArray || index != Int)
 		reportOperatorTypes(LoadArray, array, index);
 }
 
@@ -303,7 +303,12 @@ Type getOperResultType(ExpType type, Oper* oper) {
 
 	}  else if (type == Parse) {
 		Type array = getVarType(method, oper->id);
-		reportIndexTypes(array, a);
+
+		//reportIndexTypes(array, a);
+		if(!hasErrors && (array < StringArray || a != Int)){
+			hasErrors = 1;
+			printf("Operator [ cannot be applied to types %s, int\n", getTypeSymbol(a));
+		}
 
 		if (!hasErrors && array != StringArray) {
 			hasErrors = 1;
@@ -374,7 +379,7 @@ void checkPrint(Print* print) {
 	if(!hasErrors){
 		for (val = print->value; val != NULL; val = val->next){
 			a = getExpType(val);
-			if(a != Bool || a != Int){
+			if(!hasErrors && a != Bool && a != Int){
 				printf("Incompatible type in System.out.println statement (got %s, required boolean or int)\n", getTypeSymbol(a));
 				hasErrors = 1;
 				return;
