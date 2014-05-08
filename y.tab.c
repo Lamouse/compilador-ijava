@@ -526,8 +526,8 @@ static const yytype_uint8 yyrline[] =
      136,   137,   139,   141,   143,   144,   146,   147,   149,   150,
      151,   152,   153,   154,   155,   156,   157,   159,   161,   162,
      164,   165,   167,   168,   169,   170,   171,   172,   173,   174,
-     175,   176,   177,   178,   180,   181,   182,   183,   184,   187,
-     188,   190,   191,   193,   194,   196,   197,   199,   200
+     175,   177,   178,   179,   180,   181,   182,   183,   184,   186,
+     187,   189,   190,   192,   193,   195,   196,   198,   199
 };
 #endif
 
@@ -604,14 +604,14 @@ static const yytype_uint8 yydefact[] =
       66,    17,    24,     0,     0,    16,    19,     0,     0,     0,
        0,    22,     0,    14,    18,    15,     0,    39,     0,     0,
        0,     0,     0,    12,    21,    13,    27,    29,     0,     0,
-       0,     0,     0,     0,    56,    57,    55,     0,    38,    41,
+       0,     0,     0,     0,    53,    54,    52,     0,    38,    41,
       40,     0,     0,    31,     0,     0,     0,    10,    11,    20,
       26,     0,     0,     0,     0,     0,    50,    49,    60,    36,
-      58,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-      30,     0,     0,    28,     0,     0,     0,    53,    62,     0,
+      55,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+      30,     0,     0,    28,     0,     0,     0,    56,    62,     0,
       59,    43,    44,    45,    46,    47,    48,     0,     0,     0,
-       0,    34,    33,     0,     0,     0,    52,    54,    37,    32,
-       0,     0,    42,    61,     0,     0,    35,    51
+       0,    34,    33,     0,     0,     0,    58,    51,    37,    32,
+       0,     0,    42,    61,     0,     0,    35,    57
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -721,7 +721,7 @@ static const yytype_uint8 yyr1[] =
       51,    51,    52,    53,    54,    54,    55,    55,    56,    56,
       56,    56,    56,    56,    56,    56,    56,    57,    58,    58,
       59,    59,    60,    60,    60,    60,    60,    60,    60,    60,
-      60,    60,    60,    60,    61,    61,    61,    61,    61,    62,
+      60,    61,    61,    61,    61,    61,    61,    61,    61,    62,
       62,    63,    63,    64,    64,    65,    65,    66,    66
 };
 
@@ -733,7 +733,7 @@ static const yytype_uint8 yyr2[] =
        2,     1,     2,     3,     3,     1,     2,     1,     3,     1,
        3,     2,     5,     5,     4,     7,     3,     5,     1,     0,
        1,     1,     5,     3,     3,     3,     3,     3,     3,     2,
-       2,     7,     4,     3,     4,     1,     1,     1,     2,     1,
+       2,     4,     1,     1,     1,     2,     3,     7,     4,     1,
        0,     3,     1,     1,     1,     1,     3,     1,     1
 };
 
@@ -1705,109 +1705,109 @@ yyreduce:
     break;
 
   case 51:
-#line 176 "ijparser.y" /* yacc.c:1646  */
-    {(yyval.exp) = newOper((yyvsp[-4].string), (yyvsp[-2].exp), Parse);}
+#line 177 "ijparser.y" /* yacc.c:1646  */
+    {(yyval.exp) = newAnonymousOper((yyvsp[-3].exp), (yyvsp[-1].exp), LoadArray);}
 #line 1711 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 177 "ijparser.y" /* yacc.c:1646  */
-    {(yyval.exp) = newOper((yyvsp[-3].string), (yyvsp[-1].exp), Call);}
+#line 178 "ijparser.y" /* yacc.c:1646  */
+    {(yyval.exp) = newId((yyvsp[0].string));}
 #line 1717 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 178 "ijparser.y" /* yacc.c:1646  */
-    {(yyval.exp) = (yyvsp[-1].exp);}
+#line 179 "ijparser.y" /* yacc.c:1646  */
+    {(yyval.exp) = newLiteral((yyvsp[0].string), IntLit);}
 #line 1723 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
 #line 180 "ijparser.y" /* yacc.c:1646  */
-    {(yyval.exp) = newAnonymousOper((yyvsp[-3].exp), (yyvsp[-1].exp), LoadArray);}
+    {(yyval.exp) = newLiteral((yyvsp[0].string), BoolLit);}
 #line 1729 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
 #line 181 "ijparser.y" /* yacc.c:1646  */
-    {(yyval.exp) = newId((yyvsp[0].string));}
+    {(yyval.exp) = newAnonymousOper((yyvsp[-1].exp), NULL, Length);}
 #line 1735 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
 #line 182 "ijparser.y" /* yacc.c:1646  */
-    {(yyval.exp) = newLiteral((yyvsp[0].string), IntLit);}
+    {(yyval.exp) = (yyvsp[-1].exp);}
 #line 1741 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
 #line 183 "ijparser.y" /* yacc.c:1646  */
-    {(yyval.exp) = newLiteral((yyvsp[0].string), BoolLit);}
+    {(yyval.exp) = newOper((yyvsp[-4].string), (yyvsp[-2].exp), Parse);}
 #line 1747 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
 #line 184 "ijparser.y" /* yacc.c:1646  */
-    {(yyval.exp) = newAnonymousOper((yyvsp[-1].exp), NULL, Length);}
+    {(yyval.exp) = newOper((yyvsp[-3].string), (yyvsp[-1].exp), Call);}
 #line 1753 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 187 "ijparser.y" /* yacc.c:1646  */
+#line 186 "ijparser.y" /* yacc.c:1646  */
     {(yyval.exp) = (yyvsp[0].exp);}
 #line 1759 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 188 "ijparser.y" /* yacc.c:1646  */
+#line 187 "ijparser.y" /* yacc.c:1646  */
     {(yyval.exp) = NULL;}
 #line 1765 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 190 "ijparser.y" /* yacc.c:1646  */
+#line 189 "ijparser.y" /* yacc.c:1646  */
     {(yyval.exp) = connectExp((yyvsp[-2].exp), (yyvsp[0].exp));}
 #line 1771 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 191 "ijparser.y" /* yacc.c:1646  */
+#line 190 "ijparser.y" /* yacc.c:1646  */
     {(yyval.exp) = (yyvsp[0].exp);}
 #line 1777 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 193 "ijparser.y" /* yacc.c:1646  */
+#line 192 "ijparser.y" /* yacc.c:1646  */
     {(yyval.type) = Void;}
 #line 1783 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 194 "ijparser.y" /* yacc.c:1646  */
+#line 193 "ijparser.y" /* yacc.c:1646  */
     {(yyval.type) = (yyvsp[0].type);}
 #line 1789 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 196 "ijparser.y" /* yacc.c:1646  */
+#line 195 "ijparser.y" /* yacc.c:1646  */
     {(yyval.type) = (yyvsp[0].type);}
 #line 1795 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 197 "ijparser.y" /* yacc.c:1646  */
+#line 196 "ijparser.y" /* yacc.c:1646  */
     {(yyval.type) = (yyvsp[-2].type) == Int ? IntArray:BoolArray;}
 #line 1801 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 199 "ijparser.y" /* yacc.c:1646  */
+#line 198 "ijparser.y" /* yacc.c:1646  */
     {(yyval.type) = Int;}
 #line 1807 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 200 "ijparser.y" /* yacc.c:1646  */
+#line 199 "ijparser.y" /* yacc.c:1646  */
     {(yyval.type) = Bool;}
 #line 1813 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -2041,7 +2041,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 202 "ijparser.y" /* yacc.c:1906  */
+#line 201 "ijparser.y" /* yacc.c:1906  */
 
 int main(int argc, char **argv) {
 	int tree = 0, table = 0; 
@@ -2064,8 +2064,8 @@ int main(int argc, char **argv) {
 			printProgram(program);
 		}
 
-		//checkDuplicateDeclaration();
-		//checkTypeIssues();
+		checkDuplicateDeclaration();
+		checkTypeIssues();
 
 		if(!hasErrors){
 			if(table){

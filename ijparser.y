@@ -173,16 +173,15 @@ exprnoindex: NEW numType OSQUARE expr CSQUARE									{$$ = newAnonymousOper($4,
 	| expr OP4 expr																{$$ = newAnonymousOper($1, $3, getOperType($2));}
 	| OP3 expr																	{$$ = newAnonymousOper($2, NULL, !strcmp($1, "+") ? Plus : Minus);}
 	| NOT expr 																	{$$ = newAnonymousOper($2, NULL, Not);}
-	| PARSEINT OCURV ID OSQUARE expr CSQUARE CCURV								{$$ = newOper($3, $5, Parse);}
-	| ID OCURV optionalArgs CCURV												{$$ = newOper($1, $3, Call);}
-	| OCURV expr CCURV 															{$$ = $2;}
 
 exprindex: exprindex OSQUARE expr CSQUARE 										{$$ = newAnonymousOper($1, $3, LoadArray);}
 	| ID 																		{$$ = newId($1);}
 	| INTLIT 																	{$$ = newLiteral($1, IntLit);}
 	| BOOLLIT 																	{$$ = newLiteral($1, BoolLit);}
 	| expr DOTLENGTH															{$$ = newAnonymousOper($1, NULL, Length);}
-
+	| OCURV expr CCURV 															{$$ = $2;}
+	| PARSEINT OCURV ID OSQUARE expr CSQUARE CCURV								{$$ = newOper($3, $5, Parse);}
+	| ID OCURV optionalArgs CCURV												{$$ = newOper($1, $3, Call);}
 
 optionalArgs: args 																{$$ = $1;}
 	| 																			{$$ = NULL;}
@@ -221,8 +220,8 @@ int main(int argc, char **argv) {
 			printProgram(program);
 		}
 
-		//checkDuplicateDeclaration();
-		//checkTypeIssues();
+		checkDuplicateDeclaration();
+		checkTypeIssues();
 
 		if(!hasErrors){
 			if(table){
