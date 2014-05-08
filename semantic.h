@@ -431,6 +431,13 @@ void checkReturn(Return* _return) {
 	}
 }
 
+void checkComp(Comp* comp) {
+	Statement* atual;
+	if(!hasErrors){
+		for(atual = comp->value; atual != NULL && !hasErrors; atual = atual->next)
+			checkStatement(atual);
+	}
+} 
 
 void checkStatement(Statement* state) {
 	if (state == NULL)
@@ -445,6 +452,8 @@ void checkStatement(Statement* state) {
 		checkStore(&state->content.store);
 	else if (state->type == PrintType)
 		checkPrint(&state->content.print);
+	else if (state->type == CompType)
+		checkComp(&state->content.comp);
 }
 
 void checkTypeIssues() {

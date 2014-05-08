@@ -2064,8 +2064,8 @@ int main(int argc, char **argv) {
 			printProgram(program);
 		}
 
-		//checkDuplicateDeclaration();
-		//checkTypeIssues();
+		checkDuplicateDeclaration();
+		checkTypeIssues();
 
 		if(!hasErrors){
 			if(table){
