@@ -1,5 +1,6 @@
 void printStatement(Statement*);
 void printExp(Exp*);
+void printComp(Comp* comp);
 
 int identation = 0;
 int isParams = 0;
@@ -94,24 +95,6 @@ void printPrint(Print* print) {
 	identation--;
 }
 
-void printComp(Comp* comp) {
-	if(comp->value != NULL){
-		if(comp->value->next != NULL){
-			printf("CompoundStat\n");
-			identation++;
-			printStatement(comp->value);
-			identation--;
-		}
-		else if(comp->value->type == CompType){
-			printComp(&comp->value->content.comp);
-		}
-		else{
-			ident();
-			printStatement(comp->value);
-		}
-	}
-}
-
 void printIf(IfElse* ifelse) {
 	printf("IfElse\n");
 
@@ -175,6 +158,39 @@ void printReturn(Return* _return) {
 	identation++;
 	printExp(_return->value);
 	identation--;
+}
+
+void printComp(Comp* comp) {
+	if(comp->value != NULL){
+		if(comp->value->next != NULL){
+			printf("CompoundStat\n");
+			identation++;
+			printStatement(comp->value);
+			identation--;
+		}
+		else if(comp->value->type == CompType){
+			printComp(&comp->value->content.comp);
+		}
+		else if (comp->value == NULL) {
+			printf("Null\n");
+		} else {
+			if (comp->value->type == IfType)
+				printIf(&comp->value->content.ifelse);
+			else if (comp->value->type == WhileType)
+				printWhile(&comp->value->content._while);
+			else if (comp->value->type == ReturnType)
+				printReturn(&comp->value->content._return);
+			else if (comp->value->type == StoreType)
+				printStore(&comp->value->content.store);
+			else if (comp->value->type == PrintType)
+				printPrint(&comp->value->content.print);
+			else if (comp->value->type == CompType)
+				printComp(&comp->value->content.comp);
+
+			if (comp->value->next != NULL)
+				printStatement(comp->value->next);
+		}
+	}
 }
 
 void printStatement(Statement* state) {
