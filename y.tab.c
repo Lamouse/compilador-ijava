@@ -2064,12 +2064,13 @@ int main(int argc, char **argv) {
 			printProgram(program);
 		}
 
-		checkDuplicateDeclaration();
-		checkTypeIssues();
-
 		if(!hasErrors){
 			if(table){
-				printProgramSymbols(program);
+				checkDuplicateDeclaration();
+				checkTypeIssues();
+
+				if(!hasErrors)
+					printProgramSymbols(program);
 			}
 		}
 
