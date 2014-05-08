@@ -3,6 +3,7 @@ void printExp(Exp*);
 
 int identation = 0;
 int isParams = 0;
+int isComp = 0;
 
 
 // Statics
@@ -95,14 +96,17 @@ void printPrint(Print* print) {
 
 void printComp(Comp* comp) {
 	if(comp->value != NULL){
-		printf("1\n");
 		if(comp->value->next != NULL){
 			printf("CompoundStat\n");
 			identation++;
 			printStatement(comp->value);
 			identation--;
 		}
+		else if(comp->value->type == CompType){
+			printComp(&comp->value->content.comp);
+		}
 		else{
+			ident();
 			printStatement(comp->value);
 		}
 	}
