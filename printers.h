@@ -117,10 +117,11 @@ void printIf(IfElse* ifelse) {
 		printf("Null\n");
 	}
 	if(ifelse->second != NULL){
-		if(ifelse->second->type == CompType)
+		if(ifelse->second->type == CompType){
 			if(&ifelse->second->content.comp.value != NULL && &ifelse->second->content.comp.value->next != NULL){
 				printComp(&ifelse->second->content.comp);
 			}
+		}
 		else
 			printStatement(ifelse->second);
 	}
