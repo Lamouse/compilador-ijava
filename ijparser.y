@@ -171,7 +171,7 @@ exprnoindex: NEW numType OSQUARE expr CSQUARE									{$$ = newAnonymousOper($4,
 	| expr OP22 expr															{$$ = newAnonymousOper($1, $3, getOperType($2));}
 	| expr OP3 expr																{$$ = newAnonymousOper($1, $3, getOperType($2));}
 	| expr OP4 expr																{$$ = newAnonymousOper($1, $3, getOperType($2));}
-	| OP3 expr																	{$$ = newAnonymousOper($2, NULL, !strcmp($1, "+") ? Plus : Minus);}
+	| OP3 expr	%prec NOT 														{$$ = newAnonymousOper($2, NULL, !strcmp($1, "+") ? Plus : Minus);}
 	| NOT expr 																	{$$ = newAnonymousOper($2, NULL, Not);}
 
 exprindex: exprindex OSQUARE expr CSQUARE 										{$$ = newAnonymousOper($1, $3, LoadArray);}

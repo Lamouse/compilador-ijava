@@ -1122,7 +1122,6 @@ State 87
    54 exprindex: expr . DOTLENGTH
 
     DOTLENGTH  shift, and go to state 90
-    OP4        shift, and go to state 96
 
     $default  reduce using rule 48 (exprnoindex)
 

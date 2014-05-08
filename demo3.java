@@ -2,17 +2,15 @@ class gcd {
 	static boolean x;
 
 	public static void main(String[] args){
-		if(true){
+		int x;
 
-		}
-		else{
-
-			x = true;
-			x = 0;
-			
-			return x;
-			return;
-		}
-
+		while(true)
+			while(false){
+				while(1){
+				}
+				while(2){
+				}
+			}
+			while(true){}
 	}
 }

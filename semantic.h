@@ -284,7 +284,7 @@ Type getOperResultType(ExpType type, Oper* oper) {
 		if (!hasErrors) {
 			VarDecl* param = method->params;
 			Exp* value = oper->params;
-			int i = 1;
+			int i = 0;
 
 			while (value != NULL || param != NULL) {
 				Type given = getExpType(value);
@@ -316,7 +316,7 @@ Type getOperResultType(ExpType type, Oper* oper) {
 
 		if (!hasErrors && array != StringArray) {
 			hasErrors = 1;
-			printf("Incompatible type of argument 1 in call to method Integer.parseInt (got %s, required String)\n", getTypeSymbol(array-3));
+			printf("Operator Integer.parseInt cannot be applied to type %s\n", getTypeSymbol(array-3));
 		}
 
 		return Int;
