@@ -4,11 +4,12 @@ class gcd {
 	public static void main(String[] args){
 		int x;
 
+		x = Integer.parseInt(args[true]);
 		while(true)
 			while(false){
-				while(1){
+				while(true){
 				}
-				while(2){
+				while(false){
 				}
 			}
 			while(true){}

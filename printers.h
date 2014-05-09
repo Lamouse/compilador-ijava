@@ -104,11 +104,8 @@ void printIf(IfElse* ifelse) {
 
 	printExp(ifelse->condition);
 	if(ifelse->first != NULL){
-		if(ifelse->first->type == CompType){
-			if(&ifelse->first->content.comp.value != NULL && &ifelse->first->content.comp.value->next != NULL){
-				printComp(&ifelse->first->content.comp);
-			}
-		}
+		if(ifelse->first->type == CompType)
+			printComp(&ifelse->first->content.comp);
 		else
 			printStatement(ifelse->first);
 	}
@@ -117,11 +114,8 @@ void printIf(IfElse* ifelse) {
 		printf("Null\n");
 	}
 	if(ifelse->second != NULL){
-		if(ifelse->second->type == CompType){
-			if(&ifelse->second->content.comp.value != NULL && &ifelse->second->content.comp.value->next != NULL){
-				printComp(&ifelse->second->content.comp);
-			}
-		}
+		if(ifelse->second->type == CompType)
+			printComp(&ifelse->second->content.comp);
 		else
 			printStatement(ifelse->second);
 	}
@@ -140,9 +134,7 @@ void printWhile(While* _while) {
 	printExp(_while->condition);
 	if(_while->statement != NULL){
 		if(_while->statement->type == CompType)
-			if(&_while->statement->content.comp.value != NULL && &_while->statement->content.comp.value->next != NULL){
-				printComp(&_while->statement->content.comp);
-			}
+			printComp(&_while->statement->content.comp);
 		else
 			printStatement(_while->statement);
 	}

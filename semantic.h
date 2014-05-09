@@ -309,14 +309,14 @@ Type getOperResultType(ExpType type, Oper* oper) {
 		Type array = getVarType(method, oper->id);
 
 		//reportIndexTypes(array, a);
-		if(!hasErrors && (array < StringArray || a != Int)){
+		/*if(!hasErrors && (array < StringArray || a != Int)){
 			hasErrors = 1;
 			printf("Operator [ cannot be applied to types %s, int\n", getTypeSymbol(a));
-		}
+		}*/
 
-		if (!hasErrors && array != StringArray) {
+		if (!hasErrors && (array != StringArray || a != Int)) {
 			hasErrors = 1;
-			printf("Operator Integer.parseInt cannot be applied to type %s\n", getTypeSymbol(array-3));
+			printf("Operator Integer.parseInt cannot be applied to types %s, %s\n", getTypeSymbol(array), getTypeSymbol(a));
 		}
 
 		return Int;
