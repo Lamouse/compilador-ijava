@@ -4,6 +4,8 @@ class gcd {
 	static int[] b;
 
 	public static void main(String[] args){
-		System.out.println(1);
+		int x, y;
+		boolean a;
+		System.out.println(1+2);
 	}
 }
