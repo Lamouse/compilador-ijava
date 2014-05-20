@@ -2065,14 +2065,16 @@ int main(int argc, char **argv) {
 		}
 
 		if(!hasErrors){
-			if(table){
-				checkDuplicateDeclaration();
-				checkTypeIssues();
-
-				if(!hasErrors)
-					printProgramSymbols(program);
-			}
+			checkDuplicateDeclaration();
+			checkTypeIssues();
 		}
+
+		if(!hasErrors && table){
+			printProgramSymbols(program);
+		}
+
+		if(!hasErrors)
+			generateProgram(program);
 
 		//free memory
 		cleanProgram(program);

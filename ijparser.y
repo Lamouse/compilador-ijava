@@ -225,9 +225,12 @@ int main(int argc, char **argv) {
 			checkTypeIssues();
 		}
 
-		if(!hasErrorstable && table){
+		if(!hasErrors && table){
 			printProgramSymbols(program);
 		}
+
+		if(!hasErrors)
+			generateProgram(program);
 
 		//free memory
 		cleanProgram(program);

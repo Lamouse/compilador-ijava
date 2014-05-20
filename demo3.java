@@ -1,17 +1,9 @@
 class gcd {
-	static boolean x;
+	static boolean x, y;
+	static int a;
+	static int[] b;
 
 	public static void main(String[] args){
-		int x;
-
-		x = Integer.parseInt(args[true]);
-		while(true)
-			while(false){
-				while(true){
-				}
-				while(false){
-				}
-			}
-			while(true){}
+		System.out.println(1);
 	}
 }

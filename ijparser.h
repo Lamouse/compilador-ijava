@@ -7,5 +7,6 @@
 #include "symbols.h"
 #include "semantic.h"
 #include "clean.h"
+#include "generate.h"
 
 #endif
