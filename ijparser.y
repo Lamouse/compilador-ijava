@@ -221,13 +221,12 @@ int main(int argc, char **argv) {
 		}
 
 		if(!hasErrors){
-			if(table){
-				checkDuplicateDeclaration();
-				checkTypeIssues();
+			checkDuplicateDeclaration();
+			checkTypeIssues();
+		}
 
-				if(!hasErrors)
-					printProgramSymbols(program);
-			}
+		if(!hasErrorstable && table){
+			printProgramSymbols(program);
 		}
 
 		//free memory
