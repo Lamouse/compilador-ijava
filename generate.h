@@ -120,12 +120,35 @@ void generateOper(Exp* exp) {
 		geraIndentacao();
 		printf("%%%d = load i1* %%%d", geraVar, temp);
 		exp->var = geraVar++;
-	} else if (type == Plus) {
-		return;
+
+	// ...	
+	} else if (type == Add) {
+		generateExp(oper->params->next);
+		geraIndentacao();
+		printf("%%%d = add i32 %%%d, %%%d\n", geraVar, oper->params->var, oper->params->next->var);
+		exp->var = geraVar++;
+	} else if (type == Mul) {
+		generateExp(oper->params->next);
+		geraIndentacao();
+		printf("%%%d = mul i32 %%%d, %%%d\n", geraVar, oper->params->var, oper->params->next->var);
+		exp->var = geraVar++;
+	} else if (type == Div) {
+		generateExp(oper->params->next);
+		geraIndentacao();
+		printf("%%%d = sdiv i32 %%%d, %%%d\n", geraVar, oper->params->var, oper->params->next->var);
+		exp->var = geraVar++;
+	} else if (type == Sub) {
+		generateExp(oper->params->next);
+		geraIndentacao();
+		printf("%%%d = sub nsw i32 %%%d, %%%d\n", geraVar, oper->params->var, oper->params->next->var);
+		exp->var = geraVar++;
 	} else if (type == Minus) {
 		geraIndentacao();
 		printf("%%%d = mul i32 %%%d, -1\n", geraVar, oper->params->var);
 		exp->var = geraVar++;
+	} else if (type == Plus) {
+		return;
+	
 	} else if (type == Parse) {
 
 	}
@@ -217,10 +240,23 @@ void generatePrint(Print* print) {
 	}
 }
 
+void generateReturn(Return* _return) {
+	generateExp(_return->value);
+
+	geraIndentacao();
+	printf("ret ");
+	generateType(method->type);
+	if(method->type == Void)
+		printf(" 0\n");
+	else
+		printf(" %%%d\n", _return->value->var);
+}
 
 void generateStatement(Statement* state) {
 	if (state->type == PrintType)
 		generatePrint(&state->content.print);
+	else if (state->type == ReturnType)
+		generateReturn(&state->content._return);
 
 	if (state->next != NULL)
 		generateStatement(state->next);
@@ -304,6 +340,7 @@ void generateMethod(MethodDecl* method) {
 	generateLVar(method->vars);
 	if(method->statements != NULL)
 		generateStatement(method->statements);
+
 	printf("}\n\n");
 }
 

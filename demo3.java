@@ -3,9 +3,11 @@ class gcd {
 	static int a;
 	static int[] b;
 
-	public static void main(String[] args){
+	public static int main(String[] args){
 		int x, y;
 		boolean a;
-		System.out.println(true && false);
+		System.out.println(100 - 10 + 10 - 10);
+
+		return 1;
 	}
 }
