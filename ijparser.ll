@@ -13,17 +13,27 @@ define i32 @main(i32 %args.tam, i8** %args) {
     %y = alloca i32
     %a = alloca i1
 
-    %1 = add i32 100, 0
-    %2 = add i32 10, 0
-    %3 = sub nsw i32 %1, %2
-    %4 = add i32 10, 0
-    %5 = add i32 %3, %4
-    %6 = add i32 10, 0
-    %7 = sub nsw i32 %5, %6
-    %8 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
-    %9 = call i32 (i8*, ...)* @printf( i8* %8, i32 %7)
-    %10 = add i32 1, 0
-    ret i32 %10
+    %1 = add i32 2, 0
+    %2 = mul i32 %1, -1
+    %3 = add i32 1, 0
+    %4 = mul i32 %3, -1
+    %5 = icmp slt i32 %2, %4
+    %6 = icmp eq i1 %5, 0
+    br i1 %6, label %then0, label %else0
+
+  then0:
+    %7 = getelementptr [7 x i8]* @str.false, i32 0, i32 0
+    %8 = call i32 (i8*, ...)* @printf( i8* %7)
+    br label %ifcont0
+
+  else0:
+    %9 = getelementptr [6 x i8]* @str.true, i32 0, i32 0
+    %10 = call i32 (i8*, ...)* @printf( i8* %9)
+    br label %ifcont0
+
+  ifcont0:
+    %11 = add i32 1, 0
+    ret i32 %11
 }
 
 declare i32 @printf(i8*, ...) nounwind

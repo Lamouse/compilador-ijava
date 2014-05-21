@@ -6,7 +6,7 @@ class gcd {
 	public static int main(String[] args){
 		int x, y;
 		boolean a;
-		System.out.println(100 - 10 + 10 - 10);
+		System.out.println(-2 < -1);
 
 		return 1;
 	}
