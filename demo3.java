@@ -6,6 +6,6 @@ class gcd {
 	public static void main(String[] args){
 		int x, y;
 		boolean a;
-		System.out.println(false);
+		System.out.println(true && false);
 	}
 }
