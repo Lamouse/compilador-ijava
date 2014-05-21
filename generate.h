@@ -1,3 +1,13 @@
+int geraInd;
+int geraVar;
+int geraIf;
+
+void geraIndentacao() {
+	int i;
+	for (i = 0; i < geraInd; ++i)
+		printf("  ");
+}
+
 void generateType(Type type) {
 	if (type == String)
 		printf("i8* ");
@@ -27,6 +37,7 @@ void generatePrint(Print* print) {
 
 
 void generateStatement(Statement* state) {
+	//geraIndentacao(geraInd);
 	if (state->type == PrintType)
 		generatePrint(&state->content.print);
 
@@ -42,7 +53,8 @@ void generateLVar(VarDecl* var) {
 	ids = var->ids;
 
 	while(ids != NULL){
-		printf("\t%c%s = alloca ", '%', ids->name);
+		geraIndentacao();
+		printf("%%%s = alloca ", ids->name);
 		generateType(var->type);
 		printf("\n");
 		ids = ids->next;
@@ -54,16 +66,31 @@ void generateLVar(VarDecl* var) {
 // Declarations
 void generateParam(VarDecl* var) {
 	if(var != NULL){
+		if(var->type >= StringArray) {
+			printf("i32 %%%s.tam, ", var->ids->name);
+			generateType(var->type);
+			printf("%%%s) {\n", var->ids->name);
+			printf("  entry:\n");
+			geraIndentacao();
+			printf("%%%s.length = alloca i32\n", var->ids->name);
+			geraIndentacao();
+			printf("%%%d = add i32 %%%s.tam, -1\n", geraVar, var->ids->name);
+			geraIndentacao();
+			printf("store i32 %%%d, i32* %%%s.length\n\n", geraVar++, var->ids->name);
+			return;
+		}
 		generateType(var->type);
-		printf("%c%s", '%', var->ids->name);
+		printf("%%%s", var->ids->name);
 		var = var->next;
 		while(var != NULL){
 			printf(", ");
 			generateType(var->type);
-			printf("%c%s", '%', var->ids->name);
+			printf("%%%s", var->ids->name);
 			var = var->next;
 		}
 	}
+	printf(") {\n");
+	printf("  entry:\n");
 }
 
 void generateGVar(VarDecl* var) {
@@ -74,7 +101,7 @@ void generateGVar(VarDecl* var) {
 	ids = var->ids;
 
 	while(ids != NULL){
-		printf("%c%s = common global ", '@', ids->name);
+		printf("@%s = common global ", ids->name);
 		generateType(var->type);
 		if(var->type >= StringArray)
 			printf("null\n");
@@ -85,11 +112,14 @@ void generateGVar(VarDecl* var) {
 }
 
 void generateMethod(MethodDecl* method) {
+	geraInd = 2;
+	geraVar = 0;
+	geraIf = 0;
+
 	printf("\ndefine ");
 	generateType(method->type);
 	printf("@%s(", method->id);
 	generateParam(method->params);
-	printf(") {\n");
 	generateLVar(method->vars);
 	if(method->statements != NULL)
 		generateStatement(method->statements);
@@ -147,5 +177,5 @@ void generateFunction() {
 
 void generateProgram(Program* program) {
 	generateDeclaration(program->declarations);
-	generateFunction();
+	//generateFunction();
 }
