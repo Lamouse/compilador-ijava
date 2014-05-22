@@ -4,10 +4,8 @@ class gcd {
 	static int[] b;
 
 	public static int main(String[] args){
-		int x, y;
-		boolean a;
-		System.out.println(-2 < -1);
-
+		int[] x, y;
+		System.out.println(10/5);
 		return 1;
 	}
 }

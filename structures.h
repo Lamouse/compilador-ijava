@@ -29,7 +29,7 @@ struct _Exp {
 		char* id;
 	} content;
 	
-	int var;
+	char* var;
 	ExpType type;
 	Exp* next;
 };
