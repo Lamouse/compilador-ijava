@@ -14,6 +14,8 @@ class gcd {
 
 		System.out.println(b[3]);
 		System.out.println(c[1]);
+		System.out.println(b.length);
+		System.out.println(c.length);
 		return 1;
 	}
 }

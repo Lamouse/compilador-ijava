@@ -209,6 +209,9 @@ void generateOper(Exp* exp) {
 		geraVar += 3;
 	} else if (type == Call) {
 	} else if (type == Length) {
+		geraIndentacao();
+		printf("%%%d = load i32* %s.length\n", geraVar,oper->params->var);
+		asprintf(&exp->var, "%%%d", geraVar++);
 	} else if (type == Parse) {
 
 	}
@@ -344,6 +347,8 @@ void generateStore(Store* store) {
 			printf(" %%%d, ", geraVar+1);
 			generateType(a);
 			printf("* %c%s\n", aux2, store->target);
+			geraIndentacao();
+			printf("store i32 %s, i32* %c%s.length\n", store->value->var, aux2, store->target);
 			geraVar += 2;
 		}
 		else{
@@ -423,6 +428,10 @@ void generateLVar(VarDecl* var) {
 		printf("%%%s = alloca ", ids->name);
 		generateType(var->type);
 		printf("\n");
+		if(var->type > StringArray){
+			geraIndentacao();
+			printf("%%%s.length = alloca i32\n", ids->name);
+		}
 		ids = ids->next;
 	}
 	generateLVar(var->next);

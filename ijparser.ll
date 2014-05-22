@@ -3,7 +3,9 @@ define i32 @main() {
   entry:
     %a = alloca i1
     %b = alloca i32*
+    %b.length = alloca i32
     %c = alloca i1*
+    %c.length = alloca i32
 
     %0 = add i1 0, 0
     %1 = getelementptr i1* %a, i32 0
@@ -13,11 +15,13 @@ define i32 @main() {
     %3 = call noalias i8* @malloc(i32 %2)
     %4 = bitcast i8* %3 to i32*
     store i32* %4, i32** %b
+    store i32 %2, i32* %b.length
 
     %5 = add i32 2, 0
     %6 = call noalias i8* @malloc(i32 %5)
     %7 = bitcast i8* %6 to i1*
     store i1* %7, i1** %c
+    store i32 %5, i32* %c.length
 
     %8 = add i32 2, 0
     %9 = add i32 3, 0
@@ -57,8 +61,16 @@ define i32 @main() {
 
   ifcont0:
 
-    %31 = add i32 1, 0
-    ret i32 %31
+    %31 = load i32* %b.length
+    %32 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
+    %33 = call i32 (i8*, ...)* @printf( i8* %32, i32 %31)
+
+    %34 = load i32* %c.length
+    %35 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
+    %36 = call i32 (i8*, ...)* @printf( i8* %35, i32 %34)
+
+    %37 = add i32 1, 0
+    ret i32 %37
 }
 
 declare noalias i8* @malloc(i32)
