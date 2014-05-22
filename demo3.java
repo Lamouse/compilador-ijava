@@ -1,4 +1,6 @@
 class gcd {
+	static int d;
+	static int[] e;
 
 	public static int main(String[] args){
 		boolean a;
@@ -29,10 +31,28 @@ class gcd {
 			i = i - 1;
 		}
 
-		return 1;
+		System.out.println(compare(1, 2));
+		System.out.println(compare(2, 1+1));
+
+		d = 2;
+		e = new int[1];
+		e[0] = 3;
+		System.out.println(e[0]);
+		System.out.println(e.length);
+		return d;
 	}
 
 	public static boolean a(boolean y){
 		return y;
+	}
+
+	public static boolean compare(int x, int y){
+		boolean a;
+
+		if(x == y)
+			a = true;
+		else
+			a = false;
+		return a;
 	}
 }

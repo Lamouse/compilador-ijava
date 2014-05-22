@@ -1,3 +1,6 @@
+@d = common global i32 0
+@e = common global i32* null
+@e.length = common global i32 0
 
 define i32 @main(i32 %args.tam, i8** %args) {
   entry:
@@ -169,7 +172,75 @@ define i32 @main(i32 %args.tam, i8** %args) {
   whilecont0:
 
     %88 = add i32 1, 0
-    ret i32 %88
+    %89 = add i32 1, 0
+    %90 = add i32 2, 0
+    %91 = call i1 @compare(i32 %89, i32 %90)
+    %92 = icmp eq i1 %91, 0
+    br i1 %92, label %then4, label %else4
+
+  then4:
+    %93 = getelementptr [7 x i8]* @str.false, i32 0, i32 0
+    %94 = call i32 (i8*, ...)* @printf( i8* %93)
+    br label %ifcont4
+
+  else4:
+    %95 = getelementptr [6 x i8]* @str.true, i32 0, i32 0
+    %96 = call i32 (i8*, ...)* @printf( i8* %95)
+    br label %ifcont4
+
+  ifcont4:
+
+    %97 = add i32 2, 0
+    %98 = add i32 2, 0
+    %99 = add i32 1, 0
+    %100 = add i32 1, 0
+    %101 = add i32 %99, %100
+    %102 = call i1 @compare(i32 %98, i32 %101)
+    %103 = icmp eq i1 %102, 0
+    br i1 %103, label %then5, label %else5
+
+  then5:
+    %104 = getelementptr [7 x i8]* @str.false, i32 0, i32 0
+    %105 = call i32 (i8*, ...)* @printf( i8* %104)
+    br label %ifcont5
+
+  else5:
+    %106 = getelementptr [6 x i8]* @str.true, i32 0, i32 0
+    %107 = call i32 (i8*, ...)* @printf( i8* %106)
+    br label %ifcont5
+
+  ifcont5:
+
+    %108 = add i32 2, 0
+    %109 = getelementptr i32* @d, i32 0
+    store i32 %108, i32* %109
+
+    %110 = add i32 1, 0
+    %111 = call noalias i8* @malloc(i32 %110)
+    %112 = bitcast i8* %111 to i32*
+    store i32* %112, i32** @e
+    store i32 %110, i32* @e.length
+
+    %113 = add i32 3, 0
+    %114 = add i32 0, 0
+    %115 = load i32** @e
+    %116 = getelementptr i32* %115, i32 %114
+    store i32 %113, i32* %116
+
+    %117 = add i32 0, 0
+    %118 = load i32** @e
+    %119 = getelementptr i32* %118, i32 %117
+    %120 = load i32* %119
+    %121 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
+    %122 = call i32 (i8*, ...)* @printf( i8* %121, i32 %120)
+
+    %123 = load i32* @e.length
+    %124 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
+    %125 = call i32 (i8*, ...)* @printf( i8* %124, i32 %123)
+
+    %126 = load i32* @d
+    %127 = add i32 %126, 0
+    ret i32 %127
 }
 
 
@@ -181,6 +252,44 @@ define i1 @a(i1 %y.temp) {
     %0 = load i1* %y
     %1 = add i1 %0, 0
     ret i1 %1
+}
+
+
+define i1 @compare(i32 %x.temp, i32 %y.temp) {
+  entry:
+    %x = alloca i32
+    store i32 %x.temp, i32* %x
+    %y = alloca i32
+    store i32 %y.temp, i32* %y
+    %a = alloca i1
+
+    %0 = load i32* %x
+    %1 = add i32 %0, 0
+    %2 = load i32* %y
+    %3 = add i32 %2, 0
+    %4 = icmp eq i32 %1, %3
+    %5 = icmp eq i1 %4, 1
+    br i1 %5, label %then0, label %else0
+
+  then0:
+
+    %6 = add i1 1, 0
+    %7 = getelementptr i1* %a, i32 0
+    store i1 %6, i1* %7
+    br label %ifcont0
+
+  else0:
+
+    %8 = add i1 0, 0
+    %9 = getelementptr i1* %a, i32 0
+    store i1 %8, i1* %9
+    br label %ifcont0
+
+  ifcont0:
+
+    %10 = load i1* %a
+    %11 = add i1 %10, 0
+    ret i1 %11
 }
 
 

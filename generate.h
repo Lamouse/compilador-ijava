@@ -434,7 +434,33 @@ void generateStore(Store* store) {
 }
 
 void generateIf(IfElse* ifelse) {
-
+	printf("\n");
+	generateExp(ifelse->condition);
+	geraIndentacao();
+	printf("%%%d = icmp eq i1 %s, 1\n", geraVar, ifelse->condition->var);
+	geraIndentacao();
+	printf("br i1 %%%d, label %%then%d, label %%else%d\n", geraVar++, geraIf, geraIf);
+	printf("\n");
+	geraInd--;
+	geraIndentacao();
+	geraInd++;
+	printf("then%d:\n", geraIf);
+	generateStatement(ifelse->first);
+	geraIndentacao();
+	printf("br label %%ifcont%d\n", geraIf);
+	printf("\n");
+	geraInd--;
+	geraIndentacao();
+	geraInd++;
+	printf("else%d:\n", geraIf);
+	generateStatement(ifelse->second);
+	geraIndentacao();
+	printf("br label %%ifcont%d\n", geraIf);
+	printf("\n");
+	geraInd--;
+	geraIndentacao();
+	geraInd++;
+	printf("ifcont%d:\n", geraIf++);
 }
 
 void generateWhile(While* _while) {
@@ -466,8 +492,7 @@ void generateWhile(While* _while) {
 	geraInd--;
 	geraIndentacao();
 	geraInd++;
-	printf("whilecont%d:\n", geraWhile);
-	geraWhile++;
+	printf("whilecont%d:\n", geraWhile++);
 }
 
 void generateComp(Comp* comp) {
@@ -572,8 +597,11 @@ void generateGVar(VarDecl* var) {
 	while(ids != NULL){
 		printf("@%s = common global ", ids->name);
 		generateType(var->type);
-		if(var->type >= StringArray)
+		if(var->type >= StringArray){
 			printf(" null\n");
+			geraIndentacao();
+			printf("@%s.length = common global i32 0\n", ids->name);
+		}
 		else
 			printf(" 0\n");
 		ids = ids->next;
