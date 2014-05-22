@@ -1,6 +1,7 @@
 int geraInd;
 int geraVar;
 int geraIf;
+int geraWhile;
 
 // Statics
 void geraIndentacao() {
@@ -306,6 +307,8 @@ void generateExp(Exp* exp) {
 
 
 // Statements
+void generateStatement(Statement* state);
+
 void generateReturn(Return* _return) {
 	printf("\n");
 	generateExp(_return->value);
@@ -435,11 +438,41 @@ void generateIf(IfElse* ifelse) {
 }
 
 void generateWhile(While* _while) {
+	printf("\n");
 
+	geraIndentacao();
+	printf("br label %%cond%d\n", geraWhile);
+	printf("\n");
+	geraInd--;
+	geraIndentacao();
+	geraInd++;
+	printf("cond%d:\n", geraWhile);
+	generateExp(_while->condition);
+	geraIndentacao();
+	printf("%%%d = icmp eq i1 %s, 1\n", geraVar, _while->condition->var);
+	geraIndentacao();
+	printf("br i1 %%%d, label %%while%d, label %%whilecont%d\n", geraVar++, geraWhile, geraWhile);
+	printf("\n");
+	geraInd--;
+	geraIndentacao();
+	geraInd++;
+	printf("while%d:\n", geraWhile);
+	if(_while->statement != NULL)
+		generateStatement(_while->statement);
+
+	geraIndentacao();
+	printf("br label %%cond%d", geraWhile);
+	printf("\n");
+	geraInd--;
+	geraIndentacao();
+	geraInd++;
+	printf("whilecont%d:\n", geraWhile);
+	geraWhile++;
 }
 
 void generateComp(Comp* comp) {
-
+	if(comp->value != NULL)
+		generateStatement(comp->value);
 }
 
 void generateStatement(Statement* state) {
@@ -551,6 +584,7 @@ void generateMethod(MethodDecl* method) {
 	geraInd = 2;
 	geraVar = 0;
 	geraIf = 0;
+	geraWhile = 0;
 
 	printf("\ndefine ");
 	generateType(method->type);

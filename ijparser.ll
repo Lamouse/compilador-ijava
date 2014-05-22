@@ -10,6 +10,7 @@ define i32 @main(i32 %args.tam, i8** %args) {
     %b.length = alloca i32
     %c = alloca i1*
     %c.length = alloca i32
+    %i = alloca i32
 
     %1 = add i1 0, 0
     %2 = getelementptr i1* %a, i32 0
@@ -137,8 +138,38 @@ define i32 @main(i32 %args.tam, i8** %args) {
 
   ifcont3:
 
-    %72 = add i32 1, 0
-    ret i32 %72
+    %72 = add i32 10, 0
+    %73 = getelementptr i32* %i, i32 0
+    store i32 %72, i32* %73
+
+    br label %cond0
+
+  cond0:
+    %74 = load i32* %i
+    %75 = add i32 %74, 0
+    %76 = add i32 0, 0
+    %77 = icmp sge i32 %75, %76
+    %78 = icmp eq i1 %77, 1
+    br i1 %78, label %while0, label %whilecont0
+
+  while0:
+
+    %79 = load i32* %i
+    %80 = add i32 %79, 0
+    %81 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
+    %82 = call i32 (i8*, ...)* @printf( i8* %81, i32 %80)
+
+    %83 = load i32* %i
+    %84 = add i32 %83, 0
+    %85 = add i32 1, 0
+    %86 = sub nsw i32 %84, %85
+    %87 = getelementptr i32* %i, i32 0
+    store i32 %86, i32* %87
+    br label %cond0
+  whilecont0:
+
+    %88 = add i32 1, 0
+    ret i32 %88
 }
 
 
