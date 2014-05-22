@@ -190,7 +190,23 @@ void generateOper(Exp* exp) {
 	} else if (type == NewInt || type == NewBool) {
 		asprintf(&exp->var, "%s", oper->params->var);
 	} else if (type == LoadArray) {
+		generateExp(oper->params->next);
+		geraIndentacao();
+		printf("%%%d = load ", geraVar);
+		generateType(a);
+		printf("* %s\n", oper->params->var);
 
+		geraIndentacao();
+		printf("%%%d = getelementptr ", geraVar+1);
+		generateType(a);
+		printf(" %%%d, i32 %s\n", geraVar, oper->params->next->var);
+		geraIndentacao();
+		printf("%%%d = load ", geraVar+2);
+		generateType(a);
+		printf(" %%%d\n", geraVar+1);
+
+		asprintf(&exp->var, "%%%d", geraVar+2);
+		geraVar += 3;
 	} else if (type == Call) {
 	} else if (type == Length) {
 	} else if (type == Parse) {
