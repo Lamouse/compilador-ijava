@@ -1,6 +1,6 @@
 class gcd {
 
-	public static int main(){
+	public static int main(String[] args){
 		boolean a;
 		int[] b;
 		boolean[] c;
@@ -16,6 +16,15 @@ class gcd {
 		System.out.println(c[1]);
 		System.out.println(b.length);
 		System.out.println(c.length);
+		System.out.println(Integer.parseInt(args[0]));
+		System.out.println(Integer.parseInt(args[1]));
+
+		System.out.println(a(false&&true));
+
 		return 1;
+	}
+
+	public static boolean a(boolean y){
+		return y;
 	}
 }

@@ -208,12 +208,56 @@ void generateOper(Exp* exp) {
 		asprintf(&exp->var, "%%%d", geraVar+2);
 		geraVar += 3;
 	} else if (type == Call) {
+		MethodDecl* method = getMethod(oper->id);
+		Exp* value = oper->params;
+		Type given;
+		
+		while(value != NULL) {
+			generateExp(value);
+			value = value->next;
+		}
+
+		geraIndentacao();
+		printf("%%%d = call ", geraVar);
+		generateType(method->type);
+		printf(" @%s(", oper->id);
+
+		value = oper->params;
+		if(value != NULL) {
+			given = getExpType(value);
+			generateType(given);
+			printf(" %s", value->var);
+			value = value->next;
+			while(value != NULL) {
+				printf(", ");
+				given = getExpType(value);
+				generateType(given);
+				printf(" %s", value->var);
+				value = value->next;			
+			}
+		}
+
+		printf(")\n");
+		asprintf(&exp->var, "%%%d", geraVar++);
 	} else if (type == Length) {
 		geraIndentacao();
 		printf("%%%d = load i32* %s.length\n", geraVar,oper->params->var);
 		asprintf(&exp->var, "%%%d", geraVar++);
 	} else if (type == Parse) {
+		geraIndentacao();
+		printf("%%%d = add i32 %s, 1\n", geraVar, oper->params->var);
 
+		geraIndentacao();
+		printf("%%%d = getelementptr i8** %%%s, i32 %%%d\n", geraVar+1, oper->id, geraVar);
+
+		geraIndentacao();
+		printf("%%%d = load i8** %%%d\n", geraVar+2, geraVar+1);
+
+		geraIndentacao();
+		printf("%%%d = call i32 (i8*)* @atoi(i8* %%%d)\n", geraVar+3, geraVar+2);
+
+		asprintf(&exp->var, "%%%d", geraVar+3);
+		geraVar += 4;
 	}
 }
 
@@ -440,6 +484,8 @@ void generateLVar(VarDecl* var) {
 
 // Declarations
 void generateParam(VarDecl* var) {
+	VarDecl* aux;
+
 	if(var != NULL){
 		if(var->type >= StringArray) {
 			printf("i32 %%%s.tam, ", var->ids->name);
@@ -455,17 +501,32 @@ void generateParam(VarDecl* var) {
 			return;
 		}
 		generateType(var->type);
-		printf(" %%%s", var->ids->name);
-		var = var->next;
-		while(var != NULL){
+		printf(" %%%s.temp", var->ids->name);
+		aux = var->next;
+		while(aux != NULL){
 			printf(", ");
-			generateType(var->type);
-			printf(" %%%s", var->ids->name);
-			var = var->next;
+			generateType(aux->type);
+			printf(" %%%s.temp", aux->ids->name);
+			aux = aux->next;
+		}
+		printf(") {\n");
+		printf("  entry:\n");
+		aux = var;
+		while(aux != NULL){
+			geraIndentacao();
+			printf("%%%s = alloca ", aux->ids->name);
+			generateType(aux->type);
+			printf("\n");
+
+			geraIndentacao();
+			printf("store ");
+			generateType(aux->type);
+			printf(" %%%s.temp, ", aux->ids->name);
+			generateType(aux->type);
+			printf("* %%%s\n", aux->ids->name);
+			aux = aux->next;
 		}
 	}
-	printf(") {\n");
-	printf("  entry:\n");
 }
 
 void generateGVar(VarDecl* var) {
@@ -516,6 +577,8 @@ void generateDeclaration(Declaration* decl) {
 }
 
 void generateFunction() {
+	printf("\n");
+	printf("declare i32 @atoi(i8*)\n");
 	printf("declare noalias i8* @malloc(i32)\n");
 	printf("declare i32 @printf(i8*, ...) nounwind\n");
 	printf("@str.int = internal constant [4 x i8] c\"%%d\\0A\\00\"\n");
