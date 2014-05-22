@@ -200,6 +200,7 @@ void generateOper(Exp* exp) {
 void generateExp(Exp* exp) {
 	int aux;
 	char aux2;
+	Type a;
 
 	if (exp == NULL) {
 		return;
@@ -209,7 +210,21 @@ void generateExp(Exp* exp) {
 		else
 			aux2 = '@';
 
-		asprintf(&exp->var, "%c%s", aux2, exp->content.literal);
+		a = getExpType(exp);
+		if(a >= StringArray)
+			asprintf(&exp->var, "%c%s", aux2, exp->content.literal);
+		else{
+			geraIndentacao();
+			printf("%%%d = load ", geraVar);
+			generateType(getVarType(method, exp->content.id));
+			printf("* %c%s", aux2, exp->content.literal);
+
+			geraIndentacao();
+			printf("%%%d = add ", geraVar+1);
+			generateType(getVarType(method, exp->content.id));
+			printf(" %%%d, 0\n", geraVar++);
+			asprintf(&exp->var, "%%%d", geraVar++);
+		}
 	} else if (exp->type == IntLit) {
 		geraIndentacao();
 		printf("%%%d = add i32 %s, 0\n", geraVar, exp->content.literal);
@@ -227,6 +242,19 @@ void generateExp(Exp* exp) {
 
 
 // Statements
+void generateReturn(Return* _return) {
+	printf("\n");
+	generateExp(_return->value);
+
+	geraIndentacao();
+	printf("ret ");
+	generateType(method->type);
+	if(method->type == Void)
+		printf("\n");
+	else
+		printf(" %s\n", _return->value->var);
+}
+
 void generatePrint(Print* print) {
 	printf("\n");
 	generateExp(print->value);
@@ -274,23 +302,51 @@ void generatePrint(Print* print) {
 	}
 }
 
-void generateReturn(Return* _return) {
-	generateExp(_return->value);
-
-	geraIndentacao();
-	printf("ret ");
-	generateType(method->type);
-	if(method->type == Void)
-		printf("\n");
+void generateStore(Store* store) {
+	char aux2;
+	if(findFieldType(store->target) == Void)
+		aux2 = '%';
 	else
-		printf(" %s\n", _return->value->var);
+		aux2 = '@';
+
+	printf("\n");
+	generateExp(store->value);
+	if(store->index == NULL){
+		geraIndentacao();
+		printf("%%%d = getelementptr i32* %c%s, i32 0\n", geraVar, aux2, store->target);
+		geraIndentacao();
+		printf("store i32 %s, i32* %%%d\n", store->value->var, geraVar++);
+	}
+	else{
+
+	}
+}
+
+void generateIf(IfElse* ifelse) {
+
+}
+
+void generateWhile(While* _while) {
+
+}
+
+void generateComp(Comp* comp) {
+
 }
 
 void generateStatement(Statement* state) {
-	if (state->type == PrintType)
-		generatePrint(&state->content.print);
+	if (state->type == IfType)
+		generateIf(&state->content.ifelse);
 	else if (state->type == ReturnType)
 		generateReturn(&state->content._return);
+	else if (state->type == WhileType)
+		generateWhile(&state->content._while);
+	else if (state->type == StoreType)
+		generateStore(&state->content.store);
+	else if (state->type == PrintType)
+		generatePrint(&state->content.print);
+	else if (state->type == CompType)
+		generateComp(&state->content.comp);
 
 	if (state->next != NULL)
 		generateStatement(state->next);
