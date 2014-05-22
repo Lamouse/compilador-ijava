@@ -187,9 +187,10 @@ void generateOper(Exp* exp) {
 		asprintf(&exp->var, "%%%d", geraVar++);
 	} else if (type == Plus) {
 		return;
-	} else if (type == NewInt) {
-	} else if (type == NewBool) {
+	} else if (type == NewInt || type == NewBool) {
+		asprintf(&exp->var, "%s", oper->params->var);
 	} else if (type == LoadArray) {
+
 	} else if (type == Call) {
 	} else if (type == Length) {
 	} else if (type == Parse) {
@@ -217,7 +218,7 @@ void generateExp(Exp* exp) {
 			geraIndentacao();
 			printf("%%%d = load ", geraVar);
 			generateType(getVarType(method, exp->content.id));
-			printf("* %c%s", aux2, exp->content.literal);
+			printf("* %c%s\n", aux2, exp->content.literal);
 
 			geraIndentacao();
 			printf("%%%d = add ", geraVar+1);
@@ -304,6 +305,8 @@ void generatePrint(Print* print) {
 
 void generateStore(Store* store) {
 	char aux2;
+	Type a = getExpType(store->value);;
+
 	if(findFieldType(store->target) == Void)
 		aux2 = '%';
 	else
@@ -312,13 +315,53 @@ void generateStore(Store* store) {
 	printf("\n");
 	generateExp(store->value);
 	if(store->index == NULL){
-		geraIndentacao();
-		printf("%%%d = getelementptr i32* %c%s, i32 0\n", geraVar, aux2, store->target);
-		geraIndentacao();
-		printf("store i32 %s, i32* %%%d\n", store->value->var, geraVar++);
+		if(a > StringArray){
+			geraIndentacao();
+			printf("%%%d = call noalias i8* @malloc(i32 %s)\n", geraVar, store->value->var);
+			geraIndentacao();
+			printf("%%%d = bitcast i8* %%%d to ", geraVar+1, geraVar);
+			generateType(a);
+			printf("\n");
+			geraIndentacao();
+			printf("store ");
+			generateType(a);
+			printf(" %%%d, ", geraVar+1);
+			generateType(a);
+			printf("* %c%s\n", aux2, store->target);
+			geraVar += 2;
+		}
+		else{
+			geraIndentacao();
+			printf("%%%d = getelementptr ", geraVar);
+			generateType(a);
+			printf("* %c%s, i32 0\n", aux2, store->target);
+			geraIndentacao();
+			printf("store ");
+			generateType(a);
+			printf(" %s, ", store->value->var);
+			generateType(a);
+			printf("* %%%d\n", geraVar++);
+		}
 	}
 	else{
+		generateExp(store->index);
+		geraIndentacao();
+		printf("%%%d = load ", geraVar);
+		generateType(a);
+		printf("** %c%s\n", aux2, store->target);
 
+		geraIndentacao();
+		printf("%%%d = getelementptr ", geraVar+1);
+		generateType(a);
+		printf("* %%%d, i32 %s\n", geraVar, store->index->var);
+		geraIndentacao();
+		printf("store ");
+		generateType(a);
+		printf(" %s, ", store->value->var);
+		generateType(a);
+		printf("* %%%d\n", geraVar+1);
+
+		geraVar += 2;
 	}
 }
 
@@ -448,6 +491,7 @@ void generateDeclaration(Declaration* decl) {
 }
 
 void generateFunction() {
+	printf("declare noalias i8* @malloc(i32)\n");
 	printf("declare i32 @printf(i8*, ...) nounwind\n");
 	printf("@str.int = internal constant [4 x i8] c\"%%d\\0A\\00\"\n");
 	printf("@str.true = private unnamed_addr constant [6 x i8] c\"true\\0A\\00\"\n");

@@ -28,9 +28,8 @@ struct _Exp {
 		char* literal;
 		char* id;
 	} content;
-	//estas duas variaveis são para a geracao de codigo
+	//esta variavel e para a geracao de codigo
 	char* var;
-	int length;	
 
 	ExpType type;
 	Exp* next;

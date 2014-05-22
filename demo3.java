@@ -1,10 +1,16 @@
 class gcd {
 
 	public static int main(){
-		int a;
+		boolean a;
+		int[] b;
 
-		a=2;
+		a = false;
+		b = new int[3];
+
+		b[3] = 1;
+
 		System.out.println(a);
+
 		return 1;
 	}
 }
