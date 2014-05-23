@@ -26,19 +26,28 @@ class gcd {
 		}
 
 		i = 10;
-		while(i >= 0){
+		while(i >= -10){
 			System.out.println(i);
-			i = i - 1;
+			if(i > 0){
+				i = i - 1;
+			}
+			else{
+				i = i - 2;
+			}
 		}
 
 		System.out.println(compare(1, 2));
 		System.out.println(compare(2, 1+1));
+		System.out.println(compare(10, 20-15+5));
 
 		d = 2;
 		e = new int[1];
 		e[0] = 3;
 		System.out.println(e[0]);
 		System.out.println(e.length);
+
+		System.out.println(06);
+		System.out.println(0xf);
 		return d;
 	}
 

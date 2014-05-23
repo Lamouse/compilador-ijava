@@ -255,10 +255,11 @@ void generateOper(Exp* exp) {
 		printf("%%%d = load i8** %%%d\n", geraVar+2, geraVar+1);
 
 		geraIndentacao();
-		printf("%%%d = call i32 (i8*)* @atoi(i8* %%%d)\n", geraVar+3, geraVar+2);
-
-		asprintf(&exp->var, "%%%d", geraVar+3);
-		geraVar += 4;
+		printf("%%%d = call i64 @strtol(i8* %%%d, i8** null, i32 0)\n", geraVar+3, geraVar+2);
+		geraIndentacao();
+		printf("%%%d = trunc i64 %%%d to i32\n", geraVar+4, geraVar+3);
+		asprintf(&exp->var, "%%%d", geraVar+4);
+		geraVar += 5;
 	}
 }
 
@@ -292,7 +293,7 @@ void generateExp(Exp* exp) {
 		}
 	} else if (exp->type == IntLit) {
 		geraIndentacao();
-		printf("%%%d = add i32 %s, 0\n", geraVar, exp->content.literal);
+		printf("%%%d = add i32 %ld, 0\n", geraVar, strtol(exp->content.literal, NULL, 0));
 		asprintf(&exp->var, "%%%d", geraVar++);
 	} else if (exp->type == BoolLit) {
 		geraIndentacao();
@@ -640,6 +641,7 @@ void generateDeclaration(Declaration* decl) {
 
 void generateFunction() {
 	printf("\n");
+	printf("declare i64 @strtol(i8*, i8**, i32)\n");
 	printf("declare i32 @atoi(i8*)\n");
 	printf("declare noalias i8* @malloc(i32)\n");
 	printf("declare i32 @printf(i8*, ...) nounwind\n");
