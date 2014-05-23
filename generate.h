@@ -31,7 +31,7 @@ void generateType(Type type) {
 // Expressions
 void generateExp(Exp* exp);
 void generateOper(Exp* exp) {
-	int temp;
+	int temp, temp1;
 	ExpType type = exp->type;
 	Oper* oper = &exp->content.oper;
 	Type a = getExpType(oper->params);
@@ -45,79 +45,81 @@ void generateOper(Exp* exp) {
 		asprintf(&exp->var, "%%%d", geraVar++);
 	} else if (type == Or) {
 		temp = geraVar++;
+		temp1=geraIf++;
 		geraIndentacao();
-		printf("%%%d = alloca i1", temp);
+		printf("%%%d = alloca i1\n", temp);
 		geraIndentacao();
 		printf("%%%d = icmp eq i1 %s, 0\n", geraVar, oper->params->var);
 		geraIndentacao();
-		printf("br i1 %%%d, label %%then%d, label %%else%d\n", geraVar++, geraIf, geraIf);
+		printf("br i1 %%%d, label %%then%d, label %%else%d\n", geraVar++, temp1, temp1);
 		printf("\n");
 		geraInd--;
 		geraIndentacao();
 		geraInd++;
-		printf("then%d:\n", geraIf);
+		printf("then%d:\n", temp1);
 		generateExp(oper->params->next);
 		geraIndentacao();
 		printf("%%%d = add i1 %s, 0\n", geraVar, oper->params->next->var);
 		geraIndentacao();
 		printf("store i1 %%%d, i1* %%%d\n", geraVar++, temp);
 		geraIndentacao();
-		printf("br label %%ifcont%d\n", geraIf);
+		printf("br label %%ifcont%d\n", temp1);
 		printf("\n");
 		geraInd--;
 		geraIndentacao();
 		geraInd++;
-		printf("else%d:\n", geraIf);
+		printf("else%d:\n", temp1);
 		geraIndentacao();
 		printf("%%%d = add i1 %s, 0\n", geraVar, oper->params->var);
 		geraIndentacao();
 		printf("store i1 %%%d, i1* %%%d\n", geraVar++, temp);
 		geraIndentacao();
-		printf("br label %%ifcont%d\n", geraIf);
+		printf("br label %%ifcont%d\n", temp1);
 		printf("\n");
 		geraInd--;
 		geraIndentacao();
 		geraInd++;
-		printf("ifcont%d:\n", geraIf++);
+		printf("ifcont%d:\n", temp1);
 		geraIndentacao();
 		printf("%%%d = load i1* %%%d", geraVar, temp);
 		asprintf(&exp->var, "%%%d", geraVar++);
 	} else if (type == And) {
 		temp = geraVar++;
+		temp1=geraIf++;
 		geraIndentacao();
-		printf("%%%d = alloca i1", temp);
+		printf("%%%d = alloca i1\n", temp);
 		geraIndentacao();
 		printf("%%%d = icmp eq i1 %s, 1\n", geraVar, oper->params->var);
 		geraIndentacao();
-		printf("br i1 %%%d, label %%then%d, label %%else%d\n", geraVar++, geraIf, geraIf);
+		printf("br i1 %%%d, label %%then%d, label %%else%d\n", geraVar++, temp1, temp1);
 		printf("\n");
 		geraInd--;
 		geraIndentacao();
 		geraInd++;
-		printf("then%d:\n", geraIf);
+		printf("then%d:\n", temp1);
 		generateExp(oper->params->next);
 		geraIndentacao();
 		printf("%%%d = add i1 %s, 0\n", geraVar, oper->params->next->var);
 		geraIndentacao();
 		printf("store i1 %%%d, i1* %%%d\n", geraVar++, temp);
 		geraIndentacao();
-		printf("br label %%ifcont%d\n", geraIf);
+		printf("br label %%ifcont%d\n", temp1);
 		printf("\n");
 		geraInd--;
 		geraIndentacao();
 		geraInd++;
-		printf("else%d:\n", geraIf);
+		printf("else%d:\n", temp1);
 		geraIndentacao();
 		printf("%%%d = add i1 %s, 0\n", geraVar, oper->params->var);
 		geraIndentacao();
 		printf("store i1 %%%d, i1* %%%d\n", geraVar++, temp);
 		geraIndentacao();
-		printf("br label %%ifcont%d\n", geraIf);
+		printf("br label %%ifcont%d\n", temp1);
 		printf("\n");
 		geraInd--;
 		geraIndentacao();
 		geraInd++;
-		printf("ifcont%d:\n", geraIf++);
+		printf("ifcont%d:\n", temp1);
 		geraIndentacao();
 		printf("%%%d = load i1* %%%d", geraVar, temp);
 		asprintf(&exp->var, "%%%d", geraVar++);
@@ -324,6 +326,8 @@ void generateReturn(Return* _return) {
 }
 
 void generatePrint(Print* print) {
+	int temp;
+
 	printf("\n");
 	generateExp(print->value);
 	if(getExpType(print->value) == Int) {
@@ -334,39 +338,40 @@ void generatePrint(Print* print) {
 		geraVar += 2;
 	}
 	else{
+		temp = geraIf++;
 		geraIndentacao();
 		printf("%%%d = icmp eq i1 %s, 0\n", geraVar, print->value->var);
 		geraIndentacao();
-		printf("br i1 %%%d, label %%then%d, label %%else%d\n", geraVar++, geraIf, geraIf);
+		printf("br i1 %%%d, label %%then%d, label %%else%d\n", geraVar++, temp, temp);
 		printf("\n");
 		geraInd--;
 		geraIndentacao();
 		geraInd++;
-		printf("then%d:\n", geraIf);
+		printf("then%d:\n", temp);
 		geraIndentacao();
 		printf("%%%d = getelementptr [7 x i8]* @str.false, i32 0, i32 0\n", geraVar);
 		geraIndentacao();
 		printf("%%%d = call i32 (i8*, ...)* @printf( i8* %%%d)\n", geraVar + 1, geraVar);
 		geraIndentacao();
 		geraVar += 2;
-		printf("br label %%ifcont%d\n", geraIf);
+		printf("br label %%ifcont%d\n", temp);
 		printf("\n");
 		geraInd--;
 		geraIndentacao();
 		geraInd++;
-		printf("else%d:\n", geraIf);
+		printf("else%d:\n", temp);
 		geraIndentacao();
 		printf("%%%d = getelementptr [6 x i8]* @str.true, i32 0, i32 0\n", geraVar);
 		geraIndentacao();
 		printf("%%%d = call i32 (i8*, ...)* @printf( i8* %%%d)\n", geraVar + 1, geraVar);
 		geraIndentacao();
 		geraVar += 2;
-		printf("br label %%ifcont%d\n", geraIf);
+		printf("br label %%ifcont%d\n", temp);
 		printf("\n");
 		geraInd--;
 		geraIndentacao();
 		geraInd++;
-		printf("ifcont%d:\n", geraIf++);
+		printf("ifcont%d:\n", temp);
 	}
 }
 
@@ -435,65 +440,67 @@ void generateStore(Store* store) {
 }
 
 void generateIf(IfElse* ifelse) {
+	int temp = geraIf++;
 	printf("\n");
 	generateExp(ifelse->condition);
 	geraIndentacao();
 	printf("%%%d = icmp eq i1 %s, 1\n", geraVar, ifelse->condition->var);
 	geraIndentacao();
-	printf("br i1 %%%d, label %%then%d, label %%else%d\n", geraVar++, geraIf, geraIf);
+	printf("br i1 %%%d, label %%then%d, label %%else%d\n", geraVar++, temp, temp);
 	printf("\n");
 	geraInd--;
 	geraIndentacao();
 	geraInd++;
-	printf("then%d:\n", geraIf);
+	printf("then%d:\n", temp);
 	generateStatement(ifelse->first);
 	geraIndentacao();
-	printf("br label %%ifcont%d\n", geraIf);
+	printf("br label %%ifcont%d\n", temp);
 	printf("\n");
 	geraInd--;
 	geraIndentacao();
 	geraInd++;
-	printf("else%d:\n", geraIf);
+	printf("else%d:\n", temp);
 	generateStatement(ifelse->second);
 	geraIndentacao();
-	printf("br label %%ifcont%d\n", geraIf);
+	printf("br label %%ifcont%d\n", temp);
 	printf("\n");
 	geraInd--;
 	geraIndentacao();
 	geraInd++;
-	printf("ifcont%d:\n", geraIf++);
+	printf("ifcont%d:\n", temp);
 }
 
 void generateWhile(While* _while) {
+	int temp = geraWhile++;
 	printf("\n");
 
 	geraIndentacao();
-	printf("br label %%cond%d\n", geraWhile);
+	printf("br label %%cond%d\n", temp);
 	printf("\n");
 	geraInd--;
 	geraIndentacao();
 	geraInd++;
-	printf("cond%d:\n", geraWhile);
+	printf("cond%d:\n", temp);
 	generateExp(_while->condition);
 	geraIndentacao();
 	printf("%%%d = icmp eq i1 %s, 1\n", geraVar, _while->condition->var);
 	geraIndentacao();
-	printf("br i1 %%%d, label %%while%d, label %%whilecont%d\n", geraVar++, geraWhile, geraWhile);
+	printf("br i1 %%%d, label %%while%d, label %%whilecont%d\n", geraVar++, temp, temp);
 	printf("\n");
 	geraInd--;
 	geraIndentacao();
 	geraInd++;
-	printf("while%d:\n", geraWhile);
+	printf("while%d:\n", temp);
 	if(_while->statement != NULL)
 		generateStatement(_while->statement);
 
 	geraIndentacao();
-	printf("br label %%cond%d", geraWhile);
+	printf("br label %%cond%d", temp);
 	printf("\n");
 	geraInd--;
 	geraIndentacao();
 	geraInd++;
-	printf("whilecont%d:\n", geraWhile++);
+	printf("whilecont%d:\n", temp);
 }
 
 void generateComp(Comp* comp) {
@@ -642,7 +649,6 @@ void generateDeclaration(Declaration* decl) {
 void generateFunction() {
 	printf("\n");
 	printf("declare i64 @strtol(i8*, i8**, i32)\n");
-	printf("declare i32 @atoi(i8*)\n");
 	printf("declare noalias i8* @malloc(i32)\n");
 	printf("declare i32 @printf(i8*, ...) nounwind\n");
 	printf("@str.int = internal constant [4 x i8] c\"%%d\\0A\\00\"\n");

@@ -23,6 +23,7 @@ class gcd {
 			System.out.println(Integer.parseInt(args[0]));
 			System.out.println(Integer.parseInt(args[1]));
 			System.out.println(a(false&&true));
+			System.out.println(true||(false||false));
 		}
 
 		i = 10;
@@ -48,6 +49,12 @@ class gcd {
 
 		System.out.println(06);
 		System.out.println(0xf);
+
+		i=2+(2+5)*5;
+		a=false||(true&&(true||false));
+		System.out.println(i);
+		System.out.println(a);
+
 		return d;
 	}
 

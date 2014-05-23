@@ -96,7 +96,8 @@ define i32 @main(i32 %args.tam, i8** %args) {
     %53 = call i32 (i8*, ...)* @printf( i8* %52, i32 %51)
 
     %54 = add i1 0, 0
-    %55 = alloca i1    %56 = icmp eq i1 %54, 1
+    %55 = alloca i1
+    %56 = icmp eq i1 %54, 1
     br i1 %56, label %then1, label %else1
 
   then1:
@@ -112,7 +113,8 @@ define i32 @main(i32 %args.tam, i8** %args) {
 
   ifcont1:
     %60 = load i1* %55    %61 = add i1 0, 0
-    %62 = alloca i1    %63 = icmp eq i1 %61, 1
+    %62 = alloca i1
+    %63 = icmp eq i1 %61, 1
     br i1 %63, label %then2, label %else2
 
   then2:
@@ -143,160 +145,292 @@ define i32 @main(i32 %args.tam, i8** %args) {
 
   ifcont3:
 
-    %74 = add i32 10, 0
-    %75 = getelementptr i32* %i, i32 0
-    store i32 %74, i32* %75
-
-    br label %cond0
-
-  cond0:
-    %76 = load i32* %i
-    %77 = add i32 %76, 0
-    %78 = add i32 10, 0
-    %79 = mul i32 %78, -1
-    %80 = icmp sge i32 %77, %79
-    %81 = icmp eq i1 %80, 1
-    br i1 %81, label %while0, label %whilecont0
-
-  while0:
-
-    %82 = load i32* %i
-    %83 = add i32 %82, 0
-    %84 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
-    %85 = call i32 (i8*, ...)* @printf( i8* %84, i32 %83)
-
-    %86 = load i32* %i
-    %87 = add i32 %86, 0
-    %88 = add i32 0, 0
-    %89 = icmp sgt i32 %87, %88
-    %90 = icmp eq i1 %89, 1
-    br i1 %90, label %then4, label %else4
+    %74 = add i1 1, 0
+    %75 = alloca i1
+    %76 = icmp eq i1 %74, 0
+    br i1 %76, label %then4, label %else4
 
   then4:
-
-    %91 = load i32* %i
-    %92 = add i32 %91, 0
-    %93 = add i32 1, 0
-    %94 = sub nsw i32 %92, %93
-    %95 = getelementptr i32* %i, i32 0
-    store i32 %94, i32* %95
-    br label %ifcont4
-
-  else4:
-
-    %96 = load i32* %i
-    %97 = add i32 %96, 0
-    %98 = add i32 2, 0
-    %99 = sub nsw i32 %97, %98
-    %100 = getelementptr i32* %i, i32 0
-    store i32 %99, i32* %100
-    br label %ifcont4
-
-  ifcont4:
-    br label %cond0
-  whilecont0:
-
-    %101 = add i32 1, 0
-    %102 = add i32 1, 0
-    %103 = add i32 2, 0
-    %104 = call i1 @compare(i32 %102, i32 %103)
-    %105 = icmp eq i1 %104, 0
-    br i1 %105, label %then5, label %else5
+    %77 = add i1 0, 0
+    %78 = alloca i1
+    %79 = icmp eq i1 %77, 0
+    br i1 %79, label %then5, label %else5
 
   then5:
-    %106 = getelementptr [7 x i8]* @str.false, i32 0, i32 0
-    %107 = call i32 (i8*, ...)* @printf( i8* %106)
+    %80 = add i1 0, 0
+    %81 = add i1 %80, 0
+    store i1 %81, i1* %78
     br label %ifcont5
 
   else5:
-    %108 = getelementptr [6 x i8]* @str.true, i32 0, i32 0
-    %109 = call i32 (i8*, ...)* @printf( i8* %108)
+    %82 = add i1 %77, 0
+    store i1 %82, i1* %78
     br label %ifcont5
 
   ifcont5:
+    %83 = load i1* %78    %84 = add i1 %83, 0
+    store i1 %84, i1* %75
+    br label %ifcont4
 
-    %110 = add i32 2, 0
-    %111 = add i32 2, 0
-    %112 = add i32 1, 0
-    %113 = add i32 1, 0
-    %114 = add i32 %112, %113
-    %115 = call i1 @compare(i32 %111, i32 %114)
-    %116 = icmp eq i1 %115, 0
-    br i1 %116, label %then6, label %else6
+  else4:
+    %85 = add i1 %74, 0
+    store i1 %85, i1* %75
+    br label %ifcont4
+
+  ifcont4:
+    %86 = load i1* %75    %87 = icmp eq i1 %86, 0
+    br i1 %87, label %then6, label %else6
 
   then6:
-    %117 = getelementptr [7 x i8]* @str.false, i32 0, i32 0
-    %118 = call i32 (i8*, ...)* @printf( i8* %117)
+    %88 = getelementptr [7 x i8]* @str.false, i32 0, i32 0
+    %89 = call i32 (i8*, ...)* @printf( i8* %88)
     br label %ifcont6
 
   else6:
-    %119 = getelementptr [6 x i8]* @str.true, i32 0, i32 0
-    %120 = call i32 (i8*, ...)* @printf( i8* %119)
+    %90 = getelementptr [6 x i8]* @str.true, i32 0, i32 0
+    %91 = call i32 (i8*, ...)* @printf( i8* %90)
     br label %ifcont6
 
   ifcont6:
 
-    %121 = add i32 10, 0
-    %122 = add i32 10, 0
-    %123 = add i32 20, 0
-    %124 = add i32 15, 0
-    %125 = sub nsw i32 %123, %124
-    %126 = add i32 5, 0
-    %127 = add i32 %125, %126
-    %128 = call i1 @compare(i32 %122, i32 %127)
-    %129 = icmp eq i1 %128, 0
-    br i1 %129, label %then7, label %else7
+    %92 = add i32 10, 0
+    %93 = getelementptr i32* %i, i32 0
+    store i32 %92, i32* %93
+
+    br label %cond0
+
+  cond0:
+    %94 = load i32* %i
+    %95 = add i32 %94, 0
+    %96 = add i32 10, 0
+    %97 = mul i32 %96, -1
+    %98 = icmp sge i32 %95, %97
+    %99 = icmp eq i1 %98, 1
+    br i1 %99, label %while0, label %whilecont0
+
+  while0:
+
+    %100 = load i32* %i
+    %101 = add i32 %100, 0
+    %102 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
+    %103 = call i32 (i8*, ...)* @printf( i8* %102, i32 %101)
+
+    %104 = load i32* %i
+    %105 = add i32 %104, 0
+    %106 = add i32 0, 0
+    %107 = icmp sgt i32 %105, %106
+    %108 = icmp eq i1 %107, 1
+    br i1 %108, label %then7, label %else7
 
   then7:
-    %130 = getelementptr [7 x i8]* @str.false, i32 0, i32 0
-    %131 = call i32 (i8*, ...)* @printf( i8* %130)
+
+    %109 = load i32* %i
+    %110 = add i32 %109, 0
+    %111 = add i32 1, 0
+    %112 = sub nsw i32 %110, %111
+    %113 = getelementptr i32* %i, i32 0
+    store i32 %112, i32* %113
     br label %ifcont7
 
   else7:
-    %132 = getelementptr [6 x i8]* @str.true, i32 0, i32 0
-    %133 = call i32 (i8*, ...)* @printf( i8* %132)
+
+    %114 = load i32* %i
+    %115 = add i32 %114, 0
+    %116 = add i32 2, 0
+    %117 = sub nsw i32 %115, %116
+    %118 = getelementptr i32* %i, i32 0
+    store i32 %117, i32* %118
     br label %ifcont7
 
   ifcont7:
+    br label %cond0
+  whilecont0:
 
-    %134 = add i32 2, 0
-    %135 = getelementptr i32* @d, i32 0
-    store i32 %134, i32* %135
+    %119 = add i32 1, 0
+    %120 = add i32 1, 0
+    %121 = add i32 2, 0
+    %122 = call i1 @compare(i32 %120, i32 %121)
+    %123 = icmp eq i1 %122, 0
+    br i1 %123, label %then8, label %else8
 
-    %136 = add i32 1, 0
-    %137 = call noalias i8* @malloc(i32 %136)
-    %138 = bitcast i8* %137 to i32*
-    store i32* %138, i32** @e
-    store i32 %136, i32* @e.length
+  then8:
+    %124 = getelementptr [7 x i8]* @str.false, i32 0, i32 0
+    %125 = call i32 (i8*, ...)* @printf( i8* %124)
+    br label %ifcont8
 
-    %139 = add i32 3, 0
-    %140 = add i32 0, 0
-    %141 = load i32** @e
-    %142 = getelementptr i32* %141, i32 %140
-    store i32 %139, i32* %142
+  else8:
+    %126 = getelementptr [6 x i8]* @str.true, i32 0, i32 0
+    %127 = call i32 (i8*, ...)* @printf( i8* %126)
+    br label %ifcont8
 
-    %143 = add i32 0, 0
-    %144 = load i32** @e
-    %145 = getelementptr i32* %144, i32 %143
-    %146 = load i32* %145
-    %147 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
-    %148 = call i32 (i8*, ...)* @printf( i8* %147, i32 %146)
+  ifcont8:
 
-    %149 = load i32* @e.length
-    %150 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
-    %151 = call i32 (i8*, ...)* @printf( i8* %150, i32 %149)
+    %128 = add i32 2, 0
+    %129 = add i32 2, 0
+    %130 = add i32 1, 0
+    %131 = add i32 1, 0
+    %132 = add i32 %130, %131
+    %133 = call i1 @compare(i32 %129, i32 %132)
+    %134 = icmp eq i1 %133, 0
+    br i1 %134, label %then9, label %else9
 
-    %152 = add i32 6, 0
-    %153 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
-    %154 = call i32 (i8*, ...)* @printf( i8* %153, i32 %152)
+  then9:
+    %135 = getelementptr [7 x i8]* @str.false, i32 0, i32 0
+    %136 = call i32 (i8*, ...)* @printf( i8* %135)
+    br label %ifcont9
 
-    %155 = add i32 15, 0
-    %156 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
-    %157 = call i32 (i8*, ...)* @printf( i8* %156, i32 %155)
+  else9:
+    %137 = getelementptr [6 x i8]* @str.true, i32 0, i32 0
+    %138 = call i32 (i8*, ...)* @printf( i8* %137)
+    br label %ifcont9
 
-    %158 = load i32* @d
-    %159 = add i32 %158, 0
-    ret i32 %159
+  ifcont9:
+
+    %139 = add i32 10, 0
+    %140 = add i32 10, 0
+    %141 = add i32 20, 0
+    %142 = add i32 15, 0
+    %143 = sub nsw i32 %141, %142
+    %144 = add i32 5, 0
+    %145 = add i32 %143, %144
+    %146 = call i1 @compare(i32 %140, i32 %145)
+    %147 = icmp eq i1 %146, 0
+    br i1 %147, label %then10, label %else10
+
+  then10:
+    %148 = getelementptr [7 x i8]* @str.false, i32 0, i32 0
+    %149 = call i32 (i8*, ...)* @printf( i8* %148)
+    br label %ifcont10
+
+  else10:
+    %150 = getelementptr [6 x i8]* @str.true, i32 0, i32 0
+    %151 = call i32 (i8*, ...)* @printf( i8* %150)
+    br label %ifcont10
+
+  ifcont10:
+
+    %152 = add i32 2, 0
+    %153 = getelementptr i32* @d, i32 0
+    store i32 %152, i32* %153
+
+    %154 = add i32 1, 0
+    %155 = call noalias i8* @malloc(i32 %154)
+    %156 = bitcast i8* %155 to i32*
+    store i32* %156, i32** @e
+    store i32 %154, i32* @e.length
+
+    %157 = add i32 3, 0
+    %158 = add i32 0, 0
+    %159 = load i32** @e
+    %160 = getelementptr i32* %159, i32 %158
+    store i32 %157, i32* %160
+
+    %161 = add i32 0, 0
+    %162 = load i32** @e
+    %163 = getelementptr i32* %162, i32 %161
+    %164 = load i32* %163
+    %165 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
+    %166 = call i32 (i8*, ...)* @printf( i8* %165, i32 %164)
+
+    %167 = load i32* @e.length
+    %168 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
+    %169 = call i32 (i8*, ...)* @printf( i8* %168, i32 %167)
+
+    %170 = add i32 6, 0
+    %171 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
+    %172 = call i32 (i8*, ...)* @printf( i8* %171, i32 %170)
+
+    %173 = add i32 15, 0
+    %174 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
+    %175 = call i32 (i8*, ...)* @printf( i8* %174, i32 %173)
+
+    %176 = add i32 2, 0
+    %177 = add i32 2, 0
+    %178 = add i32 5, 0
+    %179 = add i32 %177, %178
+    %180 = add i32 5, 0
+    %181 = mul i32 %179, %180
+    %182 = add i32 %176, %181
+    %183 = getelementptr i32* %i, i32 0
+    store i32 %182, i32* %183
+
+    %184 = add i1 0, 0
+    %185 = alloca i1
+    %186 = icmp eq i1 %184, 0
+    br i1 %186, label %then11, label %else11
+
+  then11:
+    %187 = add i1 1, 0
+    %188 = alloca i1
+    %189 = icmp eq i1 %187, 1
+    br i1 %189, label %then12, label %else12
+
+  then12:
+    %190 = add i1 1, 0
+    %191 = alloca i1
+    %192 = icmp eq i1 %190, 0
+    br i1 %192, label %then13, label %else13
+
+  then13:
+    %193 = add i1 0, 0
+    %194 = add i1 %193, 0
+    store i1 %194, i1* %191
+    br label %ifcont13
+
+  else13:
+    %195 = add i1 %190, 0
+    store i1 %195, i1* %191
+    br label %ifcont13
+
+  ifcont13:
+    %196 = load i1* %191    %197 = add i1 %196, 0
+    store i1 %197, i1* %188
+    br label %ifcont12
+
+  else12:
+    %198 = add i1 %187, 0
+    store i1 %198, i1* %188
+    br label %ifcont12
+
+  ifcont12:
+    %199 = load i1* %188    %200 = add i1 %199, 0
+    store i1 %200, i1* %185
+    br label %ifcont11
+
+  else11:
+    %201 = add i1 %184, 0
+    store i1 %201, i1* %185
+    br label %ifcont11
+
+  ifcont11:
+    %202 = load i1* %185    %203 = getelementptr i1* %a, i32 0
+    store i1 %202, i1* %203
+
+    %204 = load i32* %i
+    %205 = add i32 %204, 0
+    %206 = getelementptr [4 x i8]* @str.int, i32 0, i32 0
+    %207 = call i32 (i8*, ...)* @printf( i8* %206, i32 %205)
+
+    %208 = load i1* %a
+    %209 = add i1 %208, 0
+    %210 = icmp eq i1 %209, 0
+    br i1 %210, label %then14, label %else14
+
+  then14:
+    %211 = getelementptr [7 x i8]* @str.false, i32 0, i32 0
+    %212 = call i32 (i8*, ...)* @printf( i8* %211)
+    br label %ifcont14
+
+  else14:
+    %213 = getelementptr [6 x i8]* @str.true, i32 0, i32 0
+    %214 = call i32 (i8*, ...)* @printf( i8* %213)
+    br label %ifcont14
+
+  ifcont14:
+
+    %215 = load i32* @d
+    %216 = add i32 %215, 0
+    ret i32 %216
 }
 
 
@@ -350,7 +484,6 @@ define i1 @compare(i32 %x.temp, i32 %y.temp) {
 
 
 declare i64 @strtol(i8*, i8**, i32)
-declare i32 @atoi(i8*)
 declare noalias i8* @malloc(i32)
 declare i32 @printf(i8*, ...) nounwind
 @str.int = internal constant [4 x i8] c"%d\0A\00"
