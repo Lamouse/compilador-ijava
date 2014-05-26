@@ -26,7 +26,15 @@ class gcd {
 		b[0] = 4;
 		c[1]=false;
 
-		System.out.println(teste_array(b));
+		i = c.length - 1;
+		while(i >= 3){
+			c[i] = true;
+			System.out.println(c[i]);
+			i = i -1;
+		}
+		System.out.println(c.length);
+
+		System.out.println(teste_array(c));
 
 		{
 			System.out.println(b[3]);
@@ -71,9 +79,9 @@ class gcd {
 		return 0;
 	}
 
-	public static int teste_array(int[] a){
+	public static boolean teste_array(boolean[] a){
 		System.out.println(a.length);
-		return a[0];
+		return a[1];
 	}
 
 	public static boolean a(boolean y){

@@ -209,7 +209,7 @@ void generateOper(Exp* exp) {
 		geraVar += 5;
 	} else if (type == NewBool) {
 		geraIndentacao();
-		printf("%%%d = add i32 %s, 1\n", geraVar, oper->params->var);
+		printf("%%%d = add i32 %s, 4\n", geraVar, oper->params->var);
 		geraIndentacao();
 		printf("%%%d = call noalias i8* @malloc(i32 %%%d)\n", geraVar+1, geraVar);
 		geraIndentacao();
@@ -232,8 +232,14 @@ void generateOper(Exp* exp) {
 		generateType(a);
 		printf("* %s\n", oper->params->var);
 
-		geraIndentacao();
-		printf("%%%d = add i32 %s, 1\n", geraVar+1, oper->params->next->var);
+		if(a == BoolArray){
+			geraIndentacao();
+			printf("%%%d = add i32 %s, 4\n", geraVar+1, oper->params->next->var);
+		}
+		else{
+			geraIndentacao();
+			printf("%%%d = add i32 %s, 1\n", geraVar+1, oper->params->next->var);
+		}
 
 		geraIndentacao();
 		printf("%%%d = getelementptr ", geraVar+2);
@@ -471,6 +477,7 @@ void generateStore(Store* store) {
 			printf("%%%d = load ", geraVar);
 			generateType(a);
 			printf("* %s\n", store->value->var);
+			geraIndentacao();
   			printf("store ");
   			generateType(a);
   			printf(" %%%d, ", geraVar++);
@@ -492,8 +499,15 @@ void generateStore(Store* store) {
 	}
 	else{
 		generateExp(store->index);
-		geraIndentacao();
-		printf("%%%d = add i32 %s, 1\n", geraVar, store->index->var);
+		
+		if(a == Bool){
+			geraIndentacao();
+			printf("%%%d = add i32 %s, 4\n", geraVar, store->index->var);
+		}
+		else{
+			geraIndentacao();
+			printf("%%%d = add i32 %s, 1\n", geraVar, store->index->var);
+		}
 
 		geraIndentacao();
 		printf("%%%d = load ", geraVar+1);
