@@ -21,10 +21,12 @@ class gcd {
 
 		System.out.println(args.length);
 		
-		b = new int[4];
+		b = new int[5];
 		c = new boolean[15];
-		b[3] = 3;
+		b[0] = 4;
 		c[1]=false;
+
+		System.out.println(teste_array(b));
 
 		{
 			System.out.println(b[3]);
@@ -67,6 +69,11 @@ class gcd {
 		System.out.println(a);
 
 		return 0;
+	}
+
+	public static int teste_array(int[] a){
+		System.out.println(a.length);
+		return a[0];
 	}
 
 	public static boolean a(boolean y){

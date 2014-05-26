@@ -265,12 +265,16 @@ void generateOper(Exp* exp) {
 		if(value != NULL) {
 			given = getExpType(value);
 			generateType(given);
+			if(given >= StringArray)
+				printf("*");
 			printf(" %s", value->var);
 			value = value->next;
 			while(value != NULL) {
 				printf(", ");
 				given = getExpType(value);
 				generateType(given);
+				if(given >= StringArray)
+					printf("*");
 				printf(" %s", value->var);
 				value = value->next;			
 			}
@@ -623,7 +627,7 @@ void generateParam(VarDecl* var) {
 	VarDecl* aux;
 
 	if(var != NULL){
-		if(var->type >= StringArray) {
+		if(var->type == StringArray) {
 			printf("i32 %%%s.tam, ", var->ids->name);
 			generateType(var->type);
 			printf(" %%%s.temp) {\n", var->ids->name);
@@ -684,33 +688,43 @@ void generateParam(VarDecl* var) {
 			printf("call void @llvm.memcpy.p0i8.p0i8.i32(i8* %%%d, i8* %%%d, i32 %%%d, i32 8, i1 false)", geraVar+3, geraVar+5,geraVar+8);
 
 			geraVar+=9;
-			return;
 		}
-		generateType(var->type);
-		printf(" %%%s.temp", var->ids->name);
-		aux = var->next;
-		while(aux != NULL){
-			printf(", ");
-			generateType(aux->type);
-			printf(" %%%s.temp", aux->ids->name);
-			aux = aux->next;
-		}
-		printf(") {\n");
-		printf("  entry:\n");
-		aux = var;
-		while(aux != NULL){
-			geraIndentacao();
-			printf("%%%s = alloca ", aux->ids->name);
-			generateType(aux->type);
-			printf("\n");
+		else{
+			generateType(var->type);
+			if(var->type > StringArray){
+				printf("* %%%s", var->ids->name);
+			}
+			else
+				printf(" %%%s.temp", var->ids->name);
+			aux = var->next;
+			while(aux != NULL){
+				printf(", ");
+				generateType(aux->type);
+				if(aux->type > StringArray)
+					printf("* %%%s", aux->ids->name);
+				else
+					printf(" %%%s.temp", aux->ids->name);
+				aux = aux->next;
+			}
+			printf(") {\n");
+			printf("  entry:\n");
+			aux = var;
+			while(aux != NULL){
+				if(aux->type < StringArray){
+					geraIndentacao();
+					printf("%%%s = alloca ", aux->ids->name);
+					generateType(aux->type);
+					printf("\n");
 
-			geraIndentacao();
-			printf("store ");
-			generateType(aux->type);
-			printf(" %%%s.temp, ", aux->ids->name);
-			generateType(aux->type);
-			printf("* %%%s\n", aux->ids->name);
-			aux = aux->next;
+					geraIndentacao();
+					printf("store ");
+					generateType(aux->type);
+					printf(" %%%s.temp, ", aux->ids->name);
+					generateType(aux->type);
+					printf("* %%%s\n", aux->ids->name);
+				}
+				aux = aux->next;
+			}
 		}
 	}
 }
