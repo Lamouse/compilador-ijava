@@ -8,12 +8,23 @@ class gcd {
 		boolean[] c;
 		int i;
 
-		a = false;
-		b = new int[3];
-		c = new boolean[2];
+		if((new int[3]).length > 3){
+			System.out.println(0);
+		}
+		else{
+			System.out.println(1);
+		}
+		
+		i = (new int[3]).length;
 
-		b[3] = 2;
-		c[1] = false;
+		System.out.println(i);
+
+		System.out.println(args.length);
+		
+		b = new int[4];
+		c = new boolean[15];
+		b[3] = 3;
+		c[1]=false;
 
 		{
 			System.out.println(b[3]);
@@ -40,7 +51,7 @@ class gcd {
 		System.out.println(compare(1, 2));
 		System.out.println(compare(2, 1+1));
 		System.out.println(compare(10, 20-15+5));
-
+		
 		d = 2;
 		e = new int[1];
 		e[0] = 3;
@@ -55,7 +66,7 @@ class gcd {
 		System.out.println(i);
 		System.out.println(a);
 
-		return d;
+		return 0;
 	}
 
 	public static boolean a(boolean y){
