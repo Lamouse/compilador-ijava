@@ -265,6 +265,8 @@ void generateOper(Exp* exp) {
 		geraIndentacao();
 		printf("%%%d = call ", geraVar);
 		generateType(method->type);
+		if(method->type>=StringArray)
+			printf("*");
 		printf(" @%s(", oper->id);
 
 		value = oper->params;
@@ -289,6 +291,10 @@ void generateOper(Exp* exp) {
 		printf(")\n");
 		asprintf(&exp->var, "%%%d", geraVar++);
 	} else if (type == Length) {
+		if (a == StringArray){
+			asprintf(&exp->var, "%s.tam", oper->params->var);
+			return;
+		}
 		geraIndentacao();
 		printf("%%%d = load ", geraVar);
 		generateType(a);
@@ -329,24 +335,22 @@ void generateOper(Exp* exp) {
 				geraVar+=4;
 			}
 	} else if (type == Parse) {
-		geraIndentacao();
-		printf("%%%d = load i8*** %%%s\n", geraVar, oper->id);
+		/*geraIndentacao();
+		printf("%%%d = load i8*** %%%s\n", geraVar, oper->id);*/
 
 		geraIndentacao();
-		printf("%%%d = add i32 %s, 1\n", geraVar+1, oper->params->var);
+		printf("%%%d = add i32 %s, 1\n", geraVar, oper->params->var);
 
 		geraIndentacao();
-		printf("%%%d = getelementptr i8** %%%d, i32 %%%d\n", geraVar+2, geraVar, geraVar+1);
+		printf("%%%d = getelementptr i8** %%%s, i32 %%%d\n", geraVar+1, oper->id, geraVar);
 
 		geraIndentacao();
-		printf("%%%d = load i8** %%%d\n", geraVar+3, geraVar+2);
+		printf("%%%d = load i8** %%%d\n", geraVar+2, geraVar+1);
 
 		geraIndentacao();
-		printf("%%%d = call i64 @strtol(i8* %%%d, i8** null, i32 0)\n", geraVar+4, geraVar+3);
-		geraIndentacao();
-		printf("%%%d = trunc i64 %%%d to i32\n", geraVar+5, geraVar+4);
-		asprintf(&exp->var, "%%%d", geraVar+5);
-		geraVar += 6;
+		printf("%%%d = call i32 (i8*)* @atoi(i8* %%%d)\n", geraVar+3, geraVar+2);
+		asprintf(&exp->var, "%%%d", geraVar+3);
+		geraVar += 4;
 	}
 }
 
@@ -398,16 +402,35 @@ void generateExp(Exp* exp) {
 void generateStatement(Statement* state);
 
 void generateReturn(Return* _return) {
+	Type a = getExpType(_return->value);
+
 	printf("\n");
 	generateExp(_return->value);
 
+	if(a >= StringArray){
+		geraIndentacao();
+		printf("%%%d = load ", geraVar);
+		generateType(a);
+		printf("* %s\n", _return->value->var);
+
+		geraIndentacao();
+		printf("store ");
+		generateType(a);
+		printf(" %%%d, ", geraVar++);
+		generateType(a);
+		printf("* %%.return\n");
+	}
+	else{
+		geraIndentacao();
+		printf("store ");
+		generateType(a);
+		printf(" %s, ", _return->value->var);
+		generateType(a);
+		printf("* %%.return\n");
+	}
+	
 	geraIndentacao();
-	printf("ret ");
-	generateType(method->type);
-	if(method->type == Void)
-		printf("\n");
-	else
-		printf(" %s\n", _return->value->var);
+	printf("br label %%return\n");
 }
 
 void generatePrint(Print* print) {
@@ -644,12 +667,12 @@ void generateParam(VarDecl* var) {
 		if(var->type == StringArray) {
 			printf("i32 %%%s.tam, ", var->ids->name);
 			generateType(var->type);
-			printf(" %%%s.temp) {\n", var->ids->name);
+			printf(" %%%s) {\n", var->ids->name);
 			printf("  entry:\n");
 
 			//declarar o array
 			//%5 = sext i32 %%%s.tam to i64
-			geraIndentacao();
+			/*geraIndentacao();
 			printf("%%%s = alloca i8**\n", var->ids->name);
 			geraIndentacao();
 			printf("%%%d = mul i32 4, %%%s.tam\n", geraVar, var->ids->name);
@@ -701,7 +724,7 @@ void generateParam(VarDecl* var) {
 			geraIndentacao();
 			printf("call void @llvm.memcpy.p0i8.p0i8.i32(i8* %%%d, i8* %%%d, i32 %%%d, i32 8, i1 false)", geraVar+3, geraVar+5,geraVar+8);
 
-			geraVar+=9;
+			geraVar+=9;*/
 		}
 		else{
 			generateType(var->type);
@@ -741,6 +764,10 @@ void generateParam(VarDecl* var) {
 			}
 		}
 	}
+	else{
+		printf(") {\n");
+		printf("  entry:\n");
+	}
 }
 
 void generateGVar(VarDecl* var) {
@@ -769,12 +796,67 @@ void generateMethod(MethodDecl* method) {
 
 	printf("\ndefine ");
 	generateType(method->type);
+	if(method->type>=StringArray)
+		printf("*");
 	printf(" @%s(", method->id);
 	generateParam(method->params);
+
+	if(method->type != Void){
+		geraIndentacao();
+		printf("%%.return = alloca ");
+		generateType(method->type);
+		printf("\n");
+
+		if(method->type < StringArray){
+			geraIndentacao();
+			printf("store ");
+			generateType(method->type);
+			printf(" 0, ");
+			generateType(method->type);
+			printf("* %%.return\n");
+		}
+		else{
+			geraIndentacao();
+			printf("store ");
+			generateType(method->type);
+			printf(" null, ");
+			generateType(method->type);
+			printf("* %%.return\n");
+		}
+	}
+
 	generateLVar(method->vars);
 	if(method->statements != NULL)
 		generateStatement(method->statements);
 
+	printf("\n");
+	geraIndentacao();
+	printf("br label %%return\n\n");
+	geraInd--;
+	geraIndentacao();
+	geraInd++;
+	printf("return:\n");
+	
+	geraIndentacao();
+	if(method->type == Void){
+		printf("ret void\n");
+	}
+	else{
+		if(method->type >= StringArray){
+			printf("ret ");
+			generateType(method->type);
+			printf("* %%.return\n");
+		}
+		else{
+			printf("%%.ret = load ");
+			generateType(method->type);
+			printf("* %%.return\n");
+			geraIndentacao();
+			printf("ret ");
+			generateType(method->type);
+			printf(" %%.ret\n");
+		}
+	}
 	printf("}\n\n");
 }
 
@@ -794,7 +876,7 @@ void generateDeclaration(Declaration* decl) {
 void generateFunction() {
 	printf("\n");
 	printf("declare void @llvm.memcpy.p0i8.p0i8.i32(i8* nocapture, i8* nocapture readonly, i32, i32, i1)\n");
-	printf("declare i64 @strtol(i8*, i8**, i32)\n");
+	printf("declare i32 @atoi(i8*)\n");
 	printf("declare noalias i8* @malloc(i32)\n");
 	printf("declare i32 @printf(i8*, ...) nounwind\n");
 	printf("@str.int = internal constant [4 x i8] c\"%%d\\0A\\00\"\n");
