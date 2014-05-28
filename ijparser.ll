@@ -618,22 +618,16 @@ define i32 @main(i32 %args.tam, i8** %args) {
     store i32 %334, i32* %.return
     br label %return
 
-    %335 = add i32 1, 0
-    %336 = getelementptr i32* %i, i32 0
-    store i32 %335, i32* %336
-    br label %ifcont18
-
   else18:
 
-    %337 = add i32 2, 0
-    store i32 %337, i32* %.return
+    %335 = add i32 2, 0
+    store i32 %335, i32* %.return
     br label %return
-    br label %ifcont18
 
   ifcont18:
 
-    %338 = add i32 0, 0
-    store i32 %338, i32* %.return
+    %336 = add i32 0, 0
+    store i32 %336, i32* %.return
     br label %return
 
     br label %return

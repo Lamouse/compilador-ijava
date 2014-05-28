@@ -2,6 +2,7 @@ int geraInd;
 int geraVar;
 int geraIf;
 int geraWhile;
+int geraRet;
 
 // Statics
 void geraIndentacao() {
@@ -431,6 +432,7 @@ void generateReturn(Return* _return) {
 	
 	geraIndentacao();
 	printf("br label %%return\n");
+	geraRet = 1;
 }
 
 void generatePrint(Print* print) {
@@ -567,8 +569,12 @@ void generateIf(IfElse* ifelse) {
 	printf("then%d:\n", temp);
 	if(ifelse->first != NULL)
 		generateStatement(ifelse->first);
-	geraIndentacao();
-	printf("br label %%ifcont%d\n", temp);
+	if(geraRet)
+		geraRet = 0;
+	else{
+		geraIndentacao();
+		printf("br label %%ifcont%d\n", temp);
+	}
 	printf("\n");
 	geraInd--;
 	geraIndentacao();
@@ -576,8 +582,12 @@ void generateIf(IfElse* ifelse) {
 	printf("else%d:\n", temp);
 	if(ifelse->second != NULL)
 		generateStatement(ifelse->second);
-	geraIndentacao();
-	printf("br label %%ifcont%d\n", temp);
+	if(geraRet)
+		geraRet = 0;
+	else{
+		geraIndentacao();
+		printf("br label %%ifcont%d\n", temp);
+	}
 	printf("\n");
 	geraInd--;
 	geraIndentacao();
@@ -609,12 +619,18 @@ void generateWhile(While* _while) {
 	if(_while->statement != NULL)
 		generateStatement(_while->statement);
 
-	geraIndentacao();
-	printf("br label %%cond%d", temp);
+	if(geraRet){
+		geraRet = 0;
+	}
+	else{
+		geraIndentacao();
+		printf("br label %%cond%d", temp);
+	}
 	printf("\n");
 	geraInd--;
 	geraIndentacao();
 	geraInd++;
+
 	printf("whilecont%d:\n", temp);
 }
 
@@ -637,7 +653,7 @@ void generateStatement(Statement* state) {
 	else if (state->type == CompType)
 		generateComp(&state->content.comp);
 
-	if (state->next != NULL)
+	if (!geraRet && state->next != NULL)
 		generateStatement(state->next);
 }
 
@@ -793,6 +809,7 @@ void generateMethod(MethodDecl* method) {
 	geraVar = 0;
 	geraIf = 0;
 	geraWhile = 0;
+	geraRet = 0;
 
 	printf("\ndefine ");
 	generateType(method->type);
