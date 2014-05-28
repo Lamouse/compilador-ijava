@@ -16,7 +16,7 @@ class gcd {
 		System.out.println(a);
 		System.out.println(soma(a));
 		System.out.println(a);
-
+		
 	}
 
 	public static int soma(int x){

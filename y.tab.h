@@ -130,7 +130,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 95 "ijparser.y" /* yacc.c:1909  */
+#line 95 "ijcompiler.y" /* yacc.c:1909  */
 
 	Program* program;
 	Declaration* declaration;
