@@ -2,7 +2,7 @@ class gcd {
 	static int d;
 	static int[] e;
 
-	public static int main(String[] args){
+	public static void main(String[] args){
 		boolean a;
 		int[] b;
 		boolean[] c;
@@ -79,12 +79,12 @@ class gcd {
 		System.out.println(i);
 
 		if(i==15){
-			return 1;
+			return;
 		}
 		else
-			return 2;
+			return;
 
-		return 0;
+		return;
 	}
 
 	public static boolean[] teste_array1(boolean[] a){

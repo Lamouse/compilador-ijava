@@ -293,7 +293,9 @@ void generateOper(Exp* exp) {
 		asprintf(&exp->var, "%%%d", geraVar++);
 	} else if (type == Length) {
 		if (a == StringArray){
-			asprintf(&exp->var, "%s.tam", oper->params->var);
+			geraIndentacao();
+			printf("%%%d = sub nsw i32 %s.tam, 1\n", geraVar, oper->params->var);
+			asprintf(&exp->var, "%%%d", geraVar++);
 			return;
 		}
 		geraIndentacao();
@@ -421,7 +423,7 @@ void generateReturn(Return* _return) {
 		generateType(a);
 		printf("* %%.return\n");
 	}
-	else{
+	else if(a != Void){
 		geraIndentacao();
 		printf("store ");
 		generateType(a);
@@ -812,7 +814,10 @@ void generateMethod(MethodDecl* method) {
 	geraRet = 0;
 
 	printf("\ndefine ");
-	generateType(method->type);
+	if(!strcmp(method->id, "main"))
+		printf("i32");
+	else
+		generateType(method->type);
 	if(method->type>=StringArray)
 		printf("*");
 	printf(" @%s(", method->id);
@@ -847,8 +852,12 @@ void generateMethod(MethodDecl* method) {
 		generateStatement(method->statements);
 
 	printf("\n");
-	geraIndentacao();
-	printf("br label %%return\n\n");
+	if(geraRet == 0){
+		geraIndentacao();
+		printf("br label %%return\n\n");
+	}
+	else
+		geraRet = 0;
 	geraInd--;
 	geraIndentacao();
 	geraInd++;
@@ -856,7 +865,10 @@ void generateMethod(MethodDecl* method) {
 	
 	geraIndentacao();
 	if(method->type == Void){
-		printf("ret void\n");
+		if(!strcmp(method->id, "main"))
+			printf("ret i32 0\n");
+		else
+			printf("ret void\n");
 	}
 	else{
 		if(method->type >= StringArray){
@@ -865,13 +877,13 @@ void generateMethod(MethodDecl* method) {
 			printf("* %%.return\n");
 		}
 		else{
-			printf("%%.ret = load ");
+			printf("%%%d = load ", geraVar);
 			generateType(method->type);
 			printf("* %%.return\n");
 			geraIndentacao();
 			printf("ret ");
 			generateType(method->type);
-			printf(" %%.ret\n");
+			printf(" %%%d\n", geraVar++);
 		}
 	}
 	printf("}\n\n");
