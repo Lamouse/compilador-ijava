@@ -1,5 +1,3 @@
-ijcompiler.l
-ijcompiler.y
 ijparser
 lex.yy.c
 y.output
