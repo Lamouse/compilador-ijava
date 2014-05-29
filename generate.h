@@ -365,10 +365,10 @@ void generateExp(Exp* exp) {
 	if (exp == NULL) {
 		return;
 	} else if (exp->type == Id) {
-		if(findFieldType(exp->content.literal) == Void)
-			aux2 = '%';
-		else
+		if(findVarType(method->params, exp->content.literal)==Void && findVarType(method->vars, exp->content.literal)==Void)
 			aux2 = '@';
+		else
+			aux2 = '%';
 
 		a = getExpType(exp);
 		if(a >= StringArray)
@@ -491,10 +491,10 @@ void generateStore(Store* store) {
 	char aux2;
 	Type a = getExpType(store->value);;
 
-	if(findFieldType(store->target) == Void)
-		aux2 = '%';
-	else
+	if(findVarType(method->params, store->target)==Void && findVarType(method->vars, store->target)==Void)
 		aux2 = '@';
+	else
+		aux2 = '%';
 
 	printf("\n");
 	generateExp(store->value);
