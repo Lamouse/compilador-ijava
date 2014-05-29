@@ -1,5 +1,5 @@
 lex ijcompiler.l
-yacc -d -v ijcompileri.y
+yacc -d -v ijcompiler.y
 gcc -o ijcompiler y.tab.c lex.yy.c -ll -ly
 #./ijparser < demo7.java
 #./ijparser -t < demo.java

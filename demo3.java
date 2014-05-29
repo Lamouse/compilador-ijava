@@ -78,13 +78,13 @@ class gcd {
 		i=teste_array1(c).length;
 		System.out.println(i);
 
-		if(i==15){
+		/*if(i==15){
 			return;
 		}
 		else
 			return;
 
-		return;
+		return;*/
 	}
 
 	public static boolean[] teste_array1(boolean[] a){
