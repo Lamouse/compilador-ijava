@@ -904,7 +904,7 @@ void generateDeclaration(Declaration* decl) {
 
 void generateFunction() {
 	printf("\n");
-	printf("declare void @llvm.memcpy.p0i8.p0i8.i32(i8* nocapture, i8* nocapture readonly, i32, i32, i1)\n");
+	//printf("declare void @llvm.memcpy.p0i8.p0i8.i32(i8* nocapture, i8* nocapture readonly, i32, i32, i1)\n");
 	printf("declare i32 @atoi(i8*)\n");
 	printf("declare noalias i8* @malloc(i32)\n");
 	printf("declare i32 @printf(i8*, ...) nounwind\n");
