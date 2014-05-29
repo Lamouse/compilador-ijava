@@ -1,6 +1,8 @@
 lex ijcompiler.l
 yacc -d -v ijcompiler.y
 gcc -o ijcompiler y.tab.c lex.yy.c -ll -ly
+./ijcompiler < demo3.java > ijcompiler.ll
+
 #./ijparser < demo7.java
 #./ijparser -t < demo.java
 #./ijparser -t < demo6.java
