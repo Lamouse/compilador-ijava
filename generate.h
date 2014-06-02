@@ -190,6 +190,7 @@ void generateOper(Exp* exp) {
 		printf("%%%d = mul i32 %s, -1\n", geraVar, oper->params->var);
 		asprintf(&exp->var, "%%%d", geraVar++);
 	} else if (type == Plus) {
+		exp->var = oper->params->var;
 		return;
 	} else if (type == NewInt) {
 		geraIndentacao();
