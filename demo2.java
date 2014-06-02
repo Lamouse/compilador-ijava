@@ -1,45 +1,19 @@
-class demo2 {
-	static int y;
-	static int x;
-	static boolean b;
+class gcd2 {
+  static int a1;
+  static boolean b1;
+  static int[] fibCache;
 
-	public static void main() {
-		int y;
-		
-	}
+  public static void main(String[] args) {
+    int temp;
+    int[] arrInt1, arrInt2;
+    boolean[] arrBool1;
 
-	public static void a() {
-          if(true){
-          	x = 1;
-          	b = true;
-          	b = 1;
-          	return 0;
-          	return;
-          }
-          {
-            {
-              {
-                {
-                  {
-                    {
-                      {
-                        {
-                          {
-                            {
-                              {{{{{{{{{{{{x = 1;}}}}x = 2; x = 3;}}}}}}}}
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
 
-          {{{}}{{{{{x = 1; x = 2;}{x = 3; x = 4;}}}}}}
-	}
+    arrInt2 = new int[10];
+    System.out.println(arrInt2[2]);
+    
+    //fibCache[0] = 1;
+    //fibCache[1] = 1;
 
-	//onde deve dar erro 1º
-} 
+  }
+}
